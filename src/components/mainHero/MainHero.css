@@ -1,0 +1,10 @@
+.carousel {
+  background-image: url('../../assets//main.jpg');
+  background-repeat: no-repeat;
+  width: 1200px;
+  align-content: center;
+}
+.Tab {
+  font-weight: bold;
+  font-size: 40px;
+}
