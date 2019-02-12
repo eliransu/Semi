@@ -42,6 +42,11 @@ class Master extends React.Component {
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
             Become A Renter!
               </Menu.Item>
+          <Menu.Item style={{ fontSize: 16 }} key="4"
+            onClick={() => this.handleMenuClicked('about')}>
+            <Icon fontSize={16} style={{ marginLeft: 4 }} type="team" />
+            About Us
+              </Menu.Item>
         </Menu>
         <Content style={{ padding: '0 50px', backgroundColor: '#fcfcfc' }}>
           <Switch>
