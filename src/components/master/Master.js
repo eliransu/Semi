@@ -27,6 +27,7 @@ class Master extends React.Component {
           defaultSelectedKeys={['1']}
           style={{ lineHeight: '64px' }}
         >
+        
           <Menu.Item style={{ fontSize: 16 }} key="1"
             onClick={() => this.handleMenuClicked('')}>
             <Icon fontSize={16} type="home" />
