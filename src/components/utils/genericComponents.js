@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon } from 'antd'
-export const titleRenderer = title =>
-  <span style={{ fontWeight: 'bolder', fontSize: 20 }}>{title}</span>
+export const titleRenderer = (title, size, center) =>
+  <span style={{ fontWeight: 'bolder', fontSize: size || 20, textAlign: center || 'left' }}>{title}</span>
 
 export const contentRenderer = (content, icon, size) =>
   icon

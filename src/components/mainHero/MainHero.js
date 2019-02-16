@@ -12,7 +12,7 @@ const MainHero = props => {
   return (
     <Row style={{ paddingTop: 15 }} type="flex" justify="center">
       <Col>
-        <img style={{ ...styles, marginBottom: 7 }} src="https://i.ibb.co/tbVSMtZ/main.png" alt="hero"></img>
+        <img style={{ ...styles, marginBottom: 7, borderRadius: 25 }} src="https://i.ibb.co/tbVSMtZ/main.png" alt="hero"></img>
       </Col>
       <Col span={14}>
         <Carousel />
