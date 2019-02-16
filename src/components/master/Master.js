@@ -9,6 +9,8 @@ import Home from './Home'
 import Carousel from '../mainHero/Carousel'
 import UserProfile from '../Store/Store'
 import Product from '../product/Product'
+import AddProduct from '../product/AddProduct'
+
 
 const { Header, Content, Footer } = Layout;
 
@@ -43,7 +45,12 @@ class Master extends React.Component {
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
             Become A Renter!
               </Menu.Item>
-          <Menu.Item style={{ fontSize: 16 }} key="4"
+              <Menu.Item style={{ fontSize: 16 }} key="4"
+            onClick={() => this.handleMenuClicked('add-product-as-renter')}>
+            <Icon fontSize={16} style={{ marginLeft: 4 }} type="plus-circle" />
+           Add prouct as renter!
+              </Menu.Item>
+          <Menu.Item style={{ fontSize: 16 }} key="5"
             onClick={() => this.handleMenuClicked('about')}>
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="team" />
             About Us
@@ -54,6 +61,8 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userId" component={UserProfile} />
             <Route exact path="/products" component={Product} />
+            <Route exact path="/add-product-as-renter" component={AddProduct} />
+
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
