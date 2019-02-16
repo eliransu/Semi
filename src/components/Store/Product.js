@@ -6,13 +6,16 @@ import Snownoard from '../../assets/snowboard.jpg';
 const { Meta } = Card;
 export class Product extends Component {
   
+  state = {
+  }
 
   render() {
 
     const product = this.props.product;
-    console.log(`${product.imgURL}`)
  
     return (
+      <React.Fragment>
+      {this.state.visible && <div>eliran</div> }
         <Card
         style={{ width: 300 }}
         cover={<img alt="example" src={require('../../assets/snowboard.jpg')}   />}
@@ -24,6 +27,7 @@ export class Product extends Component {
           description="New Snownoard"
         />
       </Card>
+      </React.Fragment>
     )
   }
 }

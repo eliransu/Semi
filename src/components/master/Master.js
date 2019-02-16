@@ -9,6 +9,7 @@ import Home from './Home'
 import Carousel from '../mainHero/Carousel'
 import UserProfile from '../Store/Store'
 import Product from '../product/Product'
+import BecomeArenter from '../becomeArenter/BecomeArenter'
 
 const { Header, Content, Footer } = Layout;
 
@@ -54,6 +55,7 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userid" component={UserProfile} />
             <Route exact path="/products" component={Product} />
+            <Route exact path="/become-a-renter" component={BecomeArenter}/>
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
