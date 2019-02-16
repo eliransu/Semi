@@ -1,1 +1,1 @@
-student-union-management-system
+Semi - Share Economy Application
