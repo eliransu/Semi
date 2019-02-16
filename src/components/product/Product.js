@@ -59,22 +59,32 @@ const Product = props => {
         headStyle={{}}
         style={{ width: 300 }}
         cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-        actions={[<div><div> Product rate: <Rate defaultValue={3} /> </div>
+        actions={[
+          <div>
+            <div> Product rate: <Rate defaultValue={3} /> 
+            </div>
+            <div>
+           <ShowMoreText lines={1} 
+                more='Show all comments'
+                less='Show less comments '
+                anchorClass=''>
           <List
             className="comment-list"
             header={`${data.length} replies`}
             itemLayout="horizontal"
             dataSource={data}
             renderItem={item => (
-              <Comment
-                actions={item.actions}
-                author={item.author}
-                avatar={item.avatar}
-                content={item.content}
-                datetime={item.datetime}
-              />
+                     <Comment
+                       actions={item.actions}
+                       author={item.author}
+                       avatar={item.avatar}
+                       content={item.content}
+                       datetime={item.datetime}
+                      />
+                    
+             
             )}
-          /> </div>]}
+          /> </ShowMoreText ></div>  </div>]}
         bordered={true}
 
       >
