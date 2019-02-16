@@ -3,8 +3,8 @@ import { Card } from 'antd';
 import { titleRenderer, contentRenderer } from '../utils/genericComponents'
 const ContactUs = props => {
   return (
-    <div style={{ background: '#f2f2f2', padding: '30px', margin: 30 }}>
-      <Card title={titleRenderer('Feel Free To Contact Us !')} bordered={false} >
+    <div style={{ background: '#f2f2f2', padding: '30px', margin: 30, borderRadius: 25 }}>
+      <Card style={{ borderRadius: 25 }} title={titleRenderer('Feel Free To Contact Us !')} bordered={false} >
         <div>
           {contentRenderer('Address: Givati 11 Rishon Le Zion, Israel', 'home')}
         </div>
