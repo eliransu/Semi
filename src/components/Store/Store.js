@@ -17,10 +17,10 @@ const {
 export class Store extends Component {
     render() {
         return (
-            <div>
+            <div className="main-store-container">
                 <Row>
                     <Col span={12}> <UserDescription /></Col>
-                    <Col span={12}><Reviews /></Col>
+                    <Col span={10}><Reviews /></Col>
                 </Row>
                 <div className="all-products">
                     <Products />
