@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,Layout
+    InputNumber ,Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,Layout
   } from 'antd';
 import PicturesWall from "./PictureWall"
 import PriceInput from './PriceInput'
@@ -11,29 +11,7 @@ import DynamicFieldSet from "./DynamicFieldSet"
   const { Option } = Select;
   const AutoCompleteOption = AutoComplete.Option;
   
-  const residences = [{
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [{
-      value: 'hangzhou',
-      label: 'Hangzhou',
-      children: [{
-        value: 'xihu',
-        label: 'West Lake',
-      }],
-    }],
-  }, {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [{
-      value: 'nanjing',
-      label: 'Nanjing',
-      children: [{
-        value: 'zhonghuamen',
-        label: 'Zhong Hua Men',
-      }],
-    }],
-  }];
+  
   
   class AddProduct extends React.Component {
     state = {
@@ -53,33 +31,6 @@ import DynamicFieldSet from "./DynamicFieldSet"
     handleConfirmBlur = (e) => {
       const value = e.target.value;
       this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    }
-  
-    compareToFirstPassword = (rule, value, callback) => {
-      const form = this.props.form;
-      if (value && value !== form.getFieldValue('password')) {
-        callback('Two passwords that you enter is inconsistent!');
-      } else {
-        callback();
-      }
-    }
-  
-    validateToNextPassword = (rule, value, callback) => {
-      const form = this.props.form;
-      if (value && this.state.confirmDirty) {
-        form.validateFields(['confirm'], { force: true });
-      }
-      callback();
-    }
-  
-    handleWebsiteChange = (value) => {
-      let autoCompleteResult;
-      if (!value) {
-        autoCompleteResult = [];
-      } else {
-        autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-      }
-      this.setState({ autoCompleteResult });
     }
   
     render() {
@@ -124,7 +75,7 @@ import DynamicFieldSet from "./DynamicFieldSet"
   
       return (
         <>
-        <h1 style={{textAlign: "center"}}>Add new product</h1>
+       
 
         <Content style={{ paddingTop:"2%", backgroundColor: '#fcfcfc' }}>
 
@@ -184,74 +135,66 @@ import DynamicFieldSet from "./DynamicFieldSet"
               </span>
             )}
           >
+          {getFieldDecorator('photo', {
+            })(
                 <PicturesWall/>
+            )}
+               
           </Form.Item>
         <div  {...formItemLayout} >
           <Form.Item {...formItemLayout}
             label={(
               <span>
-                Upload photo's
+                Time period & pricing
               </span>
             )}>
-            <DynamicFieldSet/>   
+            {getFieldDecorator('pricing', {
+              rules: [{ required: true}],
+            })(
+                <span style={{display:"flex"}}>
+            <DynamicFieldSet/>
+            </span>  
+            )}
+             
           </Form.Item>
           </div>
           
+          <Form.Item label="Description" {...formItemLayout}
+          >
+                  {getFieldDecorator('description', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please enter product description',
+                      },
+                    ],
+                  })(<Input.TextArea rows={4} placeholder="please enter product description" />)}
+                </Form.Item>
           <Form.Item
             {...formItemLayout}
-            label="Habitual Residence"
+            label="Quality"
           >
-            {getFieldDecorator('residence', {
-              initialValue: ['zhejiang', 'hangzhou', 'xihu'],
-              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
+            {getFieldDecorator('quality', {
+              rules: [{ required: true, message: 'Please input your product quality!' }],
             })(
-              <Cascader options={residences} />
+                <Select labelInValue defaultValue={{ key: 'lucy' }} style={{ width: 120 }}>
+                    <Option value="excellent">Excellent</Option>
+                    <Option value="good">Good</Option>
+                    <Option value="nurmal">Normal</Option>
+                </Select>
             )}
           </Form.Item>
+
+
           <Form.Item
             {...formItemLayout}
-            label="Phone Number"
+            label="Retail price"
           >
-            {getFieldDecorator('phone', {
-              rules: [{ required: true, message: 'Please input your phone number!' }],
-            })(
-              <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+            {getFieldDecorator('retailPrice')(
+                <PriceInput/>
             )}
           </Form.Item>
-          <Form.Item
-            {...formItemLayout}
-            label="Website"
-          >
-            {getFieldDecorator('website', {
-              rules: [{ required: true, message: 'Please input website!' }],
-            })(
-              <AutoComplete
-                dataSource={websiteOptions}
-                onChange={this.handleWebsiteChange}
-                placeholder="website"
-              >
-                <Input />
-              </AutoComplete>
-            )}
-          </Form.Item>
-          <Form.Item
-            {...formItemLayout}
-            label="Captcha"
-            extra="We must make sure that your are a human."
-          >
-            <Row gutter={8}>
-              <Col span={12}>
-                {getFieldDecorator('captcha', {
-                  rules: [{ required: true, message: 'Please input the captcha you got!' }],
-                })(
-                  <Input />
-                )}
-              </Col>
-              <Col span={12}>
-                <Button>Get captcha</Button>
-              </Col>
-            </Row>
-          </Form.Item>
+          
           <Form.Item {...tailFormItemLayout}>
             {getFieldDecorator('agreement', {
               valuePropName: 'checked',
@@ -260,7 +203,7 @@ import DynamicFieldSet from "./DynamicFieldSet"
             )}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">Register</Button>
+            <Button type="primary" htmlType="submit">submit</Button>
           </Form.Item>
         </Form>
         </Content>

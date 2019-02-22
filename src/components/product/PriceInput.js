@@ -56,18 +56,18 @@ import {
       const { size } = this.props;
       const state = this.state;
       return (
-        <span>
+        <span style={{display:"flex",flexDirection:"row"}}>
           <Input
             type="text"
             size={size}
             value={state.number}
             onChange={this.handleNumberChange}
-            style={{ width: '30%', marginRight: '3%' }}
+            style={{  width: '95%', marginRight: '3%' }}
           />
           <Select
             value={state.currency}
             size={size}
-            style={{ width: '30%' }}
+           
             onChange={this.handleCurrencyChange}
           >
             <Option value="nis">NIS</Option>
@@ -103,7 +103,7 @@ import {
       const { getFieldDecorator } = this.props.form;
       return (
         <Form layout="inline" onSubmit={this.handleSubmit}>
-          <Form.Item label="Price">
+          <Form.Item label="Price" >
             {getFieldDecorator('price', {
               initialValue: { number: 0, currency: 'rmb' },
               rules: [{ validator: this.checkPrice }],

@@ -9,7 +9,7 @@ import Home from './Home'
 import Carousel from '../mainHero/Carousel'
 import UserProfile from '../Store/Store'
 import Product from '../product/Product'
-import AddProduct from '../product/AddProduct'
+import AddProductCard from '../product/AddProductCard'
 
 
 const { Header, Content, Footer } = Layout;
@@ -61,7 +61,7 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userId" component={UserProfile} />
             <Route exact path="/products" component={Product} />
-            <Route exact path="/add-product-as-renter" component={AddProduct} />
+            <Route exact path="/add-product-as-renter" component={AddProductCard} />
 
           </Switch>
         </Content>

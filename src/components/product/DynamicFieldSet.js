@@ -58,19 +58,21 @@ class DynamicFieldSet extends React.Component {
     };
     const formItemLayoutWithOutLabel = {
       wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 20, offset: 4 },
+        xs: { span: 0, offset: 0 },
+        sm: { span: 20, offset: 0 },
       },
     };
     getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys');
     const formItems = keys.map((k, index) => (
+      <div style={{display:"flex",flexDirection:"row"}}>
       <Form.Item
         {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
         
         required={false}
         key={k}
       >
+      <div style={{display:"flex" ,flexDirection:"row",width:"130%"}}>
         {getFieldDecorator(`names[${k}]`, {
           validateTrigger: ['onChange', 'onBlur'],
           rules: [{
@@ -79,34 +81,37 @@ class DynamicFieldSet extends React.Component {
             message: "Please select time period and price delete this field.",
           }],
         })(
-          <div style={{display:"flex",flexDirection:"row",width:"250%"}}>
-          <Select mode="multiple" placeholder="Time period" style={{margin:"2.1px", width: '19%', marginRight: 8 }}>
+          <span style={{width:"150%",display:"flex",flexDirection:"row"}}>
+          <Select mode="multiple" placeholder="Time period" style={{ width: '90%',paddingRight:"2%" }}>
               <Option value="for 1 day">for 1 day</Option>
               <Option value="for 1 week">for 1 week</Option>
               <Option value="for 1 month">for 1 month</Option>
             </Select>
-            <PriceInput style={{ width: '5%', marginRight: 8 }}/>
-            </div>
+            <PriceInput style={{ width: '30%', marginLeft: 8 }}/>
+            </span>
         )}
         {keys.length > 1 ? (
-          <Icon
+          <Icon 
             className="dynamic-delete-button"
             type="minus-circle-o"
             disabled={keys.length === 1}
             onClick={() => this.remove(k)}
           />
+          
         ) : null}
-      </Form.Item>
+        </div>
+      </Form.Item></div>
     ));
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit} style={{ width: '250%' }}>
         {formItems}
+        
         <Form.Item {...formItemLayoutWithOutLabel}>
-          <Button type="dashed" onClick={this.add} style={{ width: '40%' }}>
+          <Button type="dashed" onClick={this.add} >
             <Icon type="plus" /> Add time period price
           </Button>
         </Form.Item>
-        
+      
       </Form>
     );
   }
