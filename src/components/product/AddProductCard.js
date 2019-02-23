@@ -1,6 +1,6 @@
 import React from "react"
 import { Card } from 'antd';
-import AddPrduct from "./AddProduct"
+import AddProduct from "./AddProduct"
 
 
 class AddProductCard extends React.Component {
@@ -9,7 +9,7 @@ class AddProductCard extends React.Component {
     return (
       <div style={{ background: '#F0F0F0', padding: '30px' }}>
         <Card title=" Add new product" bordered={false}>
-          <AddPrduct/>
+          <AddProduct/>
         </Card>
       </div>
     )

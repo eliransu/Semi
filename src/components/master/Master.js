@@ -10,10 +10,11 @@ import Carousel from '../mainHero/Carousel'
 import UserProfile from '../Store/Store'
 import Product from '../product/Product'
 import AddProductCard from '../product/AddProductCard'
+import rootStores from '../../stores';
 
 
 const { Header, Content, Footer } = Layout;
-
+const productStore = rootStores['ProductStore'];
 
 class Master extends React.Component {
 
@@ -61,7 +62,7 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userId" component={UserProfile} />
             <Route exact path="/products" component={Product} />
-            <Route exact path="/add-product-as-renter" component={AddProductCard} />
+            <Route exact path="/add-product-as-renter" component={AddProductCard} action={productStore.newProduct} />
 
           </Switch>
         </Content>

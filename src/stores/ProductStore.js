@@ -1,4 +1,5 @@
 import {observable, action} from 'mobx';
+import Product from '../components/Store/Product';
 
 export class ProductStore{
 
@@ -26,22 +27,29 @@ export class ProductStore{
         this.currentProduct = product
     }
 
-    //TODO: service that load all the products 
-    @action
-    loadAllProducts(){
 
-        return ProductService.getAllProducts()
-        .then(products =>{
-            this.allProducts.replace(products)
-        })
-        .catch(err =>{
-            if(this.currentProduct){
-                console.log(`Error while loading products. currentProductID: ${this.currentProduct._id}`,err);
-            }
-            return false;
-        })
+    @action
+    newProduct = () =>{
+
+        this.currentProduct = new Product();
 
     }
+
+    //TODO: service that load all the products 
+    // @action
+    // loadAllProducts(){
+
+    //     return ProductService.getAllProducts()
+    //     .then(products =>{
+    //         this.allProducts.replace(products)
+    //     })
+    //     .catch(err =>{
+    //         if(this.currentProduct){
+    //             console.log(`Error while loading products. currentProductID: ${this.currentProduct._id}`,err);
+    //         }
+    //         return false;
+    //     })
+    // }
     
 
 }
