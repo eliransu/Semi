@@ -89,7 +89,7 @@ import DynamicFieldSet from "./DynamicFieldSet"
               </span>
             )}
           >
-            {getFieldDecorator('productName', {
+            {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Please input your product title!', whitespace: true }],
             })(
               <Input placeholder="title"/>
@@ -101,10 +101,10 @@ import DynamicFieldSet from "./DynamicFieldSet"
         >
           {getFieldDecorator('select-multiple1', {
             rules: [
-              { required: true, message: 'Please select the relevent category!', type: 'array' },
+              { required: true, message: 'Please select the relevant category!', type: 'array' },
             ],
           })(
-            <Select mode="multiple" placeholder="Please select the relevent category">
+            <Select mode="multiple" placeholder="Please select the relevant category">
               <Option value="clothes">Clothes</Option>
               <Option value="baby stuff">Baby stuff</Option>
               <Option value="sport equipment">Sport equipment</Option>
@@ -180,7 +180,7 @@ import DynamicFieldSet from "./DynamicFieldSet"
                 <Select labelInValue defaultValue={{ key: 'lucy' }} style={{ width: 120 }}>
                     <Option value="excellent">Excellent</Option>
                     <Option value="good">Good</Option>
-                    <Option value="nurmal">Normal</Option>
+                    <Option value="normal">Normal</Option>
                 </Select>
             )}
           </Form.Item>
