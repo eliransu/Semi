@@ -62,7 +62,7 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userId" component={UserProfile} />
             <Route exact path="/products" component={Product} />
-            <Route exact path="/add-product-as-renter" component={AddProductCard} action={productStore.newProduct} />
+            <Route exact path="/add-product-as-renter" component={AddProductCard} />
 
           </Switch>
         </Content>

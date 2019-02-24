@@ -5,7 +5,7 @@ import {
 import PicturesWall from "./PictureWall"
 import PriceInput from './PriceInput'
 import DynamicFieldSet from "./DynamicFieldSet"
-import { observer } from "mobx-react";
+// import { observer } from "mobx-react";
 
 
 const { Content } = Layout;
@@ -13,7 +13,6 @@ const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 
 
-@observer
 class AddProduct extends React.Component {
 
 
