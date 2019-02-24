@@ -1,0 +1,17 @@
+.main-title-container{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+   margin: auto;
+}
+.title-item{
+    /* width: 50%;
+    margin:auto; */
+}
+.title-item-btn{
+    /* width: 50%;
+    margin: auto; */
+    text-align: right;
+    width: 59%;
+    padding-top: 20px;
+}

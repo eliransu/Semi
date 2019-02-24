@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import {
   BrowserRouter,
   Route,
@@ -18,7 +18,6 @@ class App extends React.Component {
 
 
   render() {
-    debugger
     return (
       <div>
         <BrowserRouter>

@@ -10,6 +10,7 @@ import Carousel from '../mainHero/Carousel'
 import UserProfile from '../Store/Store'
 import About from '../about/About'
 import Product from '../product/Product'
+import BecomeArenter from '../becomeArenter/BecomeArenter'
 import agudaImage from '../../assets/aguda.jpg'
 import colmanImage from '../../assets/colman.jpg'
 
@@ -55,9 +56,13 @@ class Master extends React.Component {
         <Content style={{ padding: '0 50px', backgroundColor: '#fcfcfc' }}>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/user/:userId" component={UserProfile} />
+            <Route exact path="/user/:userid" component={UserProfile} />
             <Route exact path="/products" component={Product} />
+<<<<<<< HEAD
+            <Route exact path="/become-a-renter" component={BecomeArenter}/>
+=======
             <Route exact path="/about" component={About} />
+>>>>>>> d0ec02b013765f3f54712d8829812b215457598b
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
