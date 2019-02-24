@@ -8,8 +8,11 @@ import {
 import Home from './Home'
 import Carousel from '../mainHero/Carousel'
 import UserProfile from '../Store/Store'
+import About from '../about/About'
 import Product from '../product/Product'
 import BecomeArenter from '../becomeArenter/BecomeArenter'
+import agudaImage from '../../assets/aguda.jpg'
+import colmanImage from '../../assets/colman.jpg'
 
 const { Header, Content, Footer } = Layout;
 
@@ -28,7 +31,7 @@ class Master extends React.Component {
           defaultSelectedKeys={['1']}
           style={{ lineHeight: '64px' }}
         >
-        
+
           <Menu.Item style={{ fontSize: 16 }} key="1"
             onClick={() => this.handleMenuClicked('')}>
             <Icon fontSize={16} type="home" />
@@ -55,7 +58,11 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userid" component={UserProfile} />
             <Route exact path="/products" component={Product} />
+<<<<<<< HEAD
             <Route exact path="/become-a-renter" component={BecomeArenter}/>
+=======
+            <Route exact path="/about" component={About} />
+>>>>>>> d0ec02b013765f3f54712d8829812b215457598b
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>

@@ -38,7 +38,7 @@ class Carousel extends React.Component {
             <TabPane tab={renderTab('skin', 'Clothes')} key="12" />
           </Tabs>
         </Row>
-        <Row style={{ marginBottom: 7 }} type="flex" justify="center" >
+        <Row style={{ margin: 20 }} type="flex" justify="center" >
           <SearchMain />
         </Row>
       </div>
