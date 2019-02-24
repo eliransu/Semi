@@ -9,6 +9,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "antd": "^3.13.2",
+    "mobx": "^5.9.0",
+    "mobx-react": "^5.4.3",
     "node-sass": "^4.11.0",
     "google-map-react": "^1.1.2",
     "react": "^16.8.1",
@@ -33,5 +35,11 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/plugin-syntax-decorators": "^7.2.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "babel-preset-mobx": "^2.0.0"
+  }
 }

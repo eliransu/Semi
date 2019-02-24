@@ -10,12 +10,15 @@ import Carousel from '../mainHero/Carousel'
 import UserProfile from '../Store/Store'
 import About from '../about/About'
 import Product from '../product/Product'
+import AddProductCard from '../product/AddProductCard'
+import rootStores from '../../stores';
 import BecomeArenter from '../becomeArenter/BecomeArenter'
 import agudaImage from '../../assets/aguda.jpg'
 import colmanImage from '../../assets/colman.jpg'
 
-const { Header, Content, Footer } = Layout;
 
+const { Header, Content, Footer } = Layout;
+const productStore = rootStores['ProductStore'];
 
 class Master extends React.Component {
 
@@ -47,7 +50,12 @@ class Master extends React.Component {
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
             Become A Renter!
               </Menu.Item>
-          <Menu.Item style={{ fontSize: 16 }} key="4"
+              <Menu.Item style={{ fontSize: 16 }} key="4"
+            onClick={() => this.handleMenuClicked('add-product-as-renter')}>
+            <Icon fontSize={16} style={{ marginLeft: 4 }} type="plus-circle" />
+           Add prouct as renter!
+              </Menu.Item>
+          <Menu.Item style={{ fontSize: 16 }} key="5"
             onClick={() => this.handleMenuClicked('about')}>
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="team" />
             About Us
@@ -58,11 +66,10 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userid" component={UserProfile} />
             <Route exact path="/products" component={Product} />
-<<<<<<< HEAD
+            <Route exact path="/add-product-as-renter" component={AddProductCard} />
             <Route exact path="/become-a-renter" component={BecomeArenter}/>
-=======
             <Route exact path="/about" component={About} />
->>>>>>> d0ec02b013765f3f54712d8829812b215457598b
+>>>>>>> 726196687bf8d2c61f501d9322fe4f9cdceed792
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
