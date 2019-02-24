@@ -8,9 +8,13 @@ import {
 import Home from './Home'
 import Carousel from '../mainHero/Carousel'
 import UserProfile from '../Store/Store'
+import About from '../about/About'
 import Product from '../product/Product'
 import AddProductCard from '../product/AddProductCard'
 import rootStores from '../../stores';
+import BecomeArenter from '../becomeArenter/BecomeArenter'
+import agudaImage from '../../assets/aguda.jpg'
+import colmanImage from '../../assets/colman.jpg'
 
 
 const { Header, Content, Footer } = Layout;
@@ -30,7 +34,7 @@ class Master extends React.Component {
           defaultSelectedKeys={['1']}
           style={{ lineHeight: '64px' }}
         >
-        
+
           <Menu.Item style={{ fontSize: 16 }} key="1"
             onClick={() => this.handleMenuClicked('')}>
             <Icon fontSize={16} type="home" />
@@ -60,10 +64,12 @@ class Master extends React.Component {
         <Content style={{ padding: '0 50px', backgroundColor: '#fcfcfc' }}>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/user/:userId" component={UserProfile} />
+            <Route exact path="/user/:userid" component={UserProfile} />
             <Route exact path="/products" component={Product} />
             <Route exact path="/add-product-as-renter" component={AddProductCard} />
-
+            <Route exact path="/become-a-renter" component={BecomeArenter}/>
+            <Route exact path="/about" component={About} />
+>>>>>>> 726196687bf8d2c61f501d9322fe4f9cdceed792
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
