@@ -1,0 +1,10 @@
+.product-item-container{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 3%;
+
+}
+.product-item{
+    padding: 10px 10px;
+}
