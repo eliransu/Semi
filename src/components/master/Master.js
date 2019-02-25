@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon,Modal } from 'antd';
 import { withRouter } from 'react-router'
 import {
   Route,
@@ -13,13 +13,32 @@ import Product from '../product/Product'
 import BecomeArenter from '../becomeArenter/BecomeArenter'
 import agudaImage from '../../assets/aguda.jpg'
 import colmanImage from '../../assets/colman.jpg'
+import BecomeARenter from '../becomeArenter/BecomeArenter'
 
 const { Header, Content, Footer } = Layout;
 
 
 class Master extends React.Component {
 
-  handleMenuClicked = path => this.props.history.push(path)
+  
+state = {
+  visble:false
+}
+  showModal= ()=>{
+    this.setState({visble:true})
+  }
+  handleOk = (e) => {//need to send data to the server
+    console.log(e);
+    this.setState({visble: false });
+  }
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.setState({
+      visble: false,
+    });
+  }
+  handleMenuClicked = path => this.props.history.push(path);
 
   render() {
     return (
@@ -43,10 +62,19 @@ class Master extends React.Component {
             Products
               </Menu.Item>
           <Menu.Item style={{ fontSize: 16 }} key="3"
-            onClick={() => this.handleMenuClicked('become-a-renter')}>
+            onClick={this.showModal}>
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
             Become A Renter!
               </Menu.Item>
+              <Modal
+              title="Become A Renter"
+              visible={this.state.visble}
+              okText={`Register`}
+              onCancel={this.handleCancel}
+              onOk={this.handleOk}
+              >
+              <BecomeArenter/>
+              </Modal>
           <Menu.Item style={{ fontSize: 16 }} key="4"
             onClick={() => this.handleMenuClicked('about')}>
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="team" />
@@ -58,11 +86,8 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userid" component={UserProfile} />
             <Route exact path="/products" component={Product} />
-<<<<<<< HEAD
             <Route exact path="/become-a-renter" component={BecomeArenter}/>
-=======
             <Route exact path="/about" component={About} />
->>>>>>> d0ec02b013765f3f54712d8829812b215457598b
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
