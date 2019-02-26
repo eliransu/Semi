@@ -54,11 +54,11 @@ const Product = props => {
 
   return (
     <React.Fragment>
-      <MainHero />
+     
       <Card
         headStyle={{}}
-        style={{ width: 300 }}
-        cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+        style={{ width: 300 }} 
+        cover={<img alt="example" src={require('../../assets/snowboard.jpg')} />}
         actions={[
           <div>
             <div> Product rate: <Rate defaultValue={3} /> 

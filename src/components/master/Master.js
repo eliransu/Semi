@@ -9,7 +9,7 @@ import Home from './Home'
 import Carousel from '../mainHero/Carousel'
 import UserProfile from '../Store/Store'
 import About from '../about/About'
-import Product from '../product/Product'
+import FavoriteProductsCard from '../product/FavoriteProductsCard'
 import AddProductCard from '../product/AddProductCard'
 import rootStores from '../../stores';
 import BecomeArenter from '../becomeArenter/BecomeArenter'
@@ -65,11 +65,10 @@ class Master extends React.Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userid" component={UserProfile} />
-            <Route exact path="/products" component={Product} />
+            <Route exact path="/products" component={FavoriteProductsCard} />
             <Route exact path="/add-product-as-renter" component={AddProductCard} />
             <Route exact path="/become-a-renter" component={BecomeArenter}/>
             <Route exact path="/about" component={About} />
->>>>>>> 726196687bf8d2c61f501d9322fe4f9cdceed792
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
