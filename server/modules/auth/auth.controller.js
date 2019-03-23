@@ -3,14 +3,23 @@ const { httpResponse } = require('../../utils')
 const jwt = require('jwt-simple')
 
 const register = async (req, res) => {
-  const { firstname, lastname, username, email, password } = req.body
+  const { firstname,
+    lastname,
+    username,
+    email,
+    password,
+    phoneNumber
+  } = req.body
+  if (!firstname || !lastname || !username || !email || !password) {
+    return res.json(httpResponse(500, 'missing fields', 'register'))
+  }
   try {
     const user = await UserModel.findOne({ email })
     if (user)
       return res.json(httpResponse(500, 'email already exist', 'register'))
     const newUser = new UserModel({
       first_name: firstname, last_name: lastname,
-      username, email, password
+      username, email, password, phone_number: phoneNumber
     })
     await newUser.save()
     return res.json(httpResponse(201))

@@ -30,7 +30,7 @@ const addProductToUser = async (req, res) => {
 
 const updateProductToUser = async (req, res) => {
   const { userId, productId, image, category, name } = req.body
-  if (!userId) {
+  if (!userId || !productId) {
     return res.json(httpResponse(500, 'missing fields', 'updateProductToUser'))
   }
   const productUpdated = await userService.updateProduct(userId,

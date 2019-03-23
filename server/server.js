@@ -14,7 +14,7 @@ const app = express()
 
 app.use(helmet())
 app.use(bodyParser({ extended: true, limit: '20mb' }))
-app.use(routes)
+app.use('/api', routes)
 
 app.listen(PORT, () => {
   console.log(`Semi server running on port: ${PORT}`)
