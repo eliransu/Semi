@@ -11,7 +11,7 @@ const SearchMain = props => {
         <Select size="large" defaultValue="Select" style={{ width: 120, marginRight: 10, height: 38 }} onChange={'handleChange'}>
           <Option size="large" value="Tools">Tools</Option>
           <Option size="large" value="Electronics">Electronics</Option>
-          <Option size="large" value="Tools">Tools</Option>
+          <Option size="large" value="Home">Home</Option>
         </Select>
         <Search
           style={{ width: 300 }}
