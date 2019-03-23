@@ -15,7 +15,7 @@ purpose | endpoint  | mandatory variables | optional variables | HTTP method
 ------------- | ------------- | ------------- | ------------- | -------------
 get user's products | /api/users/products/:username  | username(params) | - | GET
 add product to user | /api/users/product  | userId, image, category, name | - | POST
-update user's product | /api/users/product | userId, productId | name, image, category | POST
+update user's product | /api/users/product | userId, productId | name, image, category | PUT
 
 #### Products:
 
@@ -24,5 +24,5 @@ purpose | endpoint  | mandatory variables | optional variables | HTTP method
 get products by category | /api/products/by-category/:category  | category(params) | - | GET
 get products by name | /api/products/:name  | name(params) | - | GET
 add product(generaly) | /api/products | name, image, category | - | POST
-update product(generaly) | /api/products/:id | id(params) | name, image, category | - | PUT
+update product(generaly) | /api/products/:id | id(params) | name, image, category | PUT
 delete product | /api/products/:id | id | - | DELETE
