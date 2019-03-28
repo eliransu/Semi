@@ -16,17 +16,29 @@ import BecomeArenter from '../becomeArenter/BecomeArenter'
 import agudaImage from '../../assets/aguda.jpg'
 import colmanImage from '../../assets/colman.jpg'
 import BecomeARenter from '../becomeArenter/BecomeArenter'
+import axios from 'axios'
 
 
 const { Header, Content, Footer } = Layout;
 const productStore = rootStores['ProductStore'];
-
 class Master extends React.Component {
-
 
   state = {
     visble: false
   }
+
+  componentDidMount() {
+    axios.get('/api/users/products/elikos1').then(res => {
+      // when request finished successfully...
+      console.log(res)
+      debugger
+    }).catch(err => {
+      // when request finished with some errors...
+      console.log(err)
+      debugger
+    })
+  }
+
   showModal = () => {
     this.setState({ visble: true })
   }
