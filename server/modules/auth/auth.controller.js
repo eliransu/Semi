@@ -41,8 +41,7 @@ const login = async (req, res) => {
   const hashedUser = jwt.encode({ username: user.username, email: user.email },
     process.env.JWT_SECRET)
   res.cookie('JWT_TOKEN', hashedUser, { maxAge: 900000000000, httpOnly: true })
-
-  return res.json(httpResponse(200))
+  return res.json(httpResponse(200, user))
 }
 
 module.exports = {
