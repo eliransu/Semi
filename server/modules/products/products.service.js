@@ -59,10 +59,20 @@ const getProductsByName = async (name) => {
   return products
 }
 
+const getLatestProducts = async (limit) => {
+  const limitNumeric = +limit
+  const latestProducts = await ProductModel.find().sort({ 'createdAt': -1 }).limit(limitNumeric)
+  if (latestProducts.length > 0) {
+    return latestProducts
+  }
+  return null
+}
+
 module.exports = {
   addProduct,
   getProductsByCategory,
   updateProduct,
   deleteProduct,
+  getLatestProducts,
   getProductsByName
 }

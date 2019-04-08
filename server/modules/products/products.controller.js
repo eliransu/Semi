@@ -73,10 +73,21 @@ const getProductsByName = async (req, res) => {
   return res.json(httpResponse(200, productsByName))
 }
 
+const getLatestProducts = async (req, res) => {
+  const { limit = 10 } = req.params
+  const latestProducts = await productService.getLatestProducts(limit)
+  if (!latestProducts) {
+    return res.json(httpResponse(500, 'Error while trying to load latest products'))
+  }
+
+  return res.json(latestProducts)
+}
+
 module.exports = {
   getProductsByCategory,
   addProduct,
   updateProduct,
   deleteProduct,
-  getProductsByName
+  getProductsByName,
+  getLatestProducts
 }

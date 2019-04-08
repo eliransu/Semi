@@ -54,7 +54,6 @@ const getUserByUsername = async (username) => {
   } else {
     const reducedUser = Object.assign({}, user._doc)
     delete reducedUser.password
-    console.log({ reducedUser })
     return reducedUser
   }
 }
