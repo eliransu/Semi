@@ -47,8 +47,21 @@ const updateProduct = async (userId, product) => {
   return true
 }
 
+const getUserByUsername = async (username) => {
+  const user = await UserModel.findOne({ username })
+  if (!user) {
+    return false
+  } else {
+    const reducedUser = Object.assign({}, user._doc)
+    delete reducedUser.password
+    console.log({ reducedUser })
+    return reducedUser
+  }
+}
+
 module.exports = {
   getProductsByUserName,
   addProduct,
-  updateProduct
+  updateProduct,
+  getUserByUsername
 }

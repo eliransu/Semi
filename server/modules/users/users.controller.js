@@ -42,8 +42,22 @@ const updateProductToUser = async (req, res) => {
   return res.json(httpResponse(204))
 }
 
+const getUserByUsername = async (req, res) => {
+  console.log('here')
+  const { username } = req.params
+  if (!username) return res.json(httpResponse(400, 'missing username attribute'))
+
+  const user = await userService.getUserByUsername(username)
+  if (!user) {
+    return res.json(httpResponse(400, 'user not found'))
+  }
+  return res.json(httpResponse(200, user))
+}
+
+
 module.exports = {
   getProducts,
   addProductToUser,
-  updateProductToUser
+  updateProductToUser,
+  getUserByUsername
 }
