@@ -12,6 +12,7 @@ const register = async (req, res) => {
     profileImage
   } = req.body
   if (!firstname || !lastname || !username || !email || !password) {
+    console.log({ firstname, lastname, username, email, password })
     return res.json(httpResponse(500, 'missing fields', 'register'))
   }
   try {
