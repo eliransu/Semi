@@ -5,6 +5,8 @@
 //products.get('/:id')
 const { httpResponse } = require('../../utils')
 const productService = require('./products.service')
+const userService = require('../users/users.service')
+
 
 const getProductsByCategory = async (req, res) => {
   const { category } = req.params
@@ -22,15 +24,17 @@ const getProductsByCategory = async (req, res) => {
 }
 
 const addProduct = async (req, res) => {
-  const { name, image, category } = req.body
-  if (!name || !image || !category) {
+  const { username, name, image, category, price, description } = req.body
+  if (!username) {
+    return res.json(httpResponse(400, 'username is required', 'addProduct'))
+  }
+  if (!name || !image || !category || !price || !description) {
     return res.json(httpResponse(500, 'missing fields', 'addProduct'))
   }
-  const productAdded = await productService.addProduct({ name, image, category })
-  if (!productAdded) {
-    return res.json(httpResponse(500, 'add product failed', 'addProduct'))
+  const addedToUser = await userService.addProduct(username, { name, image, category, price, description })
+  if (!addedToUser) {
+    return res.json(httpResponse(500, 'add product to user failed'))
   }
-
   return res.json(httpResponse(201))
 }
 

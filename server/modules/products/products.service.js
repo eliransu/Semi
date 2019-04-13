@@ -1,7 +1,7 @@
 const ProductModel = require('../../database/models/ProductModel')
 
-const addProduct = async (product) => {
-  const newProduct = new ProductModel(product)
+const addProduct = async (product, user) => {
+  const newProduct = new ProductModel({ ...product, belongs_to: user })
   const p = await newProduct.save()
   if (!p) {
     return false

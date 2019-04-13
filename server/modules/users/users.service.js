@@ -9,12 +9,12 @@ const getProductsByUserName = async (username) => {
   return user.products_for_rent
 }
 
-const addProduct = async (userId, product) => {
-  const user = await UserModel.findOne({ _id: userId })
+const addProduct = async (username, product) => {
+  const user = await UserModel.findOne({ username })
   if (!user) {
     return false
   }
-  const newProduct = await productService.addProduct(product)
+  const newProduct = await productService.addProduct(product, user)
   if (!newProduct) {
     return false
   }

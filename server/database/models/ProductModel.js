@@ -10,6 +10,9 @@ const Product = new Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String
+  },
   category: {
     type: String,
     required: true
@@ -17,6 +20,9 @@ const Product = new Schema({
   deleted: {
     type: Boolean,
     default: false
+  },
+  price: {
+    type: Number
   },
   createdAt: {
     type: Date,
