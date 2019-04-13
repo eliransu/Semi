@@ -37,13 +37,17 @@ const login = async (req, res) => {
   if (!email || !password) {
     return res.json(httpResponse(500, 'missing fields', 'login'))
   }
-  const user = await UserModel.findOne({ email, password })
-  if (!user) {
+  const dbUser = await UserModel.findOne({ email, password })
+  if (!dbUser) {
     return res.json(httpResponse(500, 'user not found', 'login'))
   }
-  const hashedUser = jwt.encode({ username: user.username, email: user.email },
+  const hashedUser = jwt.encode({ username: dbUser.username, email: dbUser.email },
     process.env.JWT_SECRET)
   res.cookie('JWT_TOKEN', hashedUser, { maxAge: 900000000000, httpOnly: true })
+  const user = Object.assign({}, dbUser._doc)
+  delete user.password
+  delete user.deleted
+  delete user._id
   return res.json(httpResponse(200, user))
 }
 
