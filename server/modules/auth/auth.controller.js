@@ -37,7 +37,7 @@ const login = async (req, res) => {
   if (!email || !password) {
     return res.json(httpResponse(500, 'missing fields', 'login'))
   }
-  const dbUser = await UserModel.findOne({ email, password })
+  const dbUser = await UserModel.findOne({ email, password }).populate('products_for_rent')
   if (!dbUser) {
     return res.json(httpResponse(500, 'user not found', 'login'))
   }
