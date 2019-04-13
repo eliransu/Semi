@@ -44,6 +44,9 @@ const User = new Schema({
   },
   phone_number: {
     type: String
+  },
+  profile_image: {
+    type: String
   }
 })
 

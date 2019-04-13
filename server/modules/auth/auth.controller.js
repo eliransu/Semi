@@ -8,7 +8,8 @@ const register = async (req, res) => {
     username,
     email,
     password,
-    phoneNumber
+    phoneNumber,
+    profileImage
   } = req.body
   if (!firstname || !lastname || !username || !email || !password) {
     return res.json(httpResponse(500, 'missing fields', 'register'))
@@ -19,7 +20,8 @@ const register = async (req, res) => {
       return res.json(httpResponse(500, 'email already exist', 'register'))
     const newUser = new UserModel({
       first_name: firstname, last_name: lastname,
-      username, email, password, phone_number: phoneNumber
+      username, email, password, phone_number: phoneNumber,
+      profile_image: profileImage ? profileImage : ''
     })
     await newUser.save()
     return res.json(httpResponse(201))
