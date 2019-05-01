@@ -1,5 +1,6 @@
 const UserModel = require('../../database/models/UserModel')
 const productService = require('../products/products.service')
+const rentService = require('../rents/rents.service')
 
 const getProductsByUserName = async (username) => {
   const user = await UserModel.findOne({ username }).populate('products_for_rent')
@@ -58,9 +59,28 @@ const getUserByUsername = async (username) => {
   }
 }
 
+const rentProduct = async (userId, productId) => {
+  const consumer = await UserModel.findOne({ _id: userId })
+  if (!consumer) return false
+
+  const product = await productService.getProductById(productId).populate('belongs_to')
+  if (!product) return false
+
+  const provider = product.belongs_to
+  const rent = await rentService.createNewRent(provider, consumer, product)
+  if (!rent) return false
+
+  // add the new rent to user history
+  consumer.history_as_consumer.push(rent)
+  await consumer.save()
+
+  return rent
+}
+
 module.exports = {
   getProductsByUserName,
   addProduct,
   updateProduct,
-  getUserByUsername
+  getUserByUsername,
+  rentProduct
 }

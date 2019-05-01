@@ -36,11 +36,14 @@ const User = new Schema({
   history_as_provider: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Product'
+      ref: 'Rent'
     }]
   },
   history_as_consumer: {
-    type: [String]
+    type: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Rent'
+    }]
   },
   phone_number: {
     type: String

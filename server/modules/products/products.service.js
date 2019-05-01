@@ -16,6 +16,14 @@ const getProductsByCategory = async (category) => {
   return products
 }
 
+const getProductById = async (id) => {
+  const product = await ProductModel.findOne({ _id: id })
+  if (!product) {
+    return false
+  }
+  return product
+}
+
 const deleteProduct = async (id) => {
   const productToRemove = await ProductModel.findOne({ _id: id })
   if (!productToRemove) {
@@ -74,5 +82,6 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getLatestProducts,
-  getProductsByName
+  getProductsByName,
+  getProductById
 }

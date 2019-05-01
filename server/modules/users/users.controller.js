@@ -43,7 +43,6 @@ const updateProductToUser = async (req, res) => {
 }
 
 const getUserByUsername = async (req, res) => {
-  console.log('here')
   const { username } = req.params
   if (!username) return res.json(httpResponse(400, 'missing username attribute'))
 
@@ -54,10 +53,24 @@ const getUserByUsername = async (req, res) => {
   return res.json(httpResponse(200, user))
 }
 
+const rentProduct = async (req, res) => {
+  const { productId, userId } = req.body
+  if (!productId || !userId) return res.json(httpResponse(400, 'missing productId or userId'))
+
+  const rented = await userService.rentProduct(userId, productId)
+
+  if (!rented) {
+    return res.json(httpResponse(500, 'rent product failed'))
+  }
+
+  return res.json(httpResponse(201))
+}
+
 
 module.exports = {
   getProducts,
   addProductToUser,
   updateProductToUser,
-  getUserByUsername
+  getUserByUsername,
+  rentProduct
 }
