@@ -23,7 +23,7 @@ import rootStores from '../../stores';
   
       const value = props.value || {};
       this.state = {
-        number: value.number || 0,
+        number: value.number || '',
         currency: value.currency || 'NIS',
       };
     }
@@ -65,22 +65,10 @@ import rootStores from '../../stores';
           <Input
             type="text"
             size={size}
-            value={state.number}
             onChange={this.handleNumberChange}
-            style={{  width: '95%', marginRight: '3%' }}
+            style={{  width: '60%', marginRight: '3%' }}
           />
-          <Select
-            value={state.currency}
-            size={size}
-           
-            onChange={this.handleCurrencyChange}
-          >
-            <Option value="nis">NIS</Option>
-            <Option value="dollar">Dollar</Option>
-            <Option value="eth">ETH</Option>
-            <Option value="btc">BTC</Option>
-
-          </Select>
+        
         </span>
       );
     }
@@ -88,4 +76,4 @@ import rootStores from '../../stores';
   
   
   
-  export default Form.create()(PriceInput);
+  export default PriceInput;
