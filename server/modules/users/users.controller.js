@@ -15,25 +15,25 @@ const getProducts = async (req, res) => {
 }
 
 const addProductToUser = async (req, res) => {
-  const { userId, image, category, name } = req.body
-  if (!userId || !image || !category || !name) {
+  const { username, image, category, name } = req.body
+  if (!username || !image || !category || !name) {
     return res.json(httpResponse(500, 'missing fields', 'addProductToUser'))
   }
-  const addedProduct = await userService.addProduct(userId, { name, image, category })
+  const addedProduct = await userService.addProduct(username, { name, image, category })
   if (!addedProduct) {
     return res.json(httpResponse(500,
-      `add product to userId: ${userId} failed`, 'addProductToUser'))
+      `add product to userId: ${username} failed`, 'addProductToUser'))
   }
 
   return res.json(httpResponse(201))
 }
 
 const updateProductToUser = async (req, res) => {
-  const { userId, productId, image, category, name } = req.body
-  if (!userId || !productId) {
+  const { username, productId, image, category, name } = req.body
+  if (!username || !productId) {
     return res.json(httpResponse(500, 'missing fields', 'updateProductToUser'))
   }
-  const productUpdated = await userService.updateProduct(userId,
+  const productUpdated = await userService.updateProduct(username,
     { name, category, image, id: productId })
   if (!productUpdated) {
     return res.json(httpResponse(500, `failed to update ${name}`,
@@ -54,10 +54,10 @@ const getUserByUsername = async (req, res) => {
 }
 
 const rentProduct = async (req, res) => {
-  const { productId, userId } = req.body
-  if (!productId || !userId) return res.json(httpResponse(400, 'missing productId or userId'))
+  const { productId, username } = req.body
+  if (!productId || !username) return res.json(httpResponse(400, 'missing productId or username'))
 
-  const rented = await userService.rentProduct(userId, productId)
+  const rented = await userService.rentProduct(username, productId)
 
   if (!rented) {
     return res.json(httpResponse(500, 'rent product failed'))

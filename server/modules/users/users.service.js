@@ -32,8 +32,8 @@ const addProduct = async (username, product) => {
   return true
 }
 
-const updateProduct = async (userId, product) => {
-  const user = await UserModel.findOne({ _id: userId })
+const updateProduct = async (username, product) => {
+  const user = await UserModel.findOne({ _id: username })
   if (!user) {
     return false
   }
@@ -59,8 +59,8 @@ const getUserByUsername = async (username) => {
   }
 }
 
-const rentProduct = async (userId, productId) => {
-  const consumer = await UserModel.findOne({ _id: userId })
+const rentProduct = async (username, productId) => {
+  const consumer = await UserModel.findOne({ _id: username })
   if (!consumer) return false
 
   const product = await productService.getProductById(productId).populate('belongs_to')
