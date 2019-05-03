@@ -1,4 +1,6 @@
 const ProductModel = require('../../database/models/ProductModel')
+const ReviewModel = require('../../database/models/ReviewModel')
+const CategoryModel = require('../../database/models/CategoryModel')
 
 const addProduct = async (product, user) => {
   const newProduct = new ProductModel({ ...product, belongs_to: user })
@@ -9,7 +11,8 @@ const addProduct = async (product, user) => {
   return p
 }
 const getProductsByCategory = async (category) => {
-  const products = await ProductModel.find({ category })
+  const categoryModel = await CategoryModel.findOne({ name: category })
+  const products = await ProductModel.find({ category: categoryModel })
   if (!products) {
     return false
   }
@@ -46,7 +49,11 @@ const updateProduct = async (product) => {
     dbProduct.name = product.name
   }
   if (product.category) {
-    dbProduct.category = product.category
+    let category = await CategoryModel.findOne({ name: product.category })
+    if (!category) {
+      category = new CategoryModel({ name: product.category })
+    }
+    dbProduct.category = category
   }
   if (product.image) {
     dbProduct.image = product.image
@@ -76,6 +83,30 @@ const getLatestProducts = async (limit) => {
   return null
 }
 
+const addReview = async (productId, username, stars, content) => {
+  const userService = require('../users/users.service')
+  const user = await userService.getUserByUsername(username)
+  if (!user) return false
+
+  const product = await getProductById(productId)
+  if (!product) return false
+
+  const review = new ReviewModel({ content, stars, creator: user })
+  await review.save()
+
+  product.reviews.push(review)
+  await product.save()
+
+  return true
+}
+
+const getAllCategories = async () => {
+  const categories = await CategoryModel.find({})
+  if (Array.isArray(categories)) {
+    return categories.map(category => category.name)
+  }
+}
+
 module.exports = {
   addProduct,
   getProductsByCategory,
@@ -83,5 +114,7 @@ module.exports = {
   deleteProduct,
   getLatestProducts,
   getProductsByName,
-  getProductById
+  getProductById,
+  addReview,
+  getAllCategories
 }

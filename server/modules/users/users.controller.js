@@ -15,11 +15,21 @@ const getProducts = async (req, res) => {
 }
 
 const addProductToUser = async (req, res) => {
-  const { username, image, category, name } = req.body
-  if (!username || !image || !category || !name) {
+  const { username, images, category, name, description, retail_price, sub_category, quality, plans } = req.body
+  if (!username || !category || !name) {
     return res.json(httpResponse(500, 'missing fields', 'addProductToUser'))
   }
-  const addedProduct = await userService.addProduct(username, { name, image, category })
+  const addedProduct = await userService.addProduct(username,
+    {
+      name,
+      retail_price,
+      images,
+      category,
+      description,
+      sub_category,
+      quality,
+      plans
+    })
   if (!addedProduct) {
     return res.json(httpResponse(500,
       `add product to userId: ${username} failed`, 'addProductToUser'))
@@ -29,12 +39,12 @@ const addProductToUser = async (req, res) => {
 }
 
 const updateProductToUser = async (req, res) => {
-  const { username, productId, image, category, name } = req.body
+  const { username, productId, images, category, name, plans, retailPrice } = req.body
   if (!username || !productId) {
     return res.json(httpResponse(500, 'missing fields', 'updateProductToUser'))
   }
   const productUpdated = await userService.updateProduct(username,
-    { name, category, image, id: productId })
+    { name, category, images, id: productId, retail_price: retailPrice, plans })
   if (!productUpdated) {
     return res.json(httpResponse(500, `failed to update ${name}`,
       'updateProductToUser'))

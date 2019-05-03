@@ -87,11 +87,34 @@ const getLatestProducts = async (req, res) => {
   return res.json(latestProducts)
 }
 
+const addReviewToProduct = async (req, res) => {
+  const { productId, username, stars, content } = req.body
+  if (!productId || !username) {
+    return res.json(httpResponse(400, 'productId && username is required', 'addReviewToProduct'))
+  }
+  const reviewAdded = await productService.addReview(productId, username, stars, content)
+  if (!reviewAdded) {
+    return res.json(httpResponse(500, 'create review failed', 'addReviewToProduct'))
+  }
+  return res.json(httpResponse(201))
+}
+
+const getAllCategories = async (req, res) => {
+  const categories = await productService.getAllCategories()
+  if (!categories) {
+    return res.json(httpResponse(500, 'Server failed to fetch all categories'))
+  }
+
+  return res.json(httpResponse(200, categories))
+}
+
 module.exports = {
   getProductsByCategory,
   addProduct,
   updateProduct,
   deleteProduct,
   getProductsByName,
-  getLatestProducts
+  getLatestProducts,
+  addReviewToProduct,
+  getAllCategories
 }

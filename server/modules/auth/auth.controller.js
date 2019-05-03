@@ -51,7 +51,13 @@ const login = async (req, res) => {
   return res.json(httpResponse(200, user))
 }
 
+const logOut = async (req, res) => {
+  res.cookie('JWT_TOKEN', '', { maxAge: 900000000000, httpOnly: true })
+  return res.json(httpResponse(200))
+}
+
 module.exports = {
   register,
-  login
+  login,
+  logOut
 }
