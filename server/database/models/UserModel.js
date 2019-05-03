@@ -33,6 +33,9 @@ const User = new Schema({
       ref: 'Product'
     }]
   },
+  address: {
+    type: String
+  },
   history_as_provider: {
     type: [{
       type: Schema.Types.ObjectId,
