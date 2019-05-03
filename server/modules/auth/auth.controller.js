@@ -3,9 +3,9 @@ const { httpResponse } = require('../../utils')
 const jwt = require('jwt-simple')
 
 const register = async (req, res) => {
-  const { firstName,
-    lastName,
-    userName,
+  const { firstname,
+    lastname,
+    username,
     email,
     password,
     phoneNumber,
@@ -25,7 +25,7 @@ const register = async (req, res) => {
       profile_image: profileImage ? profileImage : ''
     })
     await newUser.save()
-    return res.json(httpResponse(201,newUser))
+    return res.json(httpResponse(201))
   }
   catch (err) {
     return res.json(httpResponse(500, 'failed to create user', 'register'))
