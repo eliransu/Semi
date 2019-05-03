@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { Button } from 'antd'
+import { Button, Tooltip } from 'antd'
 import ContactUs from './ContactUs'
 import { contentRenderer } from '../utils/genericComponents'
-const AnyReactComponent = ({ text }) => <Button size="small" type="primary">{text}</Button>;
+const AnyReactComponent = ({ text }) => <Tooltip placement="topLeft" title={`${text} location, come join us`}>
+  <Button size="small" type="primary">{text}</Button></Tooltip>
 
 class SimpleMap extends Component {
   static defaultProps = {
