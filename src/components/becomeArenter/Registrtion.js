@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import axios from 'axios';
+import rootStores from '../../stores';
+import AuthStore from '../../stores/AuthStore';
 
+const authStore = rootStores[AuthStore];
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 
@@ -62,9 +66,20 @@ const residences = [
 ];
 
 class RegistrationForm extends React.Component {
+	handleMenuClicked = (path) => this.props.history.push(path);
+
 	state = {
 		confirmDirty: false,
-		autoCompleteResult: []
+		userName: '',
+		firstName: '',
+		lastName: '',
+		email: '',
+		password: '',
+		confirmedPassword: '',
+		storeName: '',
+		location: '',
+		phoneNumber: '',
+		loading: false
 	};
 
 	handleSubmit = (e) => {
@@ -98,19 +113,113 @@ class RegistrationForm extends React.Component {
 		callback();
 	};
 
-	handleWebsiteChange = (value) => {
-		let autoCompleteResult;
-		if (!value) {
-			autoCompleteResult = [];
-		} else {
-			autoCompleteResult = [ '.com', '.org', '.net' ].map((domain) => `${value}${domain}`);
+	addProductClicked = () => {
+		console.log('1');
+
+		if (this.state.password === this.state.confirmedPassword) {
+			const user = {
+				email: this.state.email,
+				password: this.state.password,
+				storeName: this.state.storeName,
+				phoneNumber: this.state.phoneNumber
+			};
 		}
-		this.setState({ autoCompleteResult });
+		this.props.addProductClicked();
 	};
 
+	handleEmailChange = (e) => {
+		e.preventDefault();
+		const email = e.target.value;
+		this.setState({ email: email });
+	};
+
+	handlePasswordChange = (e) => {
+		e.preventDefault();
+		const password = e.target.value;
+		this.setState({ password: password });
+	};
+
+	handleConfirmedPasswordChange = (e) => {
+		e.preventDefault();
+		const pass = e.target.value;
+		this.setState({ confirmedPassword: pass });
+	};
+	handleStoreChange = (e) => {
+		e.preventDefault();
+		const store = e.target.value;
+		this.setState({ storeName: store });
+	};
+	handlePhoneChange = (e) => {
+		e.preventDefault();
+		const phone = e.target.value;
+		this.setState({ phoneNumber: phone });
+	};
+	handleFirstNameChanged = (e) => {
+		e.preventDefault();
+		const firstName = e.target.value;
+		this.setState({ firstName });
+	};
+	handleLastNameChanged = (e) => {
+		e.preventDefault();
+		const lastName = e.target.value;
+		this.setState({ lastName });
+	};
+	handleUserNameChanged = (e) => {
+		e.preventDefault();
+		const userName = e.target.value;
+		this.setState({ userName });
+	};
+
+	registerMember =async () => {
+		this.setState({ loading: true });
+		const {
+			firstName,
+			lastName,
+			password,
+			userName,
+			confirmedPassword,
+			phoneNumber,
+			storeName,
+			location,
+			email,
+			confirmDirty
+		} = this.state;
+
+		if (password === confirmedPassword && confirmDirty) {
+			const user = {
+				firstName,
+				lastName,
+				userName,
+				email,
+				password,
+				phoneNumber,
+				storeName,
+				location
+			};
+			const res = authStore.register(user);
+			if(res){
+				this.setState({ loading: false });				
+				this.props.onRegistrationSuccess(authStore.getCurrentUser);
+			}
+	
+				
+			
+		}
+	};
 	render() {
 		const { getFieldDecorator } = this.props.form;
-		const { autoCompleteResult } = this.state;
+		const {
+			loading,
+			email,
+			password,
+			storeName,
+			userName,
+			phoneNumber,
+			location,
+			confirmedPassword,
+			firstName,
+			lastName
+		} = this.state;
 
 		const formItemLayout = {
 			labelCol: {
@@ -143,9 +252,38 @@ class RegistrationForm extends React.Component {
 			</Select>
 		);
 
-
 		return (
 			<Form onSubmit={this.handleSubmit}>
+				<Form.Item {...formItemLayout} label="First Name">
+					{getFieldDecorator('firstName', {
+						rules: [
+							{
+								required: true,
+								message: 'Enter your first name'
+							}
+						]
+					})(<Input onChange={this.handleFirstNameChanged} value={firstName} />)}
+				</Form.Item>
+				<Form.Item {...formItemLayout} label="Last Name">
+					{getFieldDecorator('lastName', {
+						rules: [
+							{
+								required: true,
+								message: 'Please input your last name'
+							}
+						]
+					})(<Input onChange={this.handleLastNameChanged} value={lastName} />)}
+				</Form.Item>
+				<Form.Item {...formItemLayout} label="User Name">
+					{getFieldDecorator('userName', {
+						rules: [
+							{
+								required: true,
+								message: 'Enter your user Name'
+							}
+						]
+					})(<Input onChange={this.handleUserNameChanged} value={userName} />)}
+				</Form.Item>
 				<Form.Item {...formItemLayout} label="E-mail">
 					{getFieldDecorator('email', {
 						rules: [
@@ -158,7 +296,7 @@ class RegistrationForm extends React.Component {
 								message: 'Please input your E-mail!'
 							}
 						]
-					})(<Input />)}
+					})(<Input onChange={this.handleEmailChange} value={email} />)}
 				</Form.Item>
 				<Form.Item {...formItemLayout} label="Password">
 					{getFieldDecorator('password', {
@@ -171,7 +309,7 @@ class RegistrationForm extends React.Component {
 								validator: this.validateToNextPassword
 							}
 						]
-					})(<Input type="password" />)}
+					})(<Input onChange={this.handlePasswordChange} value={password} type="password" />)}
 				</Form.Item>
 				<Form.Item {...formItemLayout} label="Confirm Password">
 					{getFieldDecorator('confirm', {
@@ -184,7 +322,14 @@ class RegistrationForm extends React.Component {
 								validator: this.compareToFirstPassword
 							}
 						]
-					})(<Input type="password" onBlur={this.handleConfirmBlur} />)}
+					})(
+						<Input
+							type="password"
+							onChange={this.handleConfirmedPasswordChange}
+							value={confirmedPassword}
+							onBlur={this.handleConfirmBlur}
+						/>
+					)}
 				</Form.Item>
 				<Form.Item
 					{...formItemLayout}
@@ -199,7 +344,7 @@ class RegistrationForm extends React.Component {
 				>
 					{getFieldDecorator('storeName', {
 						rules: [ { required: true, message: 'Please input your nickname!', whitespace: true } ]
-					})(<Input />)}
+					})(<Input onChange={this.handleStoreChange} value={storeName} />)}
 				</Form.Item>
 				<Form.Item {...formItemLayout} label="Location">
 					{getFieldDecorator('residence', {
@@ -210,19 +355,14 @@ class RegistrationForm extends React.Component {
 				<Form.Item {...formItemLayout} label="Phone Number">
 					{getFieldDecorator('phone', {
 						rules: [ { required: true, message: 'Please input your phone number!' } ]
-					})(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-				</Form.Item>
-				<Form.Item {...formItemLayout} label="Captcha" extra="We must make sure that your are a human.">
-					<Row gutter={8}>
-						<Col span={12}>
-							{getFieldDecorator('captcha', {
-								rules: [ { required: true, message: 'Please input the captcha you got!' } ]
-							})(<Input />)}
-						</Col>
-						<Col span={12}>
-							<Button>Get captcha</Button>
-						</Col>
-					</Row>
+					})(
+						<Input
+							addonBefore={prefixSelector}
+							style={{ width: '100%' }}
+							onChange={this.handlePhoneChange}
+							value={phoneNumber}
+						/>
+					)}
 				</Form.Item>
 				<Form.Item {...tailFormItemLayout}>
 					{getFieldDecorator('agreement', {
@@ -234,8 +374,16 @@ class RegistrationForm extends React.Component {
 					)}
 				</Form.Item>
 				<Form.Item {...tailFormItemLayout}>
-					<Button type="primary" htmlType="submit">
-						Add Your First Product
+					<Button type="primary" htmlType="submit" onClick={this.registerMember} loading={loading}>
+						Register
+					</Button>
+					<Button
+						style={{ marginLeft: 10 }}
+						type="primary"
+						htmlType="submit"
+						onClick={() => this.props.onCancelClicked()}
+					>
+						Cancel
 					</Button>
 				</Form.Item>
 			</Form>

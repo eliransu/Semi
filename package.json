@@ -2,8 +2,9 @@
   "name": "semi",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080/",
+  "proxy": "http://semi.webo-tech.com/",
   "dependencies": {
+    "@craco/craco": "^3.6.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@fortawesome/free-brands-svg-icons": "^5.7.2",
     "@fortawesome/free-regular-svg-icons": "^5.7.2",
@@ -24,6 +25,7 @@
     "mongoose-ref-validator": "^1.0.21",
     "node-sass": "^4.11.0",
     "react": "^16.8.1",
+    "react-calendar": "^2.18.1",
     "react-dom": "^16.8.1",
     "react-image": "^2.0.0",
     "react-router": "^4.3.1",
@@ -32,9 +34,9 @@
     "react-show-more-text": "^1.0.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "craco start",
     "start:server": "nodemon server/server.js",
-    "build": "react-scripts build",
+    "build": "craco build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

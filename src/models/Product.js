@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 
 
-export class Product {
+export default class Product {
 
     @observable
     _id;
@@ -51,17 +51,17 @@ export class Product {
     constructor(product) {
         if (product) {
             this._id = product._id;
-            this.title = product.title;
-            this.notes = product.category;
-            this.email = product.subCategory;
-            this.identity = product.Photos;
-            this.phone = product.timePeriods;
-            this.phone = product.pricings;
-            this.phone = product.coins;
-            this.phone = product.description;
-            this.phone = product.quality;
-            this.phone = product.retailPrice;
-            this.phone = product.retailPriceCoin;
+            this.title = product.title ;
+            this.description = product.description;
+            this.category = product.category;
+            this.subCategory = product.subCategory;
+            this.quality = product.quality;
+            this.retailPrice = product.retailPrice;
+            this.retailPriceCoin = product.retailPriceCoin;
+            this.timePeriods = product.timePeriods ? product.timePeriods : [];
+            this.pricings = product.pricings ? product.pricings: [];
+            this.coins = product.coins ? product.coins: [];
+            this.Photos = product.Photos ? product.Photos : [];
 
         }
     }

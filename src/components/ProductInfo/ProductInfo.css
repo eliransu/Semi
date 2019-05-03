@@ -1,0 +1,8 @@
+.separator--vertical {
+display: flex;
+align-self: center;
+border-left: 1px solid;
+height: 670px;
+margin-top:30px;
+color:rgb(187, 202, 214);
+}

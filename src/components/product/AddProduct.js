@@ -5,31 +5,64 @@ import {
 import PicturesWall from "./PictureWall"
 import PriceInput from './PriceInput'
 import DynamicFieldSet from "./DynamicFieldSet"
-// import { observer } from "mobx-react";
+import rootStores from '../../stores';
+import ProductStore from '../../stores/ProductStore';
+ import { observer } from "mobx-react";
+import AuthStore from '../../stores/AuthStore';
 
 
 const { Content } = Layout;
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
+const productStore = rootStores['ProductStore']
+const authStore = rootStores[AuthStore]
 
-
+@observer
 class AddProduct extends React.Component {
+
+  componentDidMount(){
+    productStore.newProduct();
+  }
+
+  onTitleChange = (e) =>{
+    productStore.getCurrentProduct.title = e.target.value;
+  }
+  onCategorySelect = (e) =>{
+    productStore.getCurrentProduct.category = e;
+  }
+  onSubCategorySelect = (e) =>{
+    productStore.getCurrentProduct.subCategory = e;
+  }
+  onDescripationChange = (e) =>{
+    productStore.getCurrentProduct.description = e.target.value;
+  }
+  onQualitySelect = (e) =>{
+    productStore.getCurrentProduct.quality = e;
+  }
+  onRetailPriceChange = (e) =>{
+    console.log('e',e.target.value)
+debugger;
+    productStore.getCurrentProduct.retailPrice = e.target.value;
+  }
+  onRetailPriceCoinSelect = (e) =>{
+    productStore.getCurrentProduct.retailPriceCoin = e;
+  }
 
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('Received productStore.currentProduct of form: ', productStore.currentProduct);
+        productStore.createProduct(authStore.getCurrentUser.username);
       }
     });
   }
 
-
   render() {
     const { getFieldDecorator } = this.props.form;
-
-
+    let currentProduct = productStore.getCurrentProduct;
+ 
     const formItemLayout = {
       labelCol: {
         xs: { span: 8 },
@@ -56,6 +89,7 @@ class AddProduct extends React.Component {
 
 
 
+
     return (
       <>
 
@@ -75,22 +109,24 @@ class AddProduct extends React.Component {
               {getFieldDecorator('title', {
                 rules: [{ required: true, message: 'Please input your product title!', whitespace: true }],
               })(
-                <Input placeholder="title" />
+                <Input placeholder="title" onChange={this.onTitleChange}/>
               )}
             </Form.Item>
             <Form.Item
               {...formItemLayout}
               label="Select category"
             >
-              {getFieldDecorator('select-multiple1', {
+              {getFieldDecorator('select-category', {
                 rules: [
-                  { required: true, message: 'Please select the relevant category!', type: 'array' },
+                  { required: true, message: 'Please select the relevant category!', type: 'string' },
                 ],
               })(
-                <Select mode="multiple" placeholder="Please select the relevant category">
+                <Select mode="default" placeholder="Please select the relevant category" onSelect={this.onCategorySelect}>
                   <Option value="clothes">Clothes</Option>
-                  <Option value="baby stuff">Baby stuff</Option>
-                  <Option value="sport equipment">Sport equipment</Option>
+                  <Option value="electronics">Electronics</Option>
+                  <Option value="tools">Tools</Option>
+                  <Option value='home&garden'>Home&Garden</Option>
+                  <Option value='games'>Games</Option>
                 </Select>
               )}
             </Form.Item>
@@ -98,49 +134,48 @@ class AddProduct extends React.Component {
               {...formItemLayout}
               label="Sub-category"
             >
-              {getFieldDecorator('select-multiple2', {
+              {getFieldDecorator('select-subCategory', {
                 rules: [
-                  { required: true, message: 'Please select sub category!', type: 'array' },
+                  { required: true, message: 'Please select sub category!', type: 'string' },
                 ],
               })(
-                <Select mode="multiple" placeholder="Please select sub category">
+                <Select mode="default" placeholder="Please select sub category" onSelect = {this.onSubCategorySelect}>
                   <Option value="sub1">sub 1</Option>
                   <Option value="sub2">sub 2</Option>
                   <Option value="sub3">sub 3</Option>
                 </Select>
               )}
             </Form.Item>
-            <Form.Item
+            {/* <Form.Item
               {...formItemLayout}
               label={(
                 <span>
-                  Upload photo's
+                  Upload photo's((
               </span>
               )}
             >
               {getFieldDecorator('photo', {
               })(
-                <PicturesWall />
-              )}
-
-            </Form.Item>
-            <div  {...formItemLayout} >
-              <Form.Item {...formItemLayout}
+                )}
+                
+              </Form.Item> 
+            { <div  {...formItemLayout} >
+              <PicturesWall /> */}
+              {/* <Form.Item {...formItemLayout}
                 label={(
                   <span>
                     Time period & pricing
               </span>
                 )}>
                 {getFieldDecorator('pricing', {
-                  rules: [{ required: true }],
+                  rules: [{ required: false }],
                 })(
                   <span style={{ display: "flex" }}>
-                    <DynamicFieldSet />
+                    <DynamicFieldSet/>
                   </span>
                 )}
 
-              </Form.Item>
-            </div>
+              </Form.Item> */}
 
             <Form.Item label="Description" {...formItemLayout}
             >
@@ -151,7 +186,7 @@ class AddProduct extends React.Component {
                     message: 'please enter product description',
                   },
                 ],
-              })(<Input.TextArea rows={4} placeholder="please enter product description" />)}
+              })(<Input.TextArea rows={4} placeholder="please enter product description" onChange={this.onDescripationChange}/>)}
             </Form.Item>
             <Form.Item
               {...formItemLayout}
@@ -160,7 +195,7 @@ class AddProduct extends React.Component {
               {getFieldDecorator('quality', {
                 rules: [{ required: true, message: 'Please input your product quality!' }],
               })(
-                <Select labelInValue defaultValue={{ key: 'lucy' }} style={{ width: 120 }}>
+                <Select style={{ width: 120 }} onSelect={this.onQualitySelect}>
                   <Option value="excellent">Excellent</Option>
                   <Option value="good">Good</Option>
                   <Option value="normal">Normal</Option>
@@ -173,7 +208,7 @@ class AddProduct extends React.Component {
               label="Retail price"
             >
               {getFieldDecorator('retailPrice')(
-                <PriceInput />
+                <PriceInput/>
               )}
             </Form.Item>
 
@@ -185,7 +220,7 @@ class AddProduct extends React.Component {
               )}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit">submit</Button>
+              <Button type="primary" htmlType="submit" >submit</Button>
             </Form.Item>
           </Form>
         </Content>
