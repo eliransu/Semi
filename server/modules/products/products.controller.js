@@ -6,6 +6,8 @@
 const { httpResponse } = require('../../utils')
 const productService = require('./products.service')
 const userService = require('../users/users.service')
+const { upload } = require('../utils/imageUploader');
+const singleUpload = upload.single('image')
 
 
 const getProductsByCategory = async (req, res) => {
@@ -108,6 +110,17 @@ const getAllCategories = async (req, res) => {
   return res.json(httpResponse(200, categories))
 }
 
+const uploadImage = async (req, res) => {
+  console.log('heeere')
+  singleUpload(req, res, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(req.file.location)
+    }
+  })
+}
+
 module.exports = {
   getProductsByCategory,
   addProduct,
@@ -116,5 +129,6 @@ module.exports = {
   getProductsByName,
   getLatestProducts,
   addReviewToProduct,
-  getAllCategories
+  getAllCategories,
+  uploadImage
 }
