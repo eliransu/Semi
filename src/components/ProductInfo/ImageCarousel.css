@@ -1,0 +1,13 @@
+.slick-slide {
+    margin-top: 30px;
+    text-align: center;
+    height: 160px;
+    line-height: 160px;
+    display: flex;
+    justify-self: stretch;
+    overflow: hidden;
+}
+
+.slick-slide h3 {
+    color: rgb(209, 12, 12);
+}

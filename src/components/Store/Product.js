@@ -14,20 +14,20 @@ export class Product extends Component {
     const product = this.props.product;
  
     return (
-      <React.Fragment>
+      <div style={{height:425}}>
       {this.state.visible && <div>eliran</div> }
         <Card
         style={{ width: 300 }}
-        cover={<img alt="example" src={require(`../../assets/${product.imgURL}`)}   />}
+          cover={<img alt={product.name} src={require(`../../assets/${product.image}`)} style={{height:300}}   />}
         actions={[<div><Rate/></div>]}
       >
         <Meta
           avatar={<Avatar src={require('../../assets/eliran.png')} />}
-          title={product.productName}
+          title={product.name}
           description={product.description}
-        />
+     />
       </Card>
-      </React.Fragment>
+      </div>
     )
   }
 }

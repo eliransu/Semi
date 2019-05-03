@@ -18,9 +18,9 @@ export class Products extends Component {
     
     
     renderAllProducts = ()=>{
-      return this.state.products.map(product=>(
+      return this.state.products.map((product,index)=>(
           <Col span={8} style={{marginBottom:"3%"}}>
-          <Product product={product}/>
+          <Product product={product} key={index}/>
           </Col> 
       ))       
     }

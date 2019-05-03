@@ -2,9 +2,11 @@ import React from 'react'
 import {
     Form, Input, Select, Button,
   } from 'antd';
+import rootStores from '../../stores';
   
   const { Option } = Select;
-  
+  const productStore = rootStores['ProductStore']
+
   class PriceInput extends React.Component {
     static getDerivedStateFromProps(nextProps) {
       // Should be a controlled component.
@@ -33,7 +35,9 @@ import {
       }
       if (!('value' in this.props)) {
         this.setState({ number });
+
       }
+      productStore.getCurrentProduct.retailPrice = e.target.value;
       this.triggerChange({ number });
     }
   
@@ -41,6 +45,7 @@ import {
       if (!('value' in this.props)) {
         this.setState({ currency });
       }
+      productStore.getCurrentProduct.retailPriceCoin = currency;
       this.triggerChange({ currency });
     }
   
@@ -81,40 +86,6 @@ import {
     }
   }
   
-  class Demo extends React.Component {
-    handleSubmit = (e) => {
-      e.preventDefault();
-      this.props.form.validateFields((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values);
-        }
-      });
-    }
   
-    checkPrice = (rule, value, callback) => {
-      if (value.number > 0) {
-        callback();
-        return;
-      }
-      callback('Price must greater than zero!');
-    }
-  
-    render() {
-      const { getFieldDecorator } = this.props.form;
-      return (
-        <Form layout="inline" onSubmit={this.handleSubmit}>
-          <Form.Item label="Price" >
-            {getFieldDecorator('price', {
-              initialValue: { number: 0, currency: 'rmb' },
-              rules: [{ validator: this.checkPrice }],
-            })(<PriceInput />)}
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">Submit</Button>
-          </Form.Item>
-        </Form>
-      );
-    }
-  }
   
   export default Form.create()(PriceInput);

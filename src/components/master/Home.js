@@ -4,13 +4,19 @@ import MainHero from '../../components/mainHero/MainHero'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCreditCard, faShieldAlt, faShippingFast, faHeadset } from '@fortawesome/free-solid-svg-icons'
 import { titleRenderer, contentRenderer } from '../utils/genericComponents'
+import rootStores from '../../stores';
+import CategoryStore from '../../stores/CategoryStore';
+
+
+const categoryStore = rootStores[CategoryStore];
+
 
 class Home extends React.Component {
 
   render() {
     return (
       <React.Fragment>
-        <MainHero />
+        <MainHero history={this.props.history}/>
 
         <div style={{ background: '#E8ECF0', borderRadius: 30, padding: 50, margin: 50 }}>
           <Card style={{ textAlign: "center", borderRadius: 30 }} title={titleRenderer('Why Semi ?', 30)} bordered={false}>

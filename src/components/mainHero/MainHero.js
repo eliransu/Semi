@@ -7,7 +7,11 @@ const GREY = "#9E9E9E";
 const styles = {
 };
 
+
+
+ 
 const MainHero = props => {
+
 
   return (
     <Row style={{ paddingTop: 15 }} type="flex" justify="center">
@@ -15,7 +19,7 @@ const MainHero = props => {
         <img style={{ ...styles, marginBottom: 7, borderRadius: 25 }} src="https://i.ibb.co/tbVSMtZ/main.png" alt="hero"></img>
       </Col>
       <Col span={14}>
-        <Carousel />
+        <Carousel history={props.history} />
       </Col>
     </Row >
   )
