@@ -13,7 +13,11 @@ export default class ProductStore{
     @observable
     currentProduct;
 
+    @observable
+    periods = [];
 
+   
+    
     @observable
     allProducts = observable([]);
 
@@ -104,6 +108,10 @@ export default class ProductStore{
     }
 
     @action
+    addPeriod = (period)=>{
+        this.periods.push(period);
+    }
+    @action
     newProduct = () => {
         const product = new Product();
         this.currentProduct = product;
@@ -121,14 +129,17 @@ export default class ProductStore{
         this.currentProduct = product
     }
 
+    @computed
+    get getPeriods(){
+        return toJS(this.periods)||[];
+    }
 
 
 
     @action
-    createProduct = (userName)=>{
-        return ProductService.addProductToUser(userName,this.getCurrentProduct).then(() => {
-            console.log("attempt insert product")
-        });
+    createProduct = (product,userName)=>{
+
+        return ProductService.addProductToUser(userName,product,this.getPeriods)
     }
     //TODO: service that load all the products 
     // @action

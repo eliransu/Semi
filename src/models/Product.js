@@ -44,8 +44,7 @@ export default class Product {
     @observable
     retailPrice;
 
-    @observable
-    retailPriceCoin;
+  
 
 
     constructor(product) {

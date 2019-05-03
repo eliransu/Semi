@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  InputNumber, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout
+  InputNumber, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout,Modal
 } from 'antd';
 import PicturesWall from "./PictureWall"
 import PriceInput from './PriceInput'
@@ -9,6 +9,9 @@ import rootStores from '../../stores';
 import ProductStore from '../../stores/ProductStore';
 import { observer } from "mobx-react";
 import AuthStore from '../../stores/AuthStore';
+import CustomSteps from '../customComponents/CustomSteps';
+import AddProductSuccessModal from './AddProductSuccessModal'
+
 
 
 const { Content } = Layout;
@@ -20,43 +23,35 @@ const authStore = rootStores[AuthStore]
 @observer
 class AddProduct extends React.Component {
 
-  componentDidMount() {
-    productStore.newProduct();
+  state={
+    visible:false
   }
 
-  onTitleChange = (e) => {
-    productStore.getCurrentProduct.title = e.target.value;
-  }
-  onCategorySelect = (e) => {
-    productStore.getCurrentProduct.category = e;
-  }
-  onSubCategorySelect = (e) => {
-    productStore.getCurrentProduct.subCategory = e;
-  }
-  onDescripationChange = (e) => {
-    productStore.getCurrentProduct.description = e.target.value;
-  }
-  onQualitySelect = (e) => {
-    productStore.getCurrentProduct.quality = e;
-  }
-  onRetailPriceChange = (e) => {
-    console.log('e', e.target.value)
-    debugger;
-    productStore.getCurrentProduct.retailPrice = e.target.value;
-  }
-  onRetailPriceCoinSelect = (e) => {
-    productStore.getCurrentProduct.retailPriceCoin = e;
+  onAddOneMoreProductClicked = ()=>{
+    this.setState({visible:false},()=>{
+
+      this.props.history.replace('/add-product-as-renter');
+    })
+
   }
 
+  onHomePageClicked = ()=>{
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received productStore.currentProduct of form: ', productStore.currentProduct);
-        productStore.createProduct(authStore.getCurrentUser.username);
-      }
-    });
+    this.setState({visible:false},()=>{
+
+      this.props.history.replace('/')
+    })
+  }
+
+  onProductAdded = (result)=>{
+    if(result){
+      this.setState({visible:true})
+      
+    }
+  }
+
+  onCancel=()=>{
+    this.setState({visible:false})
   }
 
   render() {
@@ -91,127 +86,12 @@ class AddProduct extends React.Component {
 
 
     return (
-      <>
-
-
-        <Content style={{ paddingTop: "2%", backgroundColor: '#fcfcfc' }}>
-
-
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Item
-              {...formItemLayout}
-              label={(
-                <span>
-                  Product title&nbsp;
-              </span>
-              )}
-            >
-              {getFieldDecorator('title', {
-                rules: [{ required: true, message: 'Please input your product title!', whitespace: true }],
-              })(
-                <Input placeholder="title" onChange={this.onTitleChange} />
-              )}
-            </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="Select category"
-            >
-              {getFieldDecorator('select-category', {
-                rules: [
-                  { required: true, message: 'Please select the relevant category!', type: 'string' },
-                ],
-              })(
-                <Select mode="default" placeholder="Please select the relevant category" onSelect={this.onCategorySelect}>
-                  <Option value="clothes">Clothes</Option>
-                  <Option value="electronics">Electronics</Option>
-                  <Option value="tools">Tools</Option>
-                  <Option value='home&garden'>Home&Garden</Option>
-                  <Option value='games'>Games</Option>
-                </Select>
-              )}
-            </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="Sub-category"
-            >
-              {getFieldDecorator('select-subCategory', {
-                rules: [
-                  { required: true, message: 'Please select sub category!', type: 'string' },
-                ],
-              })(
-                <Select mode="default" placeholder="Please select sub category" onSelect={this.onSubCategorySelect}>
-                  <Option value="sub1">sub 1</Option>
-                  <Option value="sub2">sub 2</Option>
-                  <Option value="sub3">sub 3</Option>
-                </Select>
-              )}
-            </Form.Item>
-            <PicturesWall />
-            {/* <Form.Item {...formItemLayout}
-                label={(
-                  <span>
-                    Time period & pricing
-              </span>
-                )}>
-                {getFieldDecorator('pricing', {
-                  rules: [{ required: false }],
-                })(
-                  <span style={{ display: "flex" }}>
-                    <DynamicFieldSet/>
-                  </span>
-                )}
-
-              </Form.Item> */}
-
-            <Form.Item label="Description" {...formItemLayout}
-            >
-              {getFieldDecorator('description', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'please enter product description',
-                  },
-                ],
-              })(<Input.TextArea rows={4} placeholder="please enter product description" onChange={this.onDescripationChange} />)}
-            </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="Quality"
-            >
-              {getFieldDecorator('quality', {
-                rules: [{ required: true, message: 'Please input your product quality!' }],
-              })(
-                <Select style={{ width: 120 }} onSelect={this.onQualitySelect}>
-                  <Option value="excellent">Excellent</Option>
-                  <Option value="good">Good</Option>
-                  <Option value="normal">Normal</Option>
-                </Select>
-              )}
-            </Form.Item>
-
-            <Form.Item
-              {...formItemLayout}
-              label="Retail price"
-            >
-              {getFieldDecorator('retailPrice')(
-                <PriceInput />
-              )}
-            </Form.Item>
-
-            <Form.Item {...tailFormItemLayout}>
-              {getFieldDecorator('agreement', {
-                valuePropName: 'checked',
-              })(
-                <Checkbox>I have read the <a href="">agreement</a></Checkbox>
-              )}
-            </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit" >submit</Button>
-            </Form.Item>
-          </Form>
-        </Content>
+    <>
+      <CustomSteps onProductAdded={this.onProductAdded}  />
+      <Modal visible={this.state.visible} onCancel={this.onCancel} footer={[]}>
+      <AddProductSuccessModal onAddOneMoreProductClicked={this.onAddOneMoreProductClicked} onHomePageClicked={this.onHomePageClicked}/>
+      </Modal>
       </>
-
     );
   }
 }

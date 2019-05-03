@@ -11,6 +11,11 @@ let id = 0;
 const productStore = rootStores['productStore']
 
 class DynamicFieldSet extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.index = 0;
+  }
   remove = (k) => {
     const { form } = this.props;
     // can use data-binding to get
@@ -36,6 +41,9 @@ class DynamicFieldSet extends React.Component {
     form.setFieldsValue({
       keys: nextKeys,
     });
+
+    this.props.addedClicked(this.index);
+    this.index=this.index+1;
   }
 
   handleSubmit = (e) => {
@@ -53,6 +61,11 @@ class DynamicFieldSet extends React.Component {
 
   onPeriodSelected = (val)=>{
     console.log('value',val);
+    this.props.onPeriodSelected(val);
+  }
+  onPeriodPricingChanged =(val)=>{
+  
+     this.props.onPeriodPricingChanged(val.number);
   }
 
   render() {
@@ -91,16 +104,20 @@ class DynamicFieldSet extends React.Component {
             message: "Please select time period and price or delete this field.",
           }],
         })(
+          <>
           <span style={{width:"150%",display:"flex",flexDirection:"row"}}>
-          <Select mode="default" placeholder="Time period" style={{ width: '90%',paddingRight:"2%" }}>
-              <Option value="for 1 day">for 1 day</Option>
-              <Option value="for 1 week">for 1 week</Option>
-              <Option value="for 1 month">for 1 month</Option>
+          <Select mode="default" placeholder="Time period" style={{ width: '90%',paddingRight:"2%" }} onSelect={this.onPeriodSelected}>
+              <Option value="one day">one day</Option>
+              <Option value="two days">two days</Option>
+              <Option value='three days'>three days</Option>
+              <Option value="one week">one week</Option>
+              <Option value="two weeks">two weeks</Option>
+              <Option value="one month">one month</Option>
             </Select>
-            {/* <PriceInput style={{ width: '30%', marginLeft: 8 }}/> */}
+            <PriceInput style={{ width: '30%', marginLeft: 8 }} onChange={this.onPeriodPricingChanged} />
             </span>
-          //<Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />
 
+          </>
 
         )}
         {keys.length > 1 ? (
@@ -124,9 +141,7 @@ class DynamicFieldSet extends React.Component {
             <Icon type="plus" /> Add time period price
           </Button>
         </Form.Item>
-        <Form.Item {...formItemLayoutWithOutLabel}>
-          <Button type="primary" htmlType="submit">Submit</Button>
-        </Form.Item>
+     
       
       </Form>
     );
