@@ -50,7 +50,7 @@ function monthCellRender(value) {
 }
 
 
-export class ProductCalendar extends Component {
+ export class ProductCalendar extends Component {
     state = {
         orderDaysOfYear: []
     }
@@ -84,13 +84,17 @@ export class ProductCalendar extends Component {
         return listData || [];
     }
 
+    renderPaymentPage=(item) =>{
+        console.log("aaaaaaaaaaa", item)
+        this.props.history.replace('/paymentPage')
+    }
     dateCellRender = (value) => {
         const listData = this.convertBorrowDateToListData(value);
         return (
             <ul className="events">
                 {
                     listData.map(item => (
-                        <>
+                        <div className="list-data-item" onClick={this.renderPaymentPage(item)}>
                         <li key={item.content}>
                             <Badge status={item.type} text={item.content} />
                         </li>
@@ -99,7 +103,7 @@ export class ProductCalendar extends Component {
                                 <a href="" > {item.consumerName}</a>
 
                         </li>
-                        </>
+                        </div>
                     ))
                 }
 

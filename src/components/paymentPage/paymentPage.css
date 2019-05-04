@@ -4,6 +4,11 @@
 .payment-page-main-container .payment-page-product-img {
 	width: 350px;
 	margin-right: 20px;
+	background: white;
+	border-radius: 20px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	border: 1px solid #e8e8e8;
 }
 .hide {
 	display: none;

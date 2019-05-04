@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { observer } from 'mobx-react';
-import rootStores from '../../stores';
-import ProductStore from '../../stores/ProductStore';
+import { Button, Card, Checkbox, DatePicker, Divider, Form, Input, InputNumber } from 'antd';
 import { toJS } from 'mobx';
-import ImageCarousel from '../ProductInfo/ImageCarousel';
-import { InputNumber, Divider, Card, Checkbox, DatePicker, Calendar, Form, Icon, Input, Button } from 'antd';
-import PaymentStore from '../../stores/PaymentStore';
+import { observer } from 'mobx-react';
 import moment from 'moment';
+import React, { Component } from 'react';
+import rootStores from '../../stores';
+import PaymentStore from '../../stores/PaymentStore';
+import ProductStore from '../../stores/ProductStore';
+import ImageCarousel from '../ProductInfo/ImageCarousel';
 import PaymentModalPage from './PaymentModalPage';
 
 const productStore = rootStores[ProductStore];
@@ -24,11 +24,17 @@ function onChangeStartDate(date, dateStrings) {
 function onChangeEndDate(date, dateStrings) {
 	paymentStore.startDate = dateStrings;
 }
-
+function onChangeRemarks(e) {
+	e.preventDefault();
+	const pass = e.target.value;
+	paymentStore.remarks = pass;
+}
 function onShippingCheckBoxChange(e) {
 	if (e.target.checked) {
+		paymentStore.isShipping = true;
 		paymentStore.price += 30;
 	} else {
+		paymentStore.isShipping = false;
 		paymentStore.price -= 30;
 	}
 }
@@ -70,7 +76,6 @@ class PaymentPage extends Component {
 				<Card
 					className="payment-page-card"
 					title="Order Details"
-					// extra={<a href="#">More</a>}
 					style={{ width: '500px', margin: '20px', borderRadius: '20px' }}
 				>
 					<Form
@@ -124,7 +129,7 @@ class PaymentPage extends Component {
 						<div className="payment-page-renter-remarks" style={{ display: 'flex', alignItems: 'center' }}>
 							<span style={{ marginRight: '10px', width: '70px' }}>Remarks :</span>
 							<Form.Item>
-								<TextArea style={{ width: '350px' }} rows={4} />
+								<TextArea onChange={onChangeRemarks} style={{ width: '350px' }} rows={4} />
 							</Form.Item>
 						</div>
 

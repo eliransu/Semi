@@ -12,20 +12,38 @@ function onChange(value) {
 	console.log(`selected ${value}`);
 }
 
-function onBlur() {
-	console.log('blur');
-}
-
-function onFocus() {
-	console.log('focus');
-}
-
 function onSearch(val) {
 	console.log('search:', val);
 }
 function handleMonthChange(value) {
-	console.log(`selected ${value}`);
+	paymentStore.cardValidityMonth = value;
 }
+function handleYearChange(value) {
+	paymentStore.cardValidityYear = value;
+	console.log(paymentStore.cardValidityYear);
+}
+
+function onChangeCreditCardNumber(e) {
+	e.preventDefault();
+	const pass = e.target.value;
+	paymentStore.creditCardNumber = pass;
+}
+function onChangeCvv(e) {
+	e.preventDefault();
+	const pass = e.target.value;
+	paymentStore.cvv = pass;
+}
+function onChangeId(e) {
+	e.preventDefault();
+	const pass = e.target.value;
+	paymentStore.Id = pass;
+}
+function onChangeFullName(e) {
+	e.preventDefault();
+	const pass = e.target.value;
+	paymentStore.fullName = pass;
+}
+
 const paymentStore = rootStores[PaymentStore];
 @observer
 class PaymentModalPage extends Component {
@@ -71,6 +89,7 @@ class PaymentModalPage extends Component {
 									style={{ width: '300px' }}
 									min="10"
 									max="100"
+									onChange={onChangeCreditCardNumber}
 									prefix={<Icon type="credit-card" style={{ color: 'rgba(0,0,0,.25)' }} />}
 								/>
 							</Form.Item>
@@ -84,8 +103,6 @@ class PaymentModalPage extends Component {
 									style={{ width: 100, marginRight: '10px' }}
 									placeholder="01"
 									onChange={handleMonthChange}
-									onFocus={onFocus}
-									onBlur={onBlur}
 									onSearch={onSearch}
 								>
 									<Option value="02">02</Option>
@@ -104,9 +121,7 @@ class PaymentModalPage extends Component {
 									showSearch
 									style={{ width: 100 }}
 									placeholder="2019"
-									onChange={handleMonthChange}
-									onFocus={onFocus}
-									onBlur={onBlur}
+									onChange={handleYearChange}
 									onSearch={onSearch}
 								>
 									<Option value="2020">2020</Option>
@@ -126,6 +141,7 @@ class PaymentModalPage extends Component {
 									min="10"
 									max="100"
 									prefix={<Icon type="credit-card" style={{ color: 'rgba(0,0,0,.25)' }} />}
+									onChange={onChangeCvv}
 								/>
 							</Form.Item>
 						</div>
@@ -137,6 +153,7 @@ class PaymentModalPage extends Component {
 									style={{ width: '200px' }}
 									min="10"
 									max="100"
+									onChange={onChangeId}
 									prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,.25)' }} />}
 								/>
 							</Form.Item>
@@ -149,6 +166,7 @@ class PaymentModalPage extends Component {
 									style={{ width: '200px' }}
 									min="10"
 									max="100"
+									onChange={onChangeFullName}
 									prefix={<Icon type="form" style={{ color: 'rgba(0,0,0,.25)' }} />}
 								/>
 							</Form.Item>
