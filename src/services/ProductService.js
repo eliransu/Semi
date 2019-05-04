@@ -1,5 +1,22 @@
-import axios from 'axios';
+import axios from "axios";
+import { toJS } from "mobx";
 class ProductService {
+  addProductToUser = (username, product, periods) => {
+    console.log(`add new product to the user ${username}`, product);
+    const url = `/api/add-product-as-renter/${username}`;
+    const body = {
+      username,
+      name: product.title,
+      category: product.category,
+      price: product.retailPrice,
+      images: toJS(product.images),
+      description: product.description,
+      retail_price: product.retailPrice,
+      sub_category: product.sub_category,
+      quality: product.quality,
+      plans: periods
+    };
+    console.log("body", body);
 
 
      addProductToUser = (username, product,periods)=> {
