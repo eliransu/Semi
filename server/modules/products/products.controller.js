@@ -68,7 +68,7 @@ const deleteProduct = async (req, res) => {
 }
 
 const getProductsByNameOrId = async (req, res) => {
-  const { name, id } = req.params
+  const { name, id } = req.query
   if (!name && !id) {
     return res.json(httpResponse(500, 'missing fields', 'getProductsByName'))
   }
