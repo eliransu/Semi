@@ -19,6 +19,9 @@ import Login from '../Login/Login';
 import Product from '../product/Product';
 import Category from '../category/Category';
 import RegistrationSuccess from '../becomeArenter/RegistrationSeccuss';
+import Popup from 'reactjs-popup'
+import NotificationCenter from "../notification/notificationCenter";
+
 
 const { Header, Content, Footer } = Layout;
 const productStore = rootStores['ProductStore'];
@@ -26,9 +29,16 @@ class Master extends React.Component {
 	state = {
 		visble: false,
 		registerSuccessModal: false,
-		user: null
+		user: null,
+		open: false,
 	};
 
+	constructor(props) {
+		super(props)
+		this.openModal = this.openModal.bind(this)
+		this.closeModal = this.closeModal.bind(this)
+
+	}
 	componentDidMount() {
 		axios
 			.get('/api/users/products/elikos1')
@@ -41,7 +51,12 @@ class Master extends React.Component {
 				console.log(err);
 			});
 	}
-
+	openModal() {
+		this.setState({open: true})
+	}
+	closeModal() {
+		this.setState({open: false})
+	}
 	// categoryById = ({match})=>{
 	// return <Category categoryId={match.params.id}/>
 	// }
@@ -135,7 +150,38 @@ class Master extends React.Component {
 					)}
 					{user && (
 						<Menu.Item style={{ marginLeft: 300, marginBottom: 12 }} key="7">
-							<span>{`,Wellcome ${user.first_name} ${user.last_name}`}</span>
+
+							<Popup
+								trigger={<Icon type="bell" style={{color: "#e6f7ff", bordeRadius: "42px", border: "1px solid #4995e6ad", background: "#4995e6ad", fontSize: "30px", marginLeft: "10", borderRadius: "30px"}} />}
+								position="left bottom"
+								defaultOpen="true"
+								contentStyle={{
+									borderRadius: "20px", position: "absolute", zindex: "2", width: "24px", background: "rgb(255, 255, 255)", border: "1px solid rgb(187, 187, 187)", boxShadow: "rgba(0, 0, 0, 0.2) 0px 1px 3px", padding: "5px", top: "10px !important", left: "-8px !important", height: "30px"}}
+							>
+								<div onClick={this.openModal} style={{position: "absolute" ,top: "-29px",left: "7px", fontWeight: "bold", color: "#ff8080"}}>
+									 2 
+								</div>
+							</Popup>
+							<Popup
+								open={this.state.open}
+								closeOnDocumentClick
+								onClose={this.closeModal}
+								contentStyle={{
+									borderRadius: "20px",width: "auto", position: "absolute",top: "20px",left: "67%", background: "rgb(255, 255, 255)", border: "1px solid rgb(187, 187, 187)", boxShadow: "rgba(0, 0, 0, 0.2) 0px 1px 3px"
+						}}
+					>
+								<div className="modal" style={{display:"flex",flexDirection:"row"}}>
+									{/* <a style={{display: "flex", flexDirection: "column", justifyContent: "center", maxHeight: "18px", marginLeft: "3px", fontSize: "29px"}} onClick={this.closeModal}>
+										&times;
+            						</a> */}
+          						</div>
+									<div style={{fontWeight:"bold",fontSize:"16px", textAlign:"center",height:"56px"}}>
+										Notification center
+									</div>
+									<div className="separator--horizontal" style={{borderBottom:"2px solid #F2F2F2", width: "60%",padding: "2px",margin: "auto"}}/>
+									<NotificationCenter/>
+							</Popup>
+								<span>{`,Wellcome ${user.first_name} ${user.last_name}`}</span>
 						</Menu.Item>
 					)}
 				</Menu>
