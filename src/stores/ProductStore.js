@@ -13,8 +13,7 @@ export default class ProductStore{
     @observable
     currentProduct;
 
-   
-    
+
     @observable
     allProducts = observable([]);
 
@@ -103,16 +102,18 @@ export default class ProductStore{
                     endDate: "2019-05-10"}]
         }
     }
+
     @action
     newProduct = () => {
         const product = new Product();
-       
         this.currentProduct = product;
     };
 
     @computed
     get getCurrentProduct(){
+        if(this.currentProduct){
         return this.currentProduct;
+        }
     }
 
     @action
