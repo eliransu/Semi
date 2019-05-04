@@ -9,7 +9,18 @@ export default class PaymentStore {
 
 	@observable price = 150;
 
+	@observable viewModal;
+
 	constructor() {}
+
+	@action
+	toggleViewModal = () => {
+		if (this.viewModal) {
+			this.viewModal = false;
+		} else {
+			this.viewModal = true;
+		}
+	};
 
 	@computed
 	get getStartDate() {

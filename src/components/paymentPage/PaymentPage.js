@@ -7,6 +7,7 @@ import ImageCarousel from '../ProductInfo/ImageCarousel';
 import { InputNumber, Divider, Card, Checkbox, DatePicker, Calendar, Form, Icon, Input, Button } from 'antd';
 import PaymentStore from '../../stores/PaymentStore';
 import moment from 'moment';
+import PaymentModalPage from './PaymentModalPage';
 
 const productStore = rootStores[ProductStore];
 const paymentStore = rootStores[PaymentStore];
@@ -57,7 +58,7 @@ class PaymentPage extends Component {
 	};
 
 	render() {
-		const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+		const { getFieldsError } = this.props.form;
 
 		const currentProduct = toJS(productStore.getCurrentProduct);
 
@@ -162,12 +163,14 @@ class PaymentPage extends Component {
 								type="primary"
 								htmlType="submit"
 								disabled={hasErrors(getFieldsError())}
+								onClick={paymentStore.toggleViewModal}
 							>
 								Pay
 							</Button>
 						</Form.Item>
 					</Form>
 				</Card>
+				<PaymentModalPage />
 			</div>
 		);
 	}
