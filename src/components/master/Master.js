@@ -30,21 +30,14 @@ class Master extends React.Component {
 	};
 
 	componentDidMount() {
-		axios
-			.get('/api/users/products/elikos1')
-			.then((res) => {
-				// when request finished successfully...
-				console.log(res);
-			})
-			.catch((err) => {
-				// when request finished with some errors...
-				console.log(err);
-			});
+		axios.get('/api/users/active-user').then(res => {
+			debugger
+			console.log(res)
+		}).catch(err => {
+			debugger
+			console.log(err)
+		})
 	}
-
-	// categoryById = ({match})=>{
-	// return <Category categoryId={match.params.id}/>
-	// }
 
 	showModal = () => {
 		this.setState({ visble: true });
