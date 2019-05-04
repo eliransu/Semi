@@ -5,11 +5,13 @@ import {Col} from 'antd';
 import Product from '../Store/Product'
 import rootStores from '../../stores';
 import CategoryStore from '../../stores/CategoryStore';
-import {Text} from '../customComponents/CustomUI'
+import {observer} from 'mobx-react'
+
+
 
 const categoryStore = rootStores[CategoryStore];
-
-export default class Category extends Component {
+@observer
+ class Category extends Component {
 	state = {
 		loading:true
 	};
@@ -31,8 +33,8 @@ export default class Category extends Component {
 		
 		return categoryStore.getCurrentCategory.map((product,index)=>(
 			<Col span={8} style={{padding:30}}>
-			<Product product={product} key={index}/>
-			</Col> 
+						<Product product={product} key={index}/>
+						</Col> 
 		))
   
     
@@ -45,12 +47,15 @@ export default class Category extends Component {
 
 	render() {
 		const category = categoryStore.getCurrentCategory
-		console.log('category in render',this.props.match.params.id)
+			console.log('category in render',this.props.match.params.id)
 		return(
-		<div clasName="category-container">		
-		<Text center>{this.props.match.params.id}</Text>	
+			<div clasName="category-container">	
+		<div className='header' style={{textAlign:'center',paddingTop:10}}>
+	       	<h1>{this.props.match.params.id}</h1>	
+		</div>	
 			<div className="all-products">{this.renderAllProducts()}</div>
 			</div>
 		);
 	}
 }
+export default Category;

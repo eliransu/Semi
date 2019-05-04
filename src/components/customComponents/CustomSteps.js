@@ -12,10 +12,8 @@ const Step = Steps.Step;
 
 const steps = [{
   title: 'General Info',
-
 }, {
   title: 'Pricing',
-
 }];
 
 const productStore = rootStores['ProductStore'];
@@ -71,7 +69,7 @@ const authStore = rootStores[AuthStore];
             && (
               <div style={{flex:1,textAlign:'center'}}>
               
-              <Button type="primary" onClick={this.onNextClicked}>Next</Button>
+              <Button type="primary" style={{width:"40%"}} onClick={this.onNextClicked}>Next</Button>
               </div>
             )
           }

@@ -18,7 +18,7 @@ export class Product extends Component {
       {this.state.visible && <div>eliran</div> }
         <Card
         style={{ width: 300 }}
-          cover={<img alt={product.name} src={require(`../../assets/${product.image}`)} style={{height:300}}   />}
+          cover={<img alt={product.name} src={require(`../../assets/drill.jpg`)} style={{height:300}}   />}
         actions={[<div><Rate/></div>]}
       >
         <Meta
