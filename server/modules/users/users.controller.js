@@ -76,11 +76,22 @@ const rentProduct = async (req, res) => {
   return res.json(httpResponse(201))
 }
 
+const fetchActiveUser = async (req, res) => {
+  const token = req.cookies.JWT_TOKEN
+  if (!token) return res.json(httpResponse(400))
+
+  const user = await userService.fetchActiveUser(token)
+  if (!user) return res.json(httpResponse(400))
+
+  return res.json(httpResponse(200, user))
+}
+
 
 module.exports = {
   getProducts,
   addProductToUser,
   updateProductToUser,
   getUserByUsername,
-  rentProduct
+  rentProduct,
+  fetchActiveUser
 }

@@ -2,6 +2,7 @@ const UserModel = require('../../database/models/UserModel')
 const productService = require('../products/products.service')
 const rentService = require('../rents/rents.service')
 const CategoryModel = require('../../database/models/CategoryModel')
+const jwt = require('jwt-simple')
 
 const getProductsByUserName = async (username) => {
   const user = await UserModel.findOne({ username }).populate('products_for_rent')
@@ -86,10 +87,21 @@ const rentProduct = async (username, productId) => {
   return rent
 }
 
+const fetchActiveUser = async (userJwtToken) => {
+  const decodeUser = jwt.decode(userJwtToken, process.env.JWT_SECRET)
+  if (!decodeUser) return false
+
+  const user = await getUserByUsername(decodeUser.username)
+  if (!user) return false
+
+  return user
+}
+
 module.exports = {
   getProductsByUserName,
   addProduct,
   updateProduct,
   getUserByUsername,
-  rentProduct
+  rentProduct,
+  fetchActiveUser
 }
