@@ -67,16 +67,24 @@ const deleteProduct = async (req, res) => {
   return res.json(httpResponse(204))
 }
 
-const getProductsByName = async (req, res) => {
-  const { name } = req.params
-  if (!name) {
+const getProductsByNameOrId = async (req, res) => {
+  const { name, id } = req.params
+  if (!name && !id) {
     return res.json(httpResponse(500, 'missing fields', 'getProductsByName'))
   }
-  const productsByName = await productService.getProductsByName(name)
-  if (!productsByName) {
-    return res.json(httpResponse(500, `products by name: ${name} are not found`))
+  let result
+  if (name) {
+    result = await productService.getProductsByName(name)
+    if (!result) {
+      return res.json(httpResponse(500, `products by name: ${name} are not found`))
+    }
+  } else if (id) {
+    result = await productService.getProductById(id)
+    if (!result) {
+      return res.json(httpResponse(500, `products by id: ${id} are not found`))
+    }
   }
-  return res.json(httpResponse(200, productsByName))
+  return res.json(httpResponse(200, result))
 }
 
 const getLatestProducts = async (req, res) => {
@@ -126,7 +134,7 @@ module.exports = {
   addProduct,
   updateProduct,
   deleteProduct,
-  getProductsByName,
+  getProductsByNameOrId,
   getLatestProducts,
   addReviewToProduct,
   getAllCategories,
