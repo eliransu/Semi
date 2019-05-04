@@ -40,13 +40,15 @@ const User = new Schema({
   orders_as_provider: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Rent'
+      ref: 'Rent',
+      default: []
     }]
   },
   orders_as_consumer: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Rent'
+      ref: 'Rent',
+      default: []
     }]
   },
   phone_number: {

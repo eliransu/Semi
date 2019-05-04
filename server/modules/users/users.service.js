@@ -98,8 +98,18 @@ const getOrdersByUsername = async (username, type) => {
   const userType = type.toLowerCase() === 'consumer' ? 'consumer' : 'provider'
   const user = await UserModel.findOne({ username }).populate(`orders_as_${userType}`)
   if (!user) return false
-
-  return user[`orders_as_${userType}`]
+  const orders = user[`orders_as_${userType}`]
+  return orders.map(order => {
+    order.consumer.orders_as_consumer = undefined
+    order.consumer.orders_as_provider = undefined
+    order.provider.orders_as_consumer = undefined
+    order.provider.orders_as_provider = undefined
+    order.provider.products_for_rent = undefined
+    order.consumer.products_for_rent = undefined
+    order.consumer.password = undefined
+    order.provider.password = undefined
+    return order
+  })
 
 }
 

@@ -25,6 +25,9 @@ const createNewOrder = async (providerName, consumerName, productId, plan) => {
   const provider = await UserModel.findOne({ username: providerName })
   const consumer = await UserModel.findOne({ username: consumerName })
   const product = await ProductModel.findOne({ _id: productId })
+  console.log({ provider })
+  console.log({ consumer })
+  console.log({ product })
   if (!provider || !consumer || !product) return false
 
   const today = new Date(Date.now())
@@ -35,6 +38,17 @@ const createNewOrder = async (providerName, consumerName, productId, plan) => {
     plan
   })
   await newRent.save()
+  if (!provider.orders_as_provider) {
+    provider.orders_as_provider = []
+  }
+  if (!consumer.orders_as_consumer) {
+    consumer.orders_as_consumer = []
+  }
+  provider.orders_as_provider.push(newRent)
+  consumer.orders_as_consumer.push(newRent)
+  await provider.save()
+  await consumer.save()
+
   return newRent
 }
 
