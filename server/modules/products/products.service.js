@@ -49,11 +49,10 @@ const getProductById = async (id) => {
 }
 
 const deleteProduct = async (id) => {
-  const productToRemove = await ProductModel.findOne({ _id: id })
+  const productToRemove = await ProductModel.findOneAndRemove({ _id: id })
   if (!productToRemove) {
     return false
   }
-  productToRemove.deleted = true
   const setAsDeleted = productToRemove.save()
   if (!setAsDeleted) {
     return false
