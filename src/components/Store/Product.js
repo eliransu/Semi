@@ -22,7 +22,11 @@ export class Product extends Component {
           cover={
             <img
               alt={product.name}
-              src={require(`../../assets/drill.jpg`)}
+              src={
+                product.images[0]
+                  ? product.images[0]
+                  : require(`../../assets/drill.jpg`)
+              }
               style={{ height: 300 }}
             />
           }

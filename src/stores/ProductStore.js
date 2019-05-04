@@ -16,6 +16,9 @@ export default class ProductStore {
   @observable
   allProducts = observable([]);
 
+  @observable
+  latestProducts = [];
+
   //   constructor() {
   //     //this.loadAllProducts();
   //     this.currentProduct = {
@@ -125,6 +128,15 @@ export default class ProductStore {
 
     this.currentProduct = product;
   };
+  setLatestProducts = latestProducts => {
+    this.latestProducts = latestProducts;
+  };
+
+  @action
+  getLatestProduct = async limit => {
+    const latestProducts = await productService.getLatestProduct(limit);
+    this.setLatestProducts(latestProducts);
+  };
 
   @action
   getProductById = async productId => {
@@ -144,10 +156,19 @@ export default class ProductStore {
   }
 
   @action
+  onProductSearch = sarchParams => {
+    productService.onProductSearch(sarchParams);
+  };
+  @action
   setCurrentProduct(product) {
     this.currentProduct = product;
     console.log(toJS(this.currentProduct));
     debugger;
+  }
+
+  @computed
+  get getLatestProducts() {
+    return toJS(this.latestProducts) || [];
   }
 
   @computed

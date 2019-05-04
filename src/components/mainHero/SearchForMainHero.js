@@ -1,22 +1,38 @@
 import React from "react";
 import { Input, Button, Select, Row, Col, Collapse, Slider } from "antd";
+import * as _ from "lodash";
+import rootStores from "../../stores";
+import ProductStore from "../../stores/ProductStore";
+import { observer } from "mobx-react";
 
 const Search = Input;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
-
+const productStore = rootStores["ProductStore"];
+@observer
 class SearchMain extends React.Component {
+  constructor(props) {
+    super(props);
+    const deboundOnSlide = _.debounce(this.onSliderChanged, 60000);
+  }
   state = {
     productName: "",
     categoryName: "",
     minPrice: 0,
     maxPrice: 100000,
+    userName: "",
+    quality: "",
     disabled: false
   };
 
-  onSearchClicked = value => {
-    const categoryName = value;
-    this.setState({ categoryName });
+  onSliderChanged = slider => {
+    this.setState({ minPrice: slider[0] });
+    this.setState({ maxPrice: slider[1] });
+  };
+
+  onSearchClicked = () => {
+    console.log("here");
+    productStore.onProductSearch(this.state);
   };
 
   onProductSearchChanged = e => {
@@ -24,9 +40,19 @@ class SearchMain extends React.Component {
     const productName = e.target.value;
     this.setState({ productName });
   };
-  onCategorySelected = value => {
-    console.log("category", value);
+  onCategorySelected = categoryName => {
+    this.setState({ categoryName });
   };
+  onUserNameChamged = e => {
+    e.preventDefault();
+    const userName = e.target.value;
+    this.setState({ userName });
+  };
+
+  onQualityChanged = quality => {
+    this.setState({ quality });
+  };
+
   render() {
     const { disabled } = this.state;
     return (
@@ -85,7 +111,42 @@ class SearchMain extends React.Component {
                     range
                     defaultValue={[20, 150]}
                     disabled={disabled}
+                    onChange={this.onSliderChanged}
                   />
+                </Col>
+              </Row>
+              <Row style={{ paddingTop: 7 }}>
+                <Col span={4} style={{ paddingTop: 5 }}>
+                  <label>User: </label>
+                </Col>
+                <Col span={20}>
+                  <Input
+                    placeholder={"user name"}
+                    onChange={this.onUserNameChamged}
+                  />
+                </Col>
+              </Row>
+              <Row style={{ paddingTop: 25 }}>
+                <Col span={4} style={{ paddingTop: 5 }}>
+                  <label>Quality: </label>
+                </Col>
+                <Col span={20}>
+                  <Select
+                    size="large"
+                    defaultValue="Select"
+                    style={{ width: 120, marginRight: 10, height: 38 }}
+                    onSelect={this.onQualityChanged}
+                  >
+                    <Option size="large" value="normal">
+                      Normal
+                    </Option>
+                    <Option size="large" value="good">
+                      Good
+                    </Option>
+                    <Option size="large" value="excellent">
+                      Excellent
+                    </Option>
+                  </Select>
                 </Col>
               </Row>
             </Panel>
