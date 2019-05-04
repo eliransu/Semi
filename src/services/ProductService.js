@@ -49,6 +49,28 @@ class ProductService {
                 throw err;
             })
     }
+  };
+
+  onProductSearch = async searchParams => {
+    const seacrhItems = await axios.get(
+      `/api/products/search?categoryName=${
+        searchParams.categoryName
+      }&&productName=${searchParams.productName}&&minPrice=${
+        searchParams.minPrice
+      }&&maxPrice=${searchParams.maxPrice}&&userName=${
+        searchParams.userName
+      }&&quality=${searchParams.quality}`
+    );
+    console.log({ seacrhItems });
+  };
+
+  getLatestProduct = async limit => {
+    const latest = limit ? limit : 10;
+    const results = await axios.get(`/api/products/latest/${latest}`);
+    if (!results || !results.data) {
+      return [];
+    } else return results.data;
+  };
 }
 
 const productService = new ProductService();
