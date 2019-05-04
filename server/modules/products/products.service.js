@@ -5,8 +5,10 @@ const CategoryModel = require('../../database/models/CategoryModel')
 const addProduct = async (product, user) => {
   if (!Array.isArray(product.images)) {
     product.images = [product.images]
+  } else {
+    product.images = []
   }
-  const newProduct = new ProductModel({ ...product, belongs_to: user })
+  const newProduct = new ProductModel({ ...product, owner: user })
   const p = await newProduct.save()
   if (!p) {
     return false
@@ -19,6 +21,7 @@ const getProductsByCategory = async (category) => {
   if (!products) {
     return false
   }
+  console.log(products)
   return products
 }
 

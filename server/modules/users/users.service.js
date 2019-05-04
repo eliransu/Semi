@@ -26,7 +26,6 @@ const addProduct = async (username, product) => {
   product.category = category
 
   const newProduct = await productService.addProduct(product, user)
-  console.log(newProduct)
   if (!newProduct) return false
   user.products_for_rent.push(newProduct)
   const saved = await user.save()
@@ -57,9 +56,9 @@ const getUserByUsername = async (username) => {
   if (!user) {
     return false
   } else {
-    const reducedUser = Object.assign({}, user._doc)
-    delete reducedUser.password
-    return reducedUser
+    const restrictedUser = Object.assign({}, user._doc)
+    delete restrictedUser.password
+    return restrictedUser
   }
 }
 

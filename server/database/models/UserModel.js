@@ -31,7 +31,6 @@ const User = new Schema({
     type: [{
       type: Schema.Types.ObjectId,
       ref: 'Product',
-      autopopulate: true,
       default: []
     }]
   },

@@ -24,6 +24,12 @@ const Product = new Schema({
   quality: {
     type: String
   },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    autopopulate: true
+  },
   deleted: {
     type: Boolean,
     default: false
@@ -40,15 +46,10 @@ const Product = new Schema({
   plans: {
     type: [Object],
     default: [],
-    // autopopulate: true
   },
   createdAt: {
     type: Date,
     default: Date.now()
-  },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
   },
   orders: {
     type: [Schema.Types.ObjectId],
