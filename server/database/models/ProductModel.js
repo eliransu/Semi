@@ -7,7 +7,8 @@ const Product = new Schema({
     required: true
   },
   images: {
-    type: [String]
+    type: [String],
+    default: []
   },
   description: {
     type: String

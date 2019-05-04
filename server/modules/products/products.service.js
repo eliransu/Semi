@@ -109,12 +109,11 @@ const addReview = async (productId, username, stars, content) => {
   const user = await userService.getUserByUsername(username)
   if (!user) return false
 
-  const product = await getProductById(productId)
+  const product = await ProductModel.findOne({ _id: productId })
   if (!product) return false
 
   const review = new ReviewModel({ content, stars, creator: user })
   await review.save()
-
   product.reviews.push(review)
   await product.save()
 
@@ -135,6 +134,43 @@ const getProductsByUserName = async (owner) => {
   return reduceProductsData(products)
 }
 
+const search = async (searchVariablesOptions) => {
+  const { categoryName, productName, minPrice, maxPrice, username, quality } = searchVariablesOptions
+  let products = []
+  console.log(searchVariablesOptions)
+  if (categoryName) {
+    const category = await CategoryModel.findOne({ name: categoryName })
+    products = await ProductModel.find({ category })
+    return findByOptionalParams(products,
+      { productName, minPrice, maxPrice, username, quality })
+
+  } else if (productName) {
+    products = await ProductModel.find({ name: new RegExp(productName, 'i') })
+    return findByOptionalParams(products, { categoryName, minPrice, maxPrice, username, quality })
+  }
+}
+
+const findByOptionalParams = (products, optional) => {
+  let filtteredProducts = products
+  if (optional.minPrice && optional.maxPrice) {
+    filtteredProducts = filtteredProducts.map(product => {
+      if (product.plans.some(plan => plan.price >= optional.minPrice && plan.price <= optional.maxPrice)) {
+        return product
+      }
+    })
+  }
+  if (optional.username) {
+    filtteredProducts = filtteredProducts.filter(product => product.owner.username === optional.username)
+  }
+  if (optional.quality) {
+    filtteredProducts = filtteredProducts.filter(product => product.quality === optional.quality)
+  }
+  if (optional.productName) {
+    filtteredProducts = filtteredProducts.filter(product => product.name === optional.productName)
+  }
+  return filtteredProducts
+}
+
 module.exports = {
   addProduct,
   getProductsByCategory,
@@ -146,5 +182,6 @@ module.exports = {
   addReview,
   getAllCategories,
   reduceProductsData,
-  getProductsByUserName
+  getProductsByUserName,
+  search
 }

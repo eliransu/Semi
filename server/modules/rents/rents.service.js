@@ -7,20 +7,6 @@ const addDays = (date, days) => {
   result.setDate(result.getDate() + days);
   return result;
 }
-const mapPeriodToDays = {
-  '1 day': 1,
-  '2 days': 2,
-  '3 days': 3,
-  '4 days': 4,
-  '5 days': 5,
-  '6 days': 6,
-  '1 week': 7,
-  '2 weeks': 14,
-  '3 weeks': 21,
-  '1 month': 30,
-  '2 months': 60,
-  '3 months': 90
-}
 const createNewOrder = async (providerName, consumerName, productId, plan) => {
   const provider = await UserModel.findOne({ username: providerName })
   const consumer = await UserModel.findOne({ username: consumerName })
@@ -34,7 +20,7 @@ const createNewOrder = async (providerName, consumerName, productId, plan) => {
   const newRent = new RentModel({
     consumer, provider, product,
     start_time: today,
-    finish_time: addDays(today, mapPeriodToDays[plan.period]),
+    finish_time: addDays(today, plan.period),
     plan
   })
   await newRent.save()

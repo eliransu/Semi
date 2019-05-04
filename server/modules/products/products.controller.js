@@ -143,6 +143,19 @@ const scrapProducts = async (req, res) => {
   return res.json('ok')
 }
 
+const search = async (req, res) => {
+  const { categoryName, productName, minPrice, maxPrice, username, quality } = req.query
+  if (!categoryName && !productName) {
+    return res.json(httpResponse(400, 'category or productName are required'))
+  }
+  const results = await productService.search({ categoryName, productName, minPrice, maxPrice, username, quality })
+  if (!results) {
+    return res.json(httpResponse(500, 'failed to search by these fields', 'search'))
+  }
+
+  return res.json(httpResponse(200, results))
+}
+
 module.exports = {
   getProductsByCategory,
   addProduct,
@@ -153,5 +166,6 @@ module.exports = {
   addReviewToProduct,
   getAllCategories,
   uploadImage,
-  scrapProducts
+  scrapProducts,
+  search
 }
