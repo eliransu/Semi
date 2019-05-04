@@ -2,11 +2,26 @@ const ProductModel = require('../../database/models/ProductModel')
 const ReviewModel = require('../../database/models/ReviewModel')
 const CategoryModel = require('../../database/models/CategoryModel')
 
+const reduceProductsData = (products) => {
+  let productsArray = []
+  if (!Array.isArray(products)) {
+    productsArray = [products]
+  } else {
+    productsArray = products
+  }
+  return productsArray.map(prod => {
+    prod.owner.products_for_rent = undefined
+    prod.owner.orders_as_consumer = undefined
+    prod.owner.orders_as_provider = undefined
+    prod.owner.__v = undefined
+    prod.owner.deleted = undefined
+    prod.category.__v = undefined
+    return prod
+  })
+}
 const addProduct = async (product, user) => {
   if (!Array.isArray(product.images)) {
     product.images = [product.images]
-  } else {
-    product.images = []
   }
   const newProduct = new ProductModel({ ...product, owner: user })
   const p = await newProduct.save()
@@ -21,8 +36,8 @@ const getProductsByCategory = async (category) => {
   if (!products) {
     return false
   }
-  console.log(products)
-  return products
+
+  return reduceProductsData(products)
 }
 
 const getProductById = async (id) => {
@@ -30,7 +45,7 @@ const getProductById = async (id) => {
   if (!product) {
     return false
   }
-  return product
+  return reduceProductsData(product)
 }
 
 const deleteProduct = async (id) => {
@@ -58,6 +73,7 @@ const updateProduct = async (product) => {
     let category = await CategoryModel.findOne({ name: product.category })
     if (!category) {
       category = new CategoryModel({ name: product.category })
+      await category.save()
     }
     dbProduct.category = category
   }
@@ -77,14 +93,14 @@ const getProductsByName = async (name) => {
   if (!products) {
     return false
   }
-  return products
+  return reduceProductsData(products)
 }
 
 const getLatestProducts = async (limit) => {
   const limitNumeric = +limit
   const latestProducts = await ProductModel.find().sort({ 'createdAt': -1 }).limit(limitNumeric)
   if (latestProducts.length > 0) {
-    return latestProducts
+    return reduceProductsData(latestProducts)
   }
   return null
 }
@@ -108,10 +124,16 @@ const addReview = async (productId, username, stars, content) => {
 
 const getAllCategories = async () => {
   const categories = await CategoryModel.find({})
-  console.log(categories)
   if (Array.isArray(categories)) {
     return categories.map(category => category.name)
   }
+}
+
+const getProductsByUserName = async (owner) => {
+  const products = await ProductModel.find({ owner })
+  if (!products) return false
+
+  return reduceProductsData(products)
 }
 
 module.exports = {
@@ -123,5 +145,7 @@ module.exports = {
   getProductsByName,
   getProductById,
   addReview,
-  getAllCategories
+  getAllCategories,
+  reduceProductsData,
+  getProductsByUserName
 }

@@ -86,6 +86,20 @@ const fetchActiveUser = async (req, res) => {
   return res.json(httpResponse(200, user))
 }
 
+const getOrdersByUsername = async (req, res) => {
+  const { username, type } = req.query
+  if (!username || !type) {
+    return res.json(httpResponse(400, 'missing fields', 'getOrdersByUsername'))
+  }
+
+  const orders = await userService.getOrdersByUsername(username, type)
+  if (!orders) {
+    return res.json(httpResponse(500, 'failed to fetch orders', 'getOrdersByUsername'))
+  }
+
+  return res.json(httpResponse(200, orders))
+}
+
 
 module.exports = {
   getProducts,
@@ -93,5 +107,6 @@ module.exports = {
   updateProductToUser,
   getUserByUsername,
   rentProduct,
-  fetchActiveUser
+  fetchActiveUser,
+  getOrdersByUsername
 }

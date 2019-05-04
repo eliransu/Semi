@@ -22,8 +22,6 @@ const upload = multer({
     bucket: 'semi-final-project',
     acl: 'public-read',
     metadata: function (req, file, cb) {
-      console.log(file.originalname)
-      console.log(file)
       cb(null, { fieldName: file.originalname });
     },
     key: function (req, file, cb) {

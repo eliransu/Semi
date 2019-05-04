@@ -130,7 +130,7 @@ const uploadImage = async (req, res) => {
 
 const scrapProducts = async (req, res) => {
   const { username, limit, page } = req.query
-  const products = await axios.get(`http://localhost:4200/scrapping?pageNumber=${page}&limit=${limit}`)
+  const products = await axios.get(`http://localhost:4200/scrapping?pageNumber=${page}&limit=${limit ? limit : 80}`)
   products.data.map(async product => {
     await userService.addProduct(username, {
       name: product.title, images: product.image,

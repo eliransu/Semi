@@ -5,11 +5,12 @@ const CategoryModel = require('../../database/models/CategoryModel')
 const jwt = require('jwt-simple')
 
 const getProductsByUserName = async (username) => {
-  const user = await UserModel.findOne({ username }).populate('products_for_rent')
+  const user = await UserModel.findOne({ username })
   if (!user) {
     return false
   }
-  return user.products_for_rent
+  const products = productService.getProductsByUserName(user)
+  return products
 }
 
 const addProduct = async (username, product) => {
@@ -58,6 +59,9 @@ const getUserByUsername = async (username) => {
   } else {
     const restrictedUser = Object.assign({}, user._doc)
     delete restrictedUser.password
+    delete restrictedUser.orders_as_consumer
+    delete restrictedUser.products_for_rent
+    delete restrictedUser.orders_as_provider
     return restrictedUser
   }
 }
@@ -74,7 +78,7 @@ const rentProduct = async (username, productId) => {
   if (!rent) return false
 
   // add the new rent to user history
-  consumer.history_as_consumer.push(rent)
+  consumer.orders_as_consumer.push(rent)
   await consumer.save()
 
   return rent
@@ -90,11 +94,21 @@ const fetchActiveUser = async (userJwtToken) => {
   return user
 }
 
+const getOrdersByUsername = async (username, type) => {
+  const userType = type.toLowerCase() === 'consumer' ? 'consumer' : 'provider'
+  const user = await UserModel.findOne({ username }).populate(`orders_as_${userType}`)
+  if (!user) return false
+
+  return user[`orders_as_${userType}`]
+
+}
+
 module.exports = {
   getProductsByUserName,
   addProduct,
   updateProduct,
   getUserByUsername,
   rentProduct,
-  fetchActiveUser
+  fetchActiveUser,
+  getOrdersByUsername
 }

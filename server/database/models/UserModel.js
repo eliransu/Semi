@@ -37,13 +37,13 @@ const User = new Schema({
   address: {
     type: String
   },
-  history_as_provider: {
+  orders_as_provider: {
     type: [{
       type: Schema.Types.ObjectId,
       ref: 'Rent'
     }]
   },
-  history_as_consumer: {
+  orders_as_consumer: {
     type: [{
       type: Schema.Types.ObjectId,
       ref: 'Rent'

@@ -3,6 +3,7 @@ const usersController = require('./users.controller')
 
 users.get('/active-user', usersController.fetchActiveUser)
 users.get('/products/:username', usersController.getProducts)
+users.get('/orders', usersController.getOrdersByUsername)
 users.get('/:username', usersController.getUserByUsername)
 users.post('/product', usersController.addProductToUser)
 users.put('/product', usersController.updateProductToUser)
