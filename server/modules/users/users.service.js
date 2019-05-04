@@ -26,15 +26,9 @@ const addProduct = async (username, product) => {
   product.category = category
 
   const newProduct = await productService.addProduct(product, user)
+  console.log(newProduct)
   if (!newProduct) return false
-
-
-  let productsArray = []
-  if (user.products_for_rent) {
-    productsArray = user.products_for_rent
-  }
-  productsArray.push(newProduct)
-  user.products_for_rent = productsArray
+  user.products_for_rent.push(newProduct)
   const saved = await user.save()
   if (!saved) {
     return false

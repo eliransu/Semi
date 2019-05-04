@@ -8,7 +8,7 @@ const productService = require('./products.service')
 const userService = require('../users/users.service')
 const { upload } = require('../utils/imageUploader');
 const singleUpload = upload.single('image')
-
+const axios = require('axios')
 
 const getProductsByCategory = async (req, res) => {
   const { category } = req.params
@@ -129,6 +129,21 @@ const uploadImage = async (req, res) => {
   })
 }
 
+const scrapProducts = async (req, res) => {
+  const { username, limit, page } = req.query
+  const products = await axios.get(`http://localhost:4200/scrapping?pageNumber=${page}&limit=${limit}`)
+  products.data.map(async product => {
+    await userService.addProduct(username, {
+      name: product.title, images: product.image,
+      category: product.category,
+      price: product.price, description: product.description,
+      plans: product.plans,
+      quality: product.quality
+    })
+  })
+  return res.json('ok')
+}
+
 module.exports = {
   getProductsByCategory,
   addProduct,
@@ -138,5 +153,6 @@ module.exports = {
   getLatestProducts,
   addReviewToProduct,
   getAllCategories,
-  uploadImage
+  uploadImage,
+  scrapProducts
 }

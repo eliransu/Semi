@@ -10,5 +10,6 @@ products.put('/:id', productsController.updateProduct)
 products.delete('/:id', productsController.deleteProduct)
 products.post('/review', productsController.addReviewToProduct)
 products.post('/upload-image', productsController.uploadImage)
+products.get('/scrapping', productsController.scrapProducts)
 
 module.exports = products

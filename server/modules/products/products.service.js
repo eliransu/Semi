@@ -3,6 +3,9 @@ const ReviewModel = require('../../database/models/ReviewModel')
 const CategoryModel = require('../../database/models/CategoryModel')
 
 const addProduct = async (product, user) => {
+  if (!Array.isArray(product.images)) {
+    product.images = [product.images]
+  }
   const newProduct = new ProductModel({ ...product, belongs_to: user })
   const p = await newProduct.save()
   if (!p) {
@@ -102,6 +105,7 @@ const addReview = async (productId, username, stars, content) => {
 
 const getAllCategories = async () => {
   const categories = await CategoryModel.find({})
+  console.log(categories)
   if (Array.isArray(categories)) {
     return categories.map(category => category.name)
   }

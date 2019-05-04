@@ -31,7 +31,8 @@ const User = new Schema({
     type: [{
       type: Schema.Types.ObjectId,
       ref: 'Product',
-      autopopulate: true
+      autopopulate: true,
+      default: []
     }]
   },
   address: {
