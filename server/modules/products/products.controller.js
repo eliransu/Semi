@@ -119,7 +119,6 @@ const getAllCategories = async (req, res) => {
 }
 
 const uploadImage = async (req, res) => {
-  console.log('heeere')
   singleUpload(req, res, (err, result) => {
     if (err) {
       console.log(err)
