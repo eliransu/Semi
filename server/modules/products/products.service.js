@@ -14,6 +14,7 @@ const reduceProductsData = (products) => {
     prod.owner.orders_as_consumer = undefined
     prod.owner.orders_as_provider = undefined
     prod.owner.__v = undefined
+    prod.owner.password = undefined
     prod.owner.deleted = undefined
     prod.category.__v = undefined
     return prod
