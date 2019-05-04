@@ -9,8 +9,10 @@ class CategoryService{
     //            return res.data.data;
     //        }
     //    })
+    console.log('im Here')
     const products = await axios.get(`/api/products/by-category/${categoryId}`)
-        
+    console.log({products})
+        console.log(products.data.data)
     if(!products|| !products.data||!products.data.data) return [];
     else return products.data.data;
       

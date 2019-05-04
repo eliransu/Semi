@@ -17,7 +17,7 @@ class Carousel extends React.Component {
   };
 
   onTabClicked =(category)=>{  
-
+console.log({category})
 this.props.history.push(`/category/${category}`)
   }
 
@@ -40,6 +40,8 @@ this.props.history.push(`/category/${category}`)
             <TabPane tab={renderTab('home', 'Home & Garden')} key="home&garden"  />
             <TabPane tab={renderTab('rocket', 'Games')} key="games"  />
             <TabPane tab={renderTab('skin', 'Clothes')} key="clothes" />
+            <TabPane tab={renderTab('sport', 'Sport')} key="sport" />
+            
           </Tabs>
         </Row>
         <Row style={{ margin: 20 }} type="flex" justify="center" >

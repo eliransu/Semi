@@ -22,26 +22,21 @@ class AddProductGeneral extends React.Component {
  
 
   onTitleChange = (e) =>{
-      console.log('for title',e.target.value);
     this.props.product.title = e.target.value;
   }
   onCategorySelect = (e) =>{
-    console.log('for category',e);
       
     this.props.product.category = e;
   }
   onSubCategorySelect = (e) =>{
-    console.log('for sub category',e);
       
     this.props.product.subCategory = e;
   }
   onDescripationChange = (e) =>{
-    console.log('for desc',e.target.value);
       
     this.props.product.description = e.target.value;
   }
   onQualitySelect = (e) =>{
-    console.log('for quality',e);
       
     this.props.product.quality = e;
   }
@@ -119,6 +114,7 @@ class AddProductGeneral extends React.Component {
                   <Option value="tools">Tools</Option>
                   <Option value='home&garden'>Home&Garden</Option>
                   <Option value='games'>Games</Option>
+                  <Option value='sport'>Sport</Option>
                 </Select>
               )}
             </Form.Item>
