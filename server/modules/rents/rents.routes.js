@@ -1,11 +1,8 @@
-const RentModel = require('../../database/models/RentModel')
+const orders = require('express').Router()
+const rentsController = require('./rents.controller')
 
-const createNewRent = (provider, consumer, product, days) => {
-  const today = new Date(Date.now())
-  const newRent = new RentModel({
-    consumer, provider, product,
-    start_time: today,
-    finish_time: today + days,
-    price: product.price * days
-  })
-}
+orders.get('/:id', rentsController.getOrderById)
+orders.post('/', rentsController.createNewOrder)
+orders.put('/accept', rentsController.setOrderAsAccepted)
+
+module.exports = orders

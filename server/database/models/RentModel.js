@@ -29,9 +29,14 @@ const Rent = new Schema({
     type: Boolean,
     default: false
   },
-  price: {
-    type: Number,
+  plan: {
+    type: Object,
     required: true
+  },
+  order_status: {
+    type: String,
+    required: true,
+    default: 'not handled'
   }
 })
 
