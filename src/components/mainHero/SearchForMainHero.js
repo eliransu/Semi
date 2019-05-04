@@ -1,15 +1,34 @@
 import React from "react";
-import { Input, Button, Select, Row, Col } from "antd";
+import { Input, Button, Select, Row, Col, Collapse, Slider } from "antd";
 
 const Search = Input;
 const Option = Select.Option;
+const Panel = Collapse.Panel;
 
 class SearchMain extends React.Component {
+  state = {
+    productName: "",
+    categoryName: "",
+    minPrice: 0,
+    maxPrice: 100000,
+    disabled: false
+  };
+
   onSearchClicked = value => {
-    console.log("clicked");
-    console.log(value);
+    const categoryName = value;
+    this.setState({ categoryName });
+  };
+
+  onProductSearchChanged = e => {
+    e.preventDefault();
+    const productName = e.target.value;
+    this.setState({ productName });
+  };
+  onCategorySelected = value => {
+    console.log("category", value);
   };
   render() {
+    const { disabled } = this.state;
     return (
       <Row type="flex" justify="center">
         <Col>
@@ -17,9 +36,9 @@ class SearchMain extends React.Component {
             size="large"
             defaultValue="Select"
             style={{ width: 120, marginRight: 10, height: 38 }}
-            onChange={"handleChange"}
+            onSelect={this.onCategorySelected}
           >
-            <Option size="large" value="Tools">
+            <Option size="large" value="tools">
               Tools
             </Option>
             <Option size="large" value="electronics">
@@ -43,15 +62,34 @@ class SearchMain extends React.Component {
             placeholder="Something to rent?"
             enterButton="Search"
             size="large"
-            onSearch={this.onSearchClicked}
+            onChange={this.onProductSearchChanged}
           />
           <Button
             size="large"
             style={{ marginLeft: 10, height: 38 }}
             type="primary"
+            onClick={this.onSearchClicked}
           >
             Search
           </Button>
+          <Collapse bordered={false}>
+            <Panel header="Advance Search">
+              <Row>
+                <Col span={4} style={{ paddingTop: 5 }}>
+                  <label>Price Range: </label>
+                </Col>
+                <Col span={20}>
+                  <Slider
+                    tooltipVisible
+                    max={500}
+                    range
+                    defaultValue={[20, 150]}
+                    disabled={disabled}
+                  />
+                </Col>
+              </Row>
+            </Panel>
+          </Collapse>
         </Col>
       </Row>
     );

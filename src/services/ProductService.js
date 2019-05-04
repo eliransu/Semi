@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toJS } from "mobx";
 class ProductService {
   addProductToUser = (username, product, periods) => {
     console.log(`add new product to the user ${username}`, product);
@@ -8,6 +9,7 @@ class ProductService {
       name: product.title,
       category: product.category,
       price: product.retailPrice,
+      images: toJS(product.images),
       description: product.description,
       retail_price: product.retailPrice,
       sub_category: product.sub_category,
