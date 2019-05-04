@@ -137,16 +137,15 @@ const getProductsByUserName = async (owner) => {
 const search = async (searchVariablesOptions) => {
   const { categoryName, productName, minPrice, maxPrice, username, quality } = searchVariablesOptions
   let products = []
-  console.log(searchVariablesOptions)
   if (categoryName) {
     const category = await CategoryModel.findOne({ name: categoryName })
     products = await ProductModel.find({ category })
-    return findByOptionalParams(products,
-      { productName, minPrice, maxPrice, username, quality })
+    return reduceProductsData(findByOptionalParams(products,
+      { productName, minPrice, maxPrice, username, quality }))
 
   } else if (productName) {
     products = await ProductModel.find({ name: new RegExp(productName, 'i') })
-    return findByOptionalParams(products, { categoryName, minPrice, maxPrice, username, quality })
+    return reduceProductsData(findByOptionalParams(products, { categoryName, minPrice, maxPrice, username, quality }))
   }
 }
 
