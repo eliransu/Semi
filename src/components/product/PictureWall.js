@@ -18,14 +18,14 @@ class PicturesWall extends React.Component {
     });
   }
 
-  handleChange = ({ fileList }) => {
+  handleChange = (res) => {
 
-    this.setState({ fileList },()=>{
-
-      console.log('upload!!',fileList)
+    this.setState({ fileList: res.fileList }, () => {
+      debugger
+      console.log('upload!!', res.file.response)
     })
-    this.props.addPicture({fileList});
-    
+    // this.props.addPicture({ fileList });
+
   }
 
 
@@ -40,12 +40,13 @@ class PicturesWall extends React.Component {
     return (
       <div className="clearfix">
         <Upload
-          action="//jsonplaceholder.typicode.com/posts/"
+          name="image"
+          action="/api/products/upload-image"
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
-          
+
         >
           {fileList.length >= 4 ? null : uploadButton}
         </Upload>

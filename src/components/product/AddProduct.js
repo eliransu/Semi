@@ -7,7 +7,7 @@ import PriceInput from './PriceInput'
 import DynamicFieldSet from "./DynamicFieldSet"
 import rootStores from '../../stores';
 import ProductStore from '../../stores/ProductStore';
- import { observer } from "mobx-react";
+import { observer } from "mobx-react";
 import AuthStore from '../../stores/AuthStore';
 
 
@@ -20,31 +20,31 @@ const authStore = rootStores[AuthStore]
 @observer
 class AddProduct extends React.Component {
 
-  componentDidMount(){
+  componentDidMount() {
     productStore.newProduct();
   }
 
-  onTitleChange = (e) =>{
+  onTitleChange = (e) => {
     productStore.getCurrentProduct.title = e.target.value;
   }
-  onCategorySelect = (e) =>{
+  onCategorySelect = (e) => {
     productStore.getCurrentProduct.category = e;
   }
-  onSubCategorySelect = (e) =>{
+  onSubCategorySelect = (e) => {
     productStore.getCurrentProduct.subCategory = e;
   }
-  onDescripationChange = (e) =>{
+  onDescripationChange = (e) => {
     productStore.getCurrentProduct.description = e.target.value;
   }
-  onQualitySelect = (e) =>{
+  onQualitySelect = (e) => {
     productStore.getCurrentProduct.quality = e;
   }
-  onRetailPriceChange = (e) =>{
-    console.log('e',e.target.value)
-debugger;
+  onRetailPriceChange = (e) => {
+    console.log('e', e.target.value)
+    debugger;
     productStore.getCurrentProduct.retailPrice = e.target.value;
   }
-  onRetailPriceCoinSelect = (e) =>{
+  onRetailPriceCoinSelect = (e) => {
     productStore.getCurrentProduct.retailPriceCoin = e;
   }
 
@@ -62,7 +62,7 @@ debugger;
   render() {
     const { getFieldDecorator } = this.props.form;
     let currentProduct = productStore.getCurrentProduct;
- 
+
     const formItemLayout = {
       labelCol: {
         xs: { span: 8 },
@@ -109,7 +109,7 @@ debugger;
               {getFieldDecorator('title', {
                 rules: [{ required: true, message: 'Please input your product title!', whitespace: true }],
               })(
-                <Input placeholder="title" onChange={this.onTitleChange}/>
+                <Input placeholder="title" onChange={this.onTitleChange} />
               )}
             </Form.Item>
             <Form.Item
@@ -139,29 +139,15 @@ debugger;
                   { required: true, message: 'Please select sub category!', type: 'string' },
                 ],
               })(
-                <Select mode="default" placeholder="Please select sub category" onSelect = {this.onSubCategorySelect}>
+                <Select mode="default" placeholder="Please select sub category" onSelect={this.onSubCategorySelect}>
                   <Option value="sub1">sub 1</Option>
                   <Option value="sub2">sub 2</Option>
                   <Option value="sub3">sub 3</Option>
                 </Select>
               )}
             </Form.Item>
-            {/* <Form.Item
-              {...formItemLayout}
-              label={(
-                <span>
-                  Upload photo's((
-              </span>
-              )}
-            >
-              {getFieldDecorator('photo', {
-              })(
-                )}
-                
-              </Form.Item> 
-            { <div  {...formItemLayout} >
-              <PicturesWall /> */}
-              {/* <Form.Item {...formItemLayout}
+            <PicturesWall />
+            {/* <Form.Item {...formItemLayout}
                 label={(
                   <span>
                     Time period & pricing
@@ -186,7 +172,7 @@ debugger;
                     message: 'please enter product description',
                   },
                 ],
-              })(<Input.TextArea rows={4} placeholder="please enter product description" onChange={this.onDescripationChange}/>)}
+              })(<Input.TextArea rows={4} placeholder="please enter product description" onChange={this.onDescripationChange} />)}
             </Form.Item>
             <Form.Item
               {...formItemLayout}
@@ -208,7 +194,7 @@ debugger;
               label="Retail price"
             >
               {getFieldDecorator('retailPrice')(
-                <PriceInput/>
+                <PriceInput />
               )}
             </Form.Item>
 

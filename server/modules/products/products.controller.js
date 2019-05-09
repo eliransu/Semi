@@ -6,7 +6,9 @@
 const { httpResponse } = require('../../utils')
 const productService = require('./products.service')
 const userService = require('../users/users.service')
-
+const { upload } = require('../utils/imageUploader');
+const singleUpload = upload.single('image')
+const axios = require('axios')
 
 const getProductsByCategory = async (req, res) => {
   const { category } = req.params
@@ -65,16 +67,24 @@ const deleteProduct = async (req, res) => {
   return res.json(httpResponse(204))
 }
 
-const getProductsByName = async (req, res) => {
-  const { name } = req.params
-  if (!name) {
+const getProductsByNameOrId = async (req, res) => {
+  const { name, id } = req.query
+  if (!name && !id) {
     return res.json(httpResponse(500, 'missing fields', 'getProductsByName'))
   }
-  const productsByName = await productService.getProductsByName(name)
-  if (!productsByName) {
-    return res.json(httpResponse(500, `products by name: ${name} are not found`))
+  let result
+  if (name) {
+    result = await productService.getProductsByName(name)
+    if (!result) {
+      return res.json(httpResponse(500, `products by name: ${name} are not found`))
+    }
+  } else if (id) {
+    result = await productService.getProductById(id)
+    if (!result) {
+      return res.json(httpResponse(500, `products by id: ${id} are not found`))
+    }
   }
-  return res.json(httpResponse(200, productsByName))
+  return res.json(httpResponse(200, result))
 }
 
 const getLatestProducts = async (req, res) => {
@@ -87,11 +97,75 @@ const getLatestProducts = async (req, res) => {
   return res.json(latestProducts)
 }
 
+const addReviewToProduct = async (req, res) => {
+  const { productId, username, stars, content } = req.body
+  if (!productId || !username) {
+    return res.json(httpResponse(400, 'productId && username is required', 'addReviewToProduct'))
+  }
+  const reviewAdded = await productService.addReview(productId, username, stars, content)
+  if (!reviewAdded) {
+    return res.json(httpResponse(500, 'create review failed', 'addReviewToProduct'))
+  }
+  return res.json(httpResponse(201))
+}
+
+const getAllCategories = async (req, res) => {
+  const categories = await productService.getAllCategories()
+  if (!categories) {
+    return res.json(httpResponse(500, 'Server failed to fetch all categories'))
+  }
+
+  return res.json(httpResponse(200, categories))
+}
+
+const uploadImage = async (req, res) => {
+  singleUpload(req, res, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(req.file.location)
+    }
+  })
+}
+
+const scrapProducts = async (req, res) => {
+  const { username, limit, page } = req.query
+  const products = await axios.get(`http://localhost:4200/scrapping?pageNumber=${page}&limit=${limit ? limit : 80}`)
+  products.data.map(async product => {
+    await userService.addProduct(username, {
+      name: product.title, images: product.image,
+      category: product.category,
+      price: product.price, description: product.description,
+      plans: product.plans,
+      quality: product.quality
+    })
+  })
+  return res.json('ok')
+}
+
+const search = async (req, res) => {
+  const { categoryName, productName, minPrice, maxPrice, username, quality } = req.query
+  if (!categoryName && !productName) {
+    return res.json(httpResponse(400, 'category or productName are required'))
+  }
+  const results = await productService.search({ categoryName, productName, minPrice, maxPrice, username, quality })
+  if (!results) {
+    return res.json(httpResponse(500, 'failed to search by these fields', 'search'))
+  }
+
+  return res.json(httpResponse(200, results))
+}
+
 module.exports = {
   getProductsByCategory,
   addProduct,
   updateProduct,
   deleteProduct,
-  getProductsByName,
-  getLatestProducts
+  getProductsByNameOrId,
+  getLatestProducts,
+  addReviewToProduct,
+  getAllCategories,
+  uploadImage,
+  scrapProducts,
+  search
 }

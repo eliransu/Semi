@@ -30,21 +30,14 @@ class Master extends React.Component {
 	};
 
 	componentDidMount() {
-		axios
-			.get('/api/users/products/elikos1')
-			.then((res) => {
-				// when request finished successfully...
-				console.log(res);
-			})
-			.catch((err) => {
-				// when request finished with some errors...
-				console.log(err);
-			});
+		axios.get('/api/users/active-user').then(res => {
+			debugger
+			console.log(res)
+		}).catch(err => {
+			debugger
+			console.log(err)
+		})
 	}
-
-	// categoryById = ({match})=>{
-	// return <Category categoryId={match.params.id}/>
-	// }
 
 	showModal = () => {
 		this.setState({ visble: true });
@@ -64,40 +57,40 @@ class Master extends React.Component {
 	handleMenuClicked = (path) => this.props.history.push(path);
 
 	addProductClicked = () => {
-  this.setState({ registerSuccessModal: false });
-  this.handleMenuClicked('add-product-as-renter');
-  
+		this.setState({ registerSuccessModal: false });
+		this.handleMenuClicked('add-product-as-renter');
+
 	};
 	onLoginSuccess = (user) => {
 		if (user) {
 			this.setState({ user });
 		}
-  };
-  onRegisterSuccess =(user)=>{
-    if(user){
-      this.setState({user,visble:false,registerSuccessModal:true});
-  
-    }
-  }
-  onCancel=()=>{
-    this.setState({visble:false})
-  }
+	};
+	onRegisterSuccess = (user) => {
+		if (user) {
+			this.setState({ user, visble: false, registerSuccessModal: true });
 
-  returnToHomePage=()=>{
-    this.setState({registerSuccessModal:false});
-  }
+		}
+	}
+	onCancel = () => {
+		this.setState({ visble: false })
+	}
+
+	returnToHomePage = () => {
+		this.setState({ registerSuccessModal: false });
+	}
 
 	render() {
 		const { user } = this.state;
 		return (
 			<Layout className="layout">
 				<div className="logo" />
-				<Menu theme="light" mode="horizontal" defaultSelectedKeys={[ '1' ]} style={{ lineHeight: '85px' }}>
+				<Menu theme="light" mode="horizontal" defaultSelectedKeys={['1']} style={{ lineHeight: '85px' }}>
 					<Menu.Item style={{ fontSize: 16 }} key="1" onClick={() => this.handleMenuClicked('')}>
 						<Icon fontSize={16} type="home" />
 						Home
 					</Menu.Item>
-					<Menu.Item style={{fontSize: 16}} key="9" onClick={() => this.handleMenuClicked('productPage')}>
+					<Menu.Item style={{ fontSize: 16 }} key="9" onClick={() => this.handleMenuClicked('productPage')}>
 						<Icon fontSize={16} type="home" />
 						ProductPage
 					</Menu.Item>
@@ -110,7 +103,7 @@ class Master extends React.Component {
 						Become A Renter!
 					</Menu.Item>
 					<Modal onCancel={this.onCancel} title="Become A Renter" visible={this.state.visble} footer={null}>
-						<BecomeArenter onCancelClicked={this.onCancel} returnToHomePage={()=>this.setState({registerSuccessModal:false})} onRegistrationSuccess={this.onRegisterSuccess} />
+						<BecomeArenter onCancelClicked={this.onCancel} returnToHomePage={() => this.setState({ registerSuccessModal: false })} onRegistrationSuccess={this.onRegisterSuccess} />
 					</Modal>
 					<Modal title="Registration Seccussed" visible={this.state.registerSuccessModal} footer={null}>
 						<RegistrationSuccess returnToHomePage={this.returnToHomePage} onAddProductClicked={this.addProductClicked} />
@@ -149,7 +142,7 @@ class Master extends React.Component {
 						<Route exact path="/become-a-renter" component={BecomeArenter} />
 						<Route exact path="/about" component={About} />
 						<Route exact path="/productPage" component={ProductInfo} />
-						<Route  path="/category/:id" history={this.props.history} component={Category}/>
+						<Route path="/category/:id" history={this.props.history} component={Category} />
 
 					</Switch>
 				</Content>
