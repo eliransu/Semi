@@ -1,6 +1,6 @@
 const { Schema } = require("mongoose");
 const mongoose = require('mongoose')
-
+const autoPopulate = require('mongoose-autopopulate')
 const User = new Schema({
   first_name: {
     type: String,
@@ -30,19 +30,25 @@ const User = new Schema({
   products_for_rent: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Product'
+      ref: 'Product',
+      default: []
     }]
   },
-  history_as_provider: {
+  address: {
+    type: Object
+  },
+  orders_as_provider: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Rent'
+      ref: 'Rent',
+      default: []
     }]
   },
-  history_as_consumer: {
+  orders_as_consumer: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Rent'
+      ref: 'Rent',
+      default: []
     }]
   },
   phone_number: {
@@ -52,7 +58,7 @@ const User = new Schema({
     type: String
   }
 })
-
+User.plugin(autoPopulate)
 const user = mongoose.model("User", User)
 
 module.exports = user

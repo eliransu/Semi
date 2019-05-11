@@ -1,16 +1,19 @@
 const { Schema } = require("mongoose");
 const mongoose = require('mongoose')
+const autoPopulate = require('mongoose-autopopulate')
 
 const Rent = new Schema({
   consumer: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
+    autopopulate: true
   },
   provider: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
+    autopopulate: true
   },
   product: {
     type: Schema.Types.ObjectId,
@@ -29,11 +32,18 @@ const Rent = new Schema({
     type: Boolean,
     default: false
   },
-  price: {
-    type: Number,
+  plan: {
+    type: Object,
     required: true
+  },
+  order_status: {
+    type: String,
+    required: true,
+    default: 'not handled'
   }
 })
+
+Rent.plugin(autoPopulate)
 
 const rent = mongoose.model("Rent", Rent)
 
