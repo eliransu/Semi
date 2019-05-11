@@ -71,6 +71,11 @@ class ProductService {
       return [];
     } else return results.data;
   };
+
+  getProductsByUserName = async userName => {
+    const result = await axios.get(`/api/products/${userName}`);
+    console.log({ result });
+  };
 }
 
 const productService = new ProductService();

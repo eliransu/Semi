@@ -1,43 +1,47 @@
-import { Steps, Button, message } from 'antd';
-import React,{Component} from 'react';
-import AddProductGeneral from '../product/AddProductGeneral';
-import AddProductPricing from '../product/AddProductPricing'
+import { Steps, Button, message } from "antd";
+import React, { Component } from "react";
+import AddProductGeneral from "../product/AddProductGeneral";
+import AddProductPricing from "../product/AddProductPricing";
 
 import { observer } from "mobx-react";
-import rootStores from '../../stores';
-import ProductStore from '../../stores/ProductStore';
-import AuthStore from '../../stores/AuthStore';
-import  Product  from '../../models/Product';
+import rootStores from "../../stores";
+import ProductStore from "../../stores/ProductStore";
+import AuthStore from "../../stores/AuthStore";
+import Product from "../../models/Product";
 const Step = Steps.Step;
 
-const steps = [{
-  title: 'General Info',
-}, {
-  title: 'Pricing',
-}];
+const steps = [
+  {
+    title: "General Info"
+  },
+  {
+    title: "Pricing"
+  }
+];
 
-const productStore = rootStores['ProductStore'];
+const productStore = rootStores["ProductStore"];
 const authStore = rootStores[AuthStore];
 
 @observer
- class CustomSteps extends Component {
+class CustomSteps extends Component {
   constructor(props) {
     super(props);
     this.state = {
       current: 0,
-      loading:false
+      loading: false
     };
     this.product = new Product();
   }
 
-  onDoneClicked = ()=>{
-    this.setState({loading:true})
-    productStore.createProduct(this.product,authStore.getCurrentUser.username)
-    .then(res=>{
-      this.setState({loading:false})
-      this.props.onProductAdded(res);
-    })
-  }
+  onDoneClicked = () => {
+    this.setState({ loading: true });
+    productStore
+      .createProduct(this.product, authStore.getCurrentUser.username)
+      .then(res => {
+        this.setState({ loading: false });
+        this.props.onProductAdded(res);
+      });
+  };
 
   next() {
     const current = this.state.current + 1;
@@ -49,57 +53,67 @@ const authStore = rootStores[AuthStore];
     this.setState({ current });
   }
 
-
-
-  onNextClicked = ()=>{
+  onNextClicked = () => {
     this.next();
-  }
+  };
   render() {
     const { current } = this.state;
     return (
       <div>
-        <Steps style={{width:"50%",margin:'auto',paddingBottom:20}} current={current}>
-          {steps.map(item => <Step key={item.title} title={item.title} />)}
+        <Steps
+          style={{ width: "50%", margin: "auto", paddingBottom: 20 }}
+          current={current}
+        >
+          {steps.map(item => (
+            <Step key={item.title} title={item.title} />
+          ))}
         </Steps>
-        {console.log({current})}
-        <div className="steps-content">{current===0?<AddProductGeneral product={this.product}/>:<AddProductPricing product={this.product}/>}</div>
-        <div className="steps-action" style={{display:'flex',width:'40%',margin:'auto'}}>
-          {
-            current < steps.length - 1
-            && (
-              <div style={{flex:1,textAlign:'center'}}>
-              
-              <Button type="primary" style={{width:"40%"}} onClick={this.onNextClicked}>Next</Button>
-              </div>
-            )
-          }
-         
-          {
-            current === steps.length - 1
-            && (
-              <div style={{flex:1}}>
-              
-              <Button type="primary" onClick={this.onDoneClicked}>Done</Button>
-              </div>
-            )
-          }
-          {
-            current > 0
-            && (
-              <div style={{flex:1}}>
-              
-              <Button loading={this.state.loading} style={{ marginLeft: 8 }} onClick={() => this.prev()}>
+        {console.log({ current })}
+        <div className="steps-content">
+          {current === 0 ? (
+            <AddProductGeneral product={this.product} />
+          ) : (
+            <AddProductPricing product={this.product} />
+          )}
+        </div>
+        <div
+          className="steps-action"
+          style={{ display: "flex", width: "40%", margin: "auto" }}
+        >
+          {current < steps.length - 1 && (
+            <div style={{ flex: 1, textAlign: "center" }}>
+              <Button
+                type="primary"
+                style={{ width: "40%" }}
+                onClick={this.onNextClicked}
+              >
+                Next
+              </Button>
+            </div>
+          )}
+
+          {current === steps.length - 1 && (
+            <div style={{ flex: 1 }}>
+              <Button type="primary" onClick={this.onDoneClicked}>
+                Done
+              </Button>
+            </div>
+          )}
+          {current > 0 && (
+            <div style={{ flex: 1 }}>
+              <Button
+                loading={this.state.loading}
+                style={{ marginLeft: 8 }}
+                onClick={() => this.prev()}
+              >
                 Previous
               </Button>
-              </div>
-            
-            )
-          }
-          </div>
+            </div>
+          )}
         </div>
-      
+      </div>
     );
   }
 }
 
-export default CustomSteps
+export default CustomSteps;
