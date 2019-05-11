@@ -44,7 +44,7 @@ class ProductInfo extends Component {
                   src={require(`../../assets/eliran.png`)}
                   style={{ marginRight: 10 }}
                 />
-                <a href="">
+                <a href={`/user/eliranh1`}>
                   {product && product.owner
                     ? `${product.owner.first_name} ${product.owner.last_name}`
                     : ""}

@@ -279,7 +279,7 @@ class Master extends React.Component {
         <Content style={{ padding: "0 50px", backgroundColor: "#fcfcfc" }}>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/user/:userid" component={UserProfile} />
+            <Route exact path="/user/:userName" component={UserProfile} />
             <Route exact path="/products" component={Product} />
             <Route exact path="/products" component={FavoriteProductsCard} />
             <Route

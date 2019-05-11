@@ -11,10 +11,6 @@ export class Product extends Component {
     this.props.history.replace(`/productPage/${this.props.product._id}`);
   };
 
-  onShowMoreClick = isExpanded => {
-    console.log(isExpanded);
-  };
-
   render() {
     const product = this.props.product;
 
@@ -28,7 +24,7 @@ export class Product extends Component {
               onClick={this.onProductClicked}
               alt={product.name}
               src={
-                product.images[0]
+                product && product.images && product.images[0]
                   ? product.images[0]
                   : require(`../../assets/drill.jpg`)
               }
