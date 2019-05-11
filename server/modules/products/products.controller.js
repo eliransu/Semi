@@ -79,9 +79,10 @@ const getProductsByNameOrId = async (req, res) => {
       return res.json(httpResponse(500, `products by name: ${name} are not found`))
     }
   } else if (id) {
-    result = await productService.getProductById(id)
+    const arrayBecauseOfReduceElements = await productService.getProductById(id)
+    result = arrayBecauseOfReduceElements[0]
     if (!result) {
-      return res.json(httpResponse(500, `products by id: ${id} are not found`))
+      return res.json(httpResponse(500, `product by id: ${id} is not found`))
     }
   }
   return res.json(httpResponse(200, result))
