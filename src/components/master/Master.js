@@ -21,10 +21,15 @@ import Category from '../category/Category';
 import RegistrationSuccess from '../becomeArenter/RegistrationSeccuss';
 import Popup from 'reactjs-popup'
 import NotificationCenter from "../notification/notificationCenter";
+import OrderStore from '../../stores/OrderStore'
+import {observer} from 'mobx-react';
 
 
 const { Header, Content, Footer } = Layout;
 const productStore = rootStores['ProductStore'];
+const orderStore = rootStores[OrderStore];
+
+@observer
 class Master extends React.Component {
 	state = {
 		visble: false,
@@ -37,7 +42,6 @@ class Master extends React.Component {
 		super(props)
 		this.openModal = this.openModal.bind(this)
 		this.closeModal = this.closeModal.bind(this)
-
 	}
 	componentDidMount() {
 		axios
@@ -86,12 +90,13 @@ class Master extends React.Component {
 	onLoginSuccess = (user) => {
 		if (user) {
 			this.setState({ user });
+			orderStore.loadAllOrders()	
 		}
   };
   onRegisterSuccess =(user)=>{
     if(user){
       this.setState({user,visble:false,registerSuccessModal:true});
-  
+
     }
   }
   onCancel=()=>{
@@ -159,7 +164,7 @@ class Master extends React.Component {
 									borderRadius: "20px", position: "absolute", zindex: "2", width: "24px", background: "rgb(255, 255, 255)", border: "1px solid rgb(187, 187, 187)", boxShadow: "rgba(0, 0, 0, 0.2) 0px 1px 3px", padding: "5px", top: "10px !important", left: "-8px !important", height: "30px"}}
 							>
 								<div onClick={this.openModal} style={{position: "absolute" ,top: "-29px",left: "7px", fontWeight: "bold", color: "#ff8080"}}>
-									 2 
+								{orderStore.getallOrdersNotHendeledAsProvider.length}
 								</div>
 							</Popup>
 							<Popup

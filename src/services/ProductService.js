@@ -1,6 +1,15 @@
  import axios from 'axios';
  class ProductService {
 
+    getProductById = async (productId)=>{
+
+    const product = await axios.get(`/api/products/?id=${productId}`);
+    if (!product || !product.data || !product.data.data) return "";
+    else{
+     return product.data.data;
+    }
+    }
+
 
      addProductToUser = (username, product)=> {
         console.log(`add new product to the user ${username}`, product);

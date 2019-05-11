@@ -120,7 +120,14 @@ export default class ProductStore{
         this.currentProduct = product
     }
 
-
+    @action
+    getProductById = async (productId) => {
+        const result  = await productService.getProductById(productId)
+           this.setCurrentProduct(result)
+           if(this.getCurrentProduct[0]){
+               return true;
+           }else return false;
+    }
 
 
     @action
