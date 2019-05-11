@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import { Card, Icon, Avatar,Rate } from 'antd';
-import Snownoard from '../../assets/snowboard.jpg';
+import React, { Component } from "react";
+import { Card, Icon, Avatar, Rate } from "antd";
+import Snownoard from "../../assets/snowboard.jpg";
+import ShowMoreText from "react-show-more-text";
 
 
 const { Meta } = Card;
@@ -8,6 +9,14 @@ export class Product extends Component {
   
   state = {
   }
+
+  onProductClicked = () => {
+    this.props.history.replace(`/productPage/${this.props.product._id}`);
+  };
+
+  onShowMoreClick = isExpanded => {
+    console.log(isExpanded);
+  };
 
   render() {
 
@@ -17,10 +26,10 @@ export class Product extends Component {
       <div style={{height:425}}>
       {this.state.visible && <div>eliran</div> }
         <Card
-          onClick={this.onProductClicked}
           style={{ width: 300 }}
           cover={
             <img
+              onClick={this.onProductClicked}
               alt={product.name}
               src={
                 product.images[0]
@@ -39,7 +48,16 @@ export class Product extends Component {
           <Meta
             avatar={<Avatar src={require("../../assets/eliran.png")} />}
             title={product.name}
-            description={product.description}
+            description={
+              <ShowMoreText
+                lines={3}
+                more="Show more"
+                less="Show less"
+                onClick={this.onShowMoreClick}
+              >
+                {product.description}
+              </ShowMoreText>
+            }
           />
         </Card>
       </div>
