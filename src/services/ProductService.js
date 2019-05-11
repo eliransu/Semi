@@ -36,18 +36,18 @@ class ProductService {
         }
         console.log('body', body);
 
-        return axios.post('/api/users/product', { ...body })
-            .then(response => {
-                console.log('Adding Product:' , response);
-                if(response&&response.data.status===201){
-                    return true;
-                }else{
-                    return response.data;
-                }
-            }).catch(err=>{
-                console.error('Failed to add product', err);
-                throw err;
-            })
+  getProductById = async productId => {
+    try {
+      const product = await axios.get(`/api/products?id=${productId}`);
+      if (!product || !product.data || !product.data.data) {
+        return false;
+      } else {
+        console.log("product", product.data.data);
+
+        return product.data.data[0];
+      }
+    } catch (err) {
+      console.log("the request getProduct By Id faild.", err);
     }
   };
 
