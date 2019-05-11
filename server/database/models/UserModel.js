@@ -35,7 +35,7 @@ const User = new Schema({
     }]
   },
   address: {
-    type: String
+    type: Object
   },
   orders_as_provider: {
     type: [{
