@@ -96,7 +96,7 @@ class Home extends React.Component {
             </Col>
           </Card>
         </div>
-        <LatestProducts />
+        <LatestProducts history={this.props.history} />
       </React.Fragment>
     );
   }

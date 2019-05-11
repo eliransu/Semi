@@ -143,7 +143,6 @@ export default class ProductStore {
     const product = await productService.getProductById(productId);
     if (product) {
       console.log("prodcuctStore", product);
-      debugger;
       this.setCurrentProduct(product);
       return true;
     } else {
@@ -163,7 +162,6 @@ export default class ProductStore {
   setCurrentProduct(product) {
     this.currentProduct = product;
     console.log(toJS(this.currentProduct));
-    debugger;
   }
 
   @computed
@@ -184,7 +182,11 @@ export default class ProductStore {
   @computed
   get getAvarageScore() {
     let sum = 0;
-    if (!this.currentProduct || !this.currentProduct.reviews.lenght > 0) {
+    if (
+      !this.currentProduct ||
+      !this.currentProduct.review ||
+      !this.currentProduct.reviews.lenght > 0
+    ) {
       return sum;
     }
 

@@ -16,7 +16,7 @@ class LatestProducts extends Component {
     const latestProducts = productStore.getLatestProducts;
     return latestProducts.map((product, index) => (
       <Col span={8} style={{ marginBottom: "3%" }}>
-        <Product product={product} key={index} />
+        <Product history={this.props.history} product={product} key={index} />
       </Col>
     ));
   };

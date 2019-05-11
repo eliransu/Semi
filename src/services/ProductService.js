@@ -41,8 +41,8 @@ class ProductService {
         return false;
       } else {
         console.log("product", product.data.data);
-        debugger;
-        return product.data.data;
+
+        return product.data.data[0];
       }
     } catch (err) {
       console.log("the request getProduct By Id faild.", err);

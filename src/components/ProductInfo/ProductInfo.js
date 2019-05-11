@@ -15,7 +15,6 @@ const productStore = rootStores["ProductStore"];
 class ProductInfo extends Component {
   componentDidMount() {
     productStore.getProductById(this.props.match.params.id).then(res => {
-      debugger;
       if (!res) {
         this.setState({ emptyState: true });
       }
@@ -27,11 +26,12 @@ class ProductInfo extends Component {
   };
 
   renderProduct = () => {
-    const product = productStore.currentProduct;
+    const product = productStore.getCurrentProduct;
     const avgStarsRate = productStore.getAvarageScore;
     const plans = product && product.plans ? product.plans : [];
     const orders = product && product.orders ? product.orders : [];
     const reviews = product && product.reviews ? product.reviews : [];
+    console.log({ product });
     return (
       <React.Fragment>
         <div>
@@ -45,7 +45,9 @@ class ProductInfo extends Component {
                   style={{ marginRight: 10 }}
                 />
                 <a href="">
-                  {product && product.owner ? product.owner.name : ""}
+                  {product && product.owner
+                    ? `${product.owner.first_name} ${product.owner.last_name}`
+                    : ""}
                 </a>
               </div>
               <div style={{ textAlign: "center" }}>
@@ -91,10 +93,12 @@ class ProductInfo extends Component {
                 </p>
                 <p>
                   Sub-Category:{" "}
-                  {product && product.subCategory ? product.subCategory : ""}
+                  {product && product.subCategory
+                    ? product.subCategory
+                    : "NONE"}
                 </p>
                 <p>
-                  Description:{" "}
+                  Description:{""}
                   {product && product.description ? product.description : ""}
                 </p>
                 <p>
