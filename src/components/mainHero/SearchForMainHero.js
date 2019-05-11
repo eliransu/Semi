@@ -157,4 +157,4 @@ class SearchMain extends React.Component {
   }
 }
 
-export default SearchMain
+export default SearchMain;

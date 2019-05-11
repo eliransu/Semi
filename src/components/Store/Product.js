@@ -3,24 +3,20 @@ import { Card, Icon, Avatar, Rate } from "antd";
 import Snownoard from "../../assets/snowboard.jpg";
 import ShowMoreText from "react-show-more-text";
 
-
 const { Meta } = Card;
 export class Product extends Component {
-  
-  state = {
-  }
+  state = {};
 
   onProductClicked = () => {
     this.props.history.replace(`/productPage/${this.props.product._id}`);
   };
 
   render() {
-
     const product = this.props.product;
- 
+
     return (
-      <div style={{height:425}}>
-      {this.state.visible && <div>eliran</div> }
+      <div style={{ height: 425 }}>
+        {this.state.visible && <div>eliran</div>}
         <Card
           style={{ width: 300 }}
           cover={
@@ -57,8 +53,8 @@ export class Product extends Component {
           />
         </Card>
       </div>
-    )
+    );
   }
 }
 
-export default Product
+export default Product;

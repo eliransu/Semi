@@ -1,14 +1,20 @@
-import { action, computed, observable, toJS } from 'mobx';
-import ProductService from '../services/ProductService';
-import Product from '../models/Product';
-import productService from '../services/ProductService';
-import AuthStore from './AuthStore';
-import rootStores from './index';
-import moment from 'moment';
+import { action, computed, observable, toJS } from "mobx";
+import ProductService from "../services/ProductService";
+import Product from "../models/Product";
+import productService from "../services/ProductService";
+import AuthStore from "./AuthStore";
+import rootStores from "./index";
+import moment from "moment";
 
+export default class ProductStore {
+  @observable
+  currentProduct;
 
-export default class ProductStore{
+  @observable
+  periods = [];
 
+  @observable
+  allProducts = observable([]);
 
   @observable
   latestProducts = [];
@@ -112,8 +118,13 @@ export default class ProductStore{
   //     };
   //   }
 
-    @observable
-    periods = [];
+  @action
+  addPeriod = period => {
+    this.periods.push(period);
+  };
+  @action
+  newProduct = () => {
+    const product = new Product();
 
     this.currentProduct = product;
   };
@@ -137,6 +148,11 @@ export default class ProductStore{
     } else {
       return false;
     }
+  };
+  @computed
+  get getCurrentProduct() {
+    return toJS(this.currentProduct) || {};
+  }
 
   @action
   onProductSearch = sarchParams => {
@@ -158,10 +174,10 @@ export default class ProductStore{
     return toJS(this.periods) || [];
   }
 
-    @action
-    setCurrentProduct(product){
-        this.currentProduct = product
-    }
+  @action
+  createProduct = (product, userName) => {
+    return ProductService.addProductToUser(userName, product, this.getPeriods);
+  };
 
   @computed
   get getAvarageScore() {
@@ -172,30 +188,30 @@ export default class ProductStore{
       !this.currentProduct.reviews.lenght > 0
     ) {
       return sum;
-    }
-
-
-
     @action
     createProduct = (product,userName)=>{
 
         return ProductService.addProductToUser(userName,product,this.getPeriods)
     }
-    //TODO: service that load all the products 
-    // @action
-    // loadAllProducts(){
 
-    //     return ProductService.getAllProducts()
-    //     .then(products =>{
-    //         this.allProducts.replace(products)
-    //     })
-    //     .catch(err =>{
-    //         if(this.currentProduct){
-    //             console.log(`Error while loading products. currentProductID: ${this.currentProduct._id}`,err);
-    //         }
-    //         return false;
-    //     })
-    // }
-    
+    this.currentProduct.reviews.forEach(review => {
+      sum += review.stars;
+    });
+    return sum / this.currentProduct.review.lenght;
+  }
+  //TODO: service that load all the products
+  // @action
+  // loadAllProducts(){
 
+  //     return ProductService.getAllProducts()
+  //     .then(products =>{
+  //         this.allProducts.replace(products)
+  //     })
+  //     .catch(err =>{
+  //         if(this.currentProduct){
+  //             console.log(`Error while loading products. currentProductID: ${this.currentProduct._id}`,err);
+  //         }
+  //         return false;
+  //     })
+  // }
 }
