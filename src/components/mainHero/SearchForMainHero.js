@@ -13,7 +13,7 @@ const productStore = rootStores["ProductStore"];
 class SearchMain extends React.Component {
   constructor(props) {
     super(props);
-    const deboundOnSlide = _.debounce(this.onSliderChanged, 60000);
+    this.onSliderChanged = _.debounce(this.onSliderChanged, 60000);
   }
   state = {
     productName: "",
