@@ -19,6 +19,7 @@ import Login from '../Login/Login';
 import Product from '../product/Product';
 import Category from '../category/Category';
 import RegistrationSuccess from '../becomeArenter/RegistrationSeccuss';
+import PaymentPage from '../paymentPage/PaymentPage';
 
 const { Header, Content, Footer } = Layout;
 const productStore = rootStores['ProductStore'];
@@ -64,28 +65,26 @@ class Master extends React.Component {
 	handleMenuClicked = (path) => this.props.history.push(path);
 
 	addProductClicked = () => {
-  this.setState({ registerSuccessModal: false });
-  this.handleMenuClicked('add-product-as-renter');
-  
+		this.setState({ registerSuccessModal: false });
+		this.handleMenuClicked('add-product-as-renter');
 	};
 	onLoginSuccess = (user) => {
 		if (user) {
 			this.setState({ user });
 		}
-  };
-  onRegisterSuccess =(user)=>{
-    if(user){
-      this.setState({user,visble:false,registerSuccessModal:true});
-  
-    }
-  }
-  onCancel=()=>{
-    this.setState({visble:false})
-  }
+	};
+	onRegisterSuccess = (user) => {
+		if (user) {
+			this.setState({ user, visble: false, registerSuccessModal: true });
+		}
+	};
+	onCancel = () => {
+		this.setState({ visble: false });
+	};
 
-  returnToHomePage=()=>{
-    this.setState({registerSuccessModal:false});
-  }
+	returnToHomePage = () => {
+		this.setState({ registerSuccessModal: false });
+	};
 
 	render() {
 		const { user } = this.state;
@@ -97,7 +96,7 @@ class Master extends React.Component {
 						<Icon fontSize={16} type="home" />
 						Home
 					</Menu.Item>
-					<Menu.Item style={{fontSize: 16}} key="9" onClick={() => this.handleMenuClicked('productPage')}>
+					<Menu.Item style={{ fontSize: 16 }} key="9" onClick={() => this.handleMenuClicked('productPage')}>
 						<Icon fontSize={16} type="home" />
 						ProductPage
 					</Menu.Item>
@@ -110,10 +109,17 @@ class Master extends React.Component {
 						Become A Renter!
 					</Menu.Item>
 					<Modal onCancel={this.onCancel} title="Become A Renter" visible={this.state.visble} footer={null}>
-						<BecomeArenter onCancelClicked={this.onCancel} returnToHomePage={()=>this.setState({registerSuccessModal:false})} onRegistrationSuccess={this.onRegisterSuccess} />
+						<BecomeArenter
+							onCancelClicked={this.onCancel}
+							returnToHomePage={() => this.setState({ registerSuccessModal: false })}
+							onRegistrationSuccess={this.onRegisterSuccess}
+						/>
 					</Modal>
 					<Modal title="Registration Seccussed" visible={this.state.registerSuccessModal} footer={null}>
-						<RegistrationSuccess returnToHomePage={this.returnToHomePage} onAddProductClicked={this.addProductClicked} />
+						<RegistrationSuccess
+							returnToHomePage={this.returnToHomePage}
+							onAddProductClicked={this.addProductClicked}
+						/>
 					</Modal>
 					<Menu.Item
 						style={{ fontSize: 16 }}
@@ -149,8 +155,8 @@ class Master extends React.Component {
 						<Route exact path="/become-a-renter" component={BecomeArenter} />
 						<Route exact path="/about" component={About} />
 						<Route exact path="/productPage" component={ProductInfo} />
-						<Route  path="/category/:id" history={this.props.history} component={Category}/>
-
+						<Route path="/category/:id" history={this.props.history} component={Category} />
+						<Route exact path="/paymentPage" component={PaymentPage} />
 					</Switch>
 				</Content>
 				<Footer style={{ textAlign: 'center' }}>Semi Designers ©2019 Created by Semi LTD.</Footer>
