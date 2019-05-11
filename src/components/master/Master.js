@@ -23,6 +23,7 @@ import { observer } from "mobx-react";
 import AuthStore from "../../stores/AuthStore";
 import Popup from "reactjs-popup";
 import NotificationCenter from "../notification/notificationCenter";
+import PaymentPage from "../paymentPage/PaymentPage";
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
 
@@ -295,6 +296,7 @@ class Master extends React.Component {
               history={this.props.history}
               component={Category}
             />
+            <Route exact path="/paymentPage" component={PaymentPage} />
           </Switch>
         </Content>
         <Footer style={{ textAlign: "center" }}>

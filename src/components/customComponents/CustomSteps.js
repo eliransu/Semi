@@ -19,7 +19,7 @@ const steps = [
   }
 ];
 
-const productStore = rootStores["ProductStore"];
+const productStore = rootStores[ProductStore];
 const authStore = rootStores[AuthStore];
 
 @observer

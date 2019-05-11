@@ -8,8 +8,9 @@ import { contentRenderer } from "../utils/genericComponents";
 import { observer } from "mobx-react";
 import ReviewsList from "./ReviewsList";
 import { ProductCalendar } from "./ProductCalendar";
+import ProductStore from "../../stores/ProductStore";
 
-const productStore = rootStores["ProductStore"];
+const productStore = rootStores[ProductStore];
 
 @observer
 class ProductInfo extends Component {

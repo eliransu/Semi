@@ -8,7 +8,7 @@ import { observer } from "mobx-react";
 const Search = Input;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
-const productStore = rootStores["ProductStore"];
+const productStore = rootStores[ProductStore];
 @observer
 class SearchMain extends React.Component {
   constructor(props) {

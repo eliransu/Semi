@@ -26,7 +26,7 @@ import CustomSteps from "../customComponents/CustomSteps";
 const { Content } = Layout;
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
-const productStore = rootStores["ProductStore"];
+const productStore = rootStores[ProductStore];
 const authStore = rootStores[AuthStore];
 @observer
 class AddProductPricing extends Component {

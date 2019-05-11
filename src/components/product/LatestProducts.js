@@ -6,11 +6,11 @@ import { observer } from "mobx-react";
 import { Col } from "antd";
 import Product from "../Store/Product";
 
-const productStore = rootStores["ProductStore"];
+const productStore = rootStores[ProductStore];
 @observer
 class LatestProducts extends Component {
   componentDidMount() {
-    productStore.getLatestProduct(10);
+    productStore.getLatestProduct();
   }
   renderAllProducts = () => {
     const latestProducts = productStore.getLatestProducts;

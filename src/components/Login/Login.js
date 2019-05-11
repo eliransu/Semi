@@ -25,20 +25,6 @@ class HorizontalLoginForm extends React.Component {
         if (res) {
           this.props.onLoginSuccess(authStore.getCurrentUser);
         }
-
-        // const body = {
-        //   email:values.userName,
-        //   password:values.password
-        // }
-
-        // axios.post('api/auth/login',body)
-        // .then(res=>{
-        //   console.log(res.data.data)
-        //   if(res&&res.data&&res.data.data){
-        //     this.props.onLoginSuccess(res.data.data);
-
-        //   }
-        // })
       }
     });
   };

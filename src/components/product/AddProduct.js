@@ -28,7 +28,7 @@ import AddProductSuccessModal from "./AddProductSuccessModal";
 const { Content } = Layout;
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
-const productStore = rootStores["ProductStore"];
+const productStore = rootStores[ProductStore];
 const authStore = rootStores[AuthStore];
 
 @observer

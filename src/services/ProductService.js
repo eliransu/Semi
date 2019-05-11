@@ -42,7 +42,7 @@ class ProductService {
       } else {
         console.log("product", product.data.data);
 
-        return product.data.data[0];
+        return product.data.data;
       }
     } catch (err) {
       console.log("the request getProduct By Id faild.", err);
@@ -63,7 +63,7 @@ class ProductService {
   };
 
   getLatestProduct = async limit => {
-    const latest = limit ? limit : 10;
+    const latest = limit ? limit : 12;
     const results = await axios.get(`/api/products/latest/${latest}`);
     if (!results || !results.data) {
       return [];
@@ -71,8 +71,18 @@ class ProductService {
   };
 
   getProductsByUserName = async userName => {
-    const result = await axios.get(`/api/products/${userName}`);
-    console.log({ result });
+    console.log("im in service!!!");
+    try {
+      const result = await axios.get(`/api/users/products/${userName}`);
+      if (!result || !result.data || !result.data.data) {
+        throw new Error(
+          'some problems with fetching data from server "getProductByUserName" '
+        );
+      }
+      return result.data.data;
+    } catch (err) {
+      console.log(err);
+    }
   };
 }
 
