@@ -1,31 +1,30 @@
+import { Icon, Layout, Menu, Modal } from "antd";
+import { observer } from "mobx-react";
 import React from "react";
-import { Layout, Menu, Icon, Modal } from "antd";
 import { withRouter } from "react-router";
 import { Route, Switch } from "react-router-dom";
-import Home from "./Home";
-import Carousel from "../mainHero/Carousel";
+import Popup from "reactjs-popup";
+import rootStores from "../../stores";
+import AuthStore from "../../stores/AuthStore";
+import Login from "../Login/Login";
+import ProductInfo from "../ProductInfo/ProductInfo";
 import UserProfile from "../Store/Store";
 import About from "../about/About";
-import ProductInfo from "../ProductInfo/ProductInfo";
-import FavoriteProductsCard from "../product/FavoriteProductsCard";
-import AddProductCard from "../product/AddProductCard";
-import rootStores from "../../stores";
 import BecomeArenter from "../becomeArenter/BecomeArenter";
-import agudaImage from "../../assets/aguda.jpg";
-import colmanImage from "../../assets/colman.jpg";
-import BecomeARenter from "../becomeArenter/BecomeArenter";
-import axios from "axios";
-import Login from "../Login/Login";
-import Product from "../product/Product";
-import Category from "../category/Category";
 import RegistrationSuccess from "../becomeArenter/RegistrationSeccuss";
-import { observer } from "mobx-react";
-import AuthStore from "../../stores/AuthStore";
-import Popup from "reactjs-popup";
+import Category from "../category/Category";
 import NotificationCenter from "../notification/notificationCenter";
 import PaymentPage from "../paymentPage/PaymentPage";
+import AddProductCard from "../product/AddProductCard";
+import FavoriteProductsCard from "../product/FavoriteProductsCard";
+import Product from "../product/Product";
+import Home from "./Home";
+import CategoryStore from "../../stores/CategoryStore";
+import SearchComponent from "../search/SearchComponenet";
+
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
+const categoryStore = rootStores[CategoryStore];
 
 @observer
 class Master extends React.Component {
@@ -41,6 +40,7 @@ class Master extends React.Component {
       const loggedIn = authStore.tryLogin();
       if (!loggedIn) {
         this.handleMenuClicked("");
+        categoryStore.init();
       }
     } catch (err) {
       console.error(err);
@@ -296,7 +296,8 @@ class Master extends React.Component {
               history={this.props.history}
               component={Category}
             />
-            <Route exact path="/paymentPage" component={PaymentPage} />
+            <Route exact path="/search" component={SearchComponent} />
+            <Route path="/paymentPage" component={PaymentPage} />
           </Switch>
         </Content>
         <Footer style={{ textAlign: "center" }}>

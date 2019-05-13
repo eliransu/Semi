@@ -4,11 +4,13 @@ import * as _ from "lodash";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
+import CategoryStore from "../../stores/CategoryStore";
 
 const Search = Input;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
 const productStore = rootStores[ProductStore];
+const categoryStore = rootStores[CategoryStore];
 @observer
 class SearchMain extends React.Component {
   constructor(props) {
@@ -31,8 +33,19 @@ class SearchMain extends React.Component {
   };
 
   onSearchClicked = () => {
+    const {
+      productName,
+      categoryName,
+      maxPrice,
+      minPrice,
+      quality,
+      userName
+    } = this.state;
     console.log("here");
-    productStore.onProductSearch(this.state);
+    // productStore.onProductSearch(this.state);
+    this.props.history.replace(
+      `/search?category=${categoryName}&product=${productName}&userName=${userName}&quality=${quality}&min=${minPrice}&max=${maxPrice}`
+    );
   };
 
   onProductSearchChanged = e => {
@@ -53,6 +66,14 @@ class SearchMain extends React.Component {
     this.setState({ quality });
   };
 
+  renderOptions = () => {
+    return categoryStore.getAllCategories.map((category, index) => (
+      <Option size="large" value={`${category}`} key={index}>
+        {category}
+      </Option>
+    ));
+  };
+
   render() {
     const { disabled } = this.state;
     return (
@@ -64,24 +85,7 @@ class SearchMain extends React.Component {
             style={{ width: 120, marginRight: 10, height: 38 }}
             onSelect={this.onCategorySelected}
           >
-            <Option size="large" value="tools">
-              Tools
-            </Option>
-            <Option size="large" value="electronics">
-              Electronics
-            </Option>
-            <Option size="large" value="home&garden">
-              Home&Garden
-            </Option>
-            <Option size="large" value="sport">
-              Sport
-            </Option>
-            <Option size="large" value="clothes">
-              Clothes
-            </Option>
-            <Option size="large" value="games">
-              Games
-            </Option>
+            {this.renderOptions()}
           </Select>
           <Search
             style={{ width: 300 }}

@@ -12,14 +12,19 @@ import { titleRenderer, contentRenderer } from "../utils/genericComponents";
 import rootStores from "../../stores";
 import CategoryStore from "../../stores/CategoryStore";
 import LatestProducts from "../product/LatestProducts";
+import { observer } from "mobx-react";
 
 const categoryStore = rootStores[CategoryStore];
-
+@observer
 class Home extends React.Component {
+  componentDidMount() {
+    categoryStore.getCategories();
+  }
   render() {
+    const categories = categoryStore.getAllCategories;
     return (
       <React.Fragment>
-        <MainHero history={this.props.history} />
+        <MainHero categories={categories} history={this.props.history} />
 
         <div
           style={{
