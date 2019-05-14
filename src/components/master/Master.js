@@ -113,26 +113,6 @@ class Master extends React.Component {
             <Icon fontSize={16} type="home" />
             Home
           </Menu.Item>
-          <Menu.Item
-            style={{ fontSize: 16 }}
-            key="9"
-            onClick={() => this.handleMenuClicked("productPage")}
-          >
-            <Icon fontSize={16} type="home" />
-            ProductPage
-          </Menu.Item>
-          <Menu.Item
-            style={{ fontSize: 16 }}
-            key="2"
-            onClick={() => this.handleMenuClicked("products")}
-          >
-            <Icon
-              fontSize={16}
-              style={{ marginLeft: 4 }}
-              type="shopping-cart"
-            />
-            Products
-          </Menu.Item>
           <Menu.Item style={{ fontSize: 16 }} key="3" onClick={this.showModal}>
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
             Become A Renter!

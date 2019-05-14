@@ -41,11 +41,29 @@ class SearchMain extends React.Component {
       quality,
       userName
     } = this.state;
-    console.log("here");
-    // productStore.onProductSearch(this.state);
-    this.props.history.replace(
-      `/search?category=${categoryName}&product=${productName}&userName=${userName}&quality=${quality}&min=${minPrice}&max=${maxPrice}`
-    );
+    let query = `/search?`;
+    if (categoryName.length > 0) {
+      const escapedCategoryName = categoryName.replace("&", "%26");
+      query += `categoryName=${escapedCategoryName}`;
+    }
+    if (productName.length > 0) {
+      query += `&&productName=${productName}`;
+    }
+    if (userName.length > 0) {
+      query += `&&userName=${userName}`;
+    }
+    if (quality.length > 0) {
+      query += `&&quality=${quality}`;
+    }
+    if (minPrice !== 0) {
+      query += `&&minPrice=${minPrice}`;
+    }
+    if (maxPrice !== 100000) {
+      query += `&&maxPrice=${maxPrice}`;
+    }
+    // `/search?category=${categoryName}&product=${productName}&userName=${userName}&quality=${quality}&min=${minPrice}&max=${maxPrice}`
+    console.log({ query });
+    this.props.history.replace(query);
   };
 
   onProductSearchChanged = e => {

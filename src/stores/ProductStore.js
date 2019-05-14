@@ -19,6 +19,9 @@ export default class ProductStore {
   @observable
   latestProducts = [];
 
+  @observable
+  searchResult = observable([]);
+
   @action
   addPeriod = period => {
     this.periods.push(period);
@@ -37,6 +40,11 @@ export default class ProductStore {
   getLatestProduct = async limit => {
     const latestProducts = await productService.getLatestProduct(limit);
     this.setLatestProducts(latestProducts);
+  };
+
+  @action
+  setSearchResult = results => {
+    this.searchResult.replace(results);
   };
 
   @action
@@ -67,8 +75,9 @@ export default class ProductStore {
   };
 
   @action
-  onProductSearch = sarchParams => {
-    productService.onProductSearch(sarchParams);
+  onProductSearch = async sarchParams => {
+    const results = await productService.onProductSearch(sarchParams);
+    this.setSearchResult(results);
   };
   @action
   setCurrentProduct(product) {
@@ -83,6 +92,11 @@ export default class ProductStore {
   @computed
   get getCurrentProduct() {
     return toJS(this.currentProduct) || {};
+  }
+
+  @computed
+  get getSearchResult() {
+    return toJS(this.searchResult) || [];
   }
   @computed
   get getLatestProducts() {

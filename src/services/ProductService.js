@@ -50,16 +50,17 @@ class ProductService {
   };
 
   onProductSearch = async searchParams => {
-    const seacrhItems = await axios.get(
-      `/api/products/search?categoryName=${
-        searchParams.categoryName
-      }&&productName=${searchParams.productName}&&minPrice=${
-        searchParams.minPrice
-      }&&maxPrice=${searchParams.maxPrice}&&userName=${
-        searchParams.userName
-      }&&quality=${searchParams.quality}`
-    );
-    console.log({ seacrhItems });
+    let url = `/api/products/search${searchParams}`;
+    console.log({ url });
+
+    try {
+      const seacrhItems = await axios.get(url);
+      console.log({ seacrhItems });
+      if (!seacrhItems) return [];
+      else return seacrhItems.data.data;
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   getLatestProduct = async limit => {
