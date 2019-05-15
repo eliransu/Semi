@@ -65,12 +65,10 @@ export class ProductCalendar extends Component {
                 orderDaysOfYear.push({day: i, consumerName: order.consumer.name, consumerAvatar: order.consumer.avatar });
             }
         })
-        console.log("orderDaysOfYear", orderDaysOfYear);
         this.state = {
             orderDaysOfYear: orderDaysOfYear
         }
     }
-      // <Avatar src={require(`../../assets/${item.consumerAvatar}`)} />
 
     convertBorrowDateToListData = (value) =>{
         

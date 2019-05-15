@@ -53,6 +53,10 @@ export default class OrderStore {
         return order;
     }
 
+    @action
+    changeOrderStatus(order, accept){
+        OrderService.changeOrderStatus(order.provider.username,order._id,accept);
+    }
 
     @computed
     get currentOrder(){
