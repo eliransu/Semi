@@ -1,53 +1,64 @@
-import React from 'react'
-import { Tabs, Radio, Icon, Col, Row } from 'antd';
-import './MainHero.css'
-import SearchMain from './SearchForMainHero'
-import { withRouter, matchPath } from 'react-router'
-import rootStores from '../../stores';
-import CategoryStore from '../../stores/CategoryStore';
+import React from "react";
+import { Tabs, Radio, Icon, Col, Row } from "antd";
+import "./MainHero.css";
+import SearchMain from "./SearchForMainHero";
+import { withRouter, matchPath } from "react-router";
+import rootStores from "../../stores";
+import CategoryStore from "../../stores/CategoryStore";
 const TabPane = Tabs.TabPane;
 
-const renderTab = (type, title) => <div><Icon type={type}></Icon>{title}</div>
+const renderTab = (type, title) => (
+  <div>
+    <Icon type={type} />
+    {title}
+  </div>
+);
 
 const categoryStore = rootStores[CategoryStore];
 
 class Carousel extends React.Component {
   state = {
-    mode: 'top',
+    mode: "top"
   };
 
-  onTabClicked =(category)=>{  
+  renderAllTabs = () => {
+    const categories = this.props.categories;
+    return categories.map((category, index) => (
+      <TabPane
+        tab={renderTab(`${category}`, `${category}`)}
+        key={`${category}`}
+      />
+    ));
+  };
 
-this.props.history.push(`/category/${category}`)
-  }
+  onTabClicked = category => {
+    console.log({ category });
+    this.props.history.push(`/category/${category}`);
+  };
 
   render() {
     const { mode } = this.state;
     return (
       <div style={{ alignContent: "center" }}>
         <Row>
-          <Tabs className="Tab"
+          <Tabs
+            className="Tab"
             defaultActiveKey="10"
             tabPosition={mode}
             size="large"
             type="line"
             tabPosition="top"
-  
             onTabClick={this.onTabClicked}
           >
-            <TabPane tab={renderTab('tool', 'Tools')} key="tools" />
-            <TabPane tab={renderTab('thunderbolt', 'Electronics')} key="electronics" />
-            <TabPane tab={renderTab('home', 'Home & Garden')} key="home&garden"  />
-            <TabPane tab={renderTab('rocket', 'Games')} key="games"  />
-            <TabPane tab={renderTab('skin', 'Clothes')} key="clothes" />
+            {this.renderAllTabs()}
           </Tabs>
         </Row>
-        <Row style={{ margin: 20 }} type="flex" justify="center" >
-          <SearchMain />
+        <Row style={{ margin: 20 }} type="flex" justify="center">
+          <SearchMain history={this.props.history} />
         </Row>
       </div>
     );
   }
 }
 
-export default Carousel
+export default Carousel;

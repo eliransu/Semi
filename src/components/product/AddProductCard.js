@@ -9,7 +9,7 @@ class AddProductCard extends React.Component {
     return (
       <div style={{ background: '#F0F0F0', padding: '30px' }}>
         <Card title=" Add new product" bordered={false}>
-          <AddProduct/>
+          <AddProduct history={this.props.history}/>
         </Card>
       </div>
     )

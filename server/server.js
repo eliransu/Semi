@@ -5,7 +5,7 @@ const mongooseRefValidator = require('mongoose-ref-validator')
 const helmet = require('helmet')
 const routes = require('./routes')
 const path = require('path')
-
+const cookieParser = require('cookie-parser')
 require('dotenv').config()
 console.log(process.env.SEMI_DB_URI)
 connectToSemiDB()
@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 8080
 const app = express()
 
 app.use(helmet())
+app.use(cookieParser())
 app.use(bodyParser({ extended: true, limit: '20mb' }))
 app.use('/api', routes)
 
