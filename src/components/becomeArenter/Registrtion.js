@@ -66,7 +66,7 @@ const residences = [
 ];
 
 class RegistrationForm extends React.Component {
-	handleMenuClicked = (path) => this.props.history.push(path);
+
 
 	state = {
 		confirmDirty: false,

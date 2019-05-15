@@ -1,33 +1,57 @@
-import React from "react"
-import { Upload, Icon, Modal } from 'antd';
+import React from "react";
+import { Upload, Icon, Modal } from "antd";
 import { Button } from "antd/lib/radio";
 
 class PicturesWall extends React.Component {
   state = {
     previewVisible: false,
-    previewImage: '',
+    previewImage: "",
     fileList: [],
+    urlList: []
   };
 
-  handleCancel = () => this.setState({ previewVisible: false })
+  handleCancel = () => this.setState({ previewVisible: false });
 
-  handlePreview = (file) => {
+  handlePreview = file => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
-      previewVisible: true,
+      previewVisible: true
     });
-  }
+  };
 
-  handleChange = ({ fileList }) => {
+  handleChange = res => {
+    console.log("added/remove", res);
+    this.setState({ fileList: res.fileList }, () => {
+      if (res.file.response) {
+        if (res.file.status === "done") {
+          console.log("upload!!", res.file.response);
+          this.setState(
+            { urlList: [...this.state.urlList, res.file.response] },
+            () => {
+              this.props.onImagesChange(this.state.urlList);
+            }
+          );
+        }
+        if (res.file.status === "removed") {
+          var filtered = this.state.urlList.filter(url => {
+            return url !== res.file.response;
+          });
+          if (!filtered) filtered = [];
+          this.setState({ urlList: filtered }, () => {
+            this.props.onImagesChange(this.state.urlList);
+          });
+        }
+      }
+    });
+    // this.props.addPicture({ fileList });
+  };
 
-    this.setState({ fileList },()=>{
-
-      console.log('upload!!',fileList)
-    })
-    this.props.addPicture({fileList});
-    
-  }
-
+  // onRemoveClicked = res => {
+  //   console.log("removed", res);
+  //   this.setState({ fileList: res.fileList }, () => {
+  //     console.log(res.file.response);
+  //   });
+  // };
 
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
@@ -40,21 +64,25 @@ class PicturesWall extends React.Component {
     return (
       <div className="clearfix">
         <Upload
-          action="//jsonplaceholder.typicode.com/posts/"
+          name="image"
+          action="/api/products/upload-image"
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
-          
         >
-          {fileList.length >= 4 ? null : uploadButton}
+          {fileList && fileList.length >= 4 ? null : uploadButton}
         </Upload>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        <Modal
+          visible={previewVisible}
+          footer={null}
+          onCancel={this.handleCancel}
+        >
+          <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
       </div>
     );
   }
 }
 
-export default PicturesWall 
+export default PicturesWall;
