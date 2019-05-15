@@ -19,15 +19,15 @@ const createNewOrder = async (req, res) => {
   return res.json(httpResponse(201))
 }
 
-const setOrderAsAccepted = async (req, res) => {
-  const { providerName, orderId } = req.body
+const updateOrderStatus = async (req, res) => {
+  const { providerName, orderId, accepted } = req.body
   if (!providerName || !orderId) {
     return res.json(httpResponse(400, 'missing fields', 'setOrderAsHandled'))
   }
-  const orderMarkedAsAccepted = await rentService.markOrderAsAccepted(providerName, orderId)
+  const orderMarkedAsAccepted = await rentService.markOrderAsAccepted(providerName, orderId, accepted)
   if (!orderMarkedAsAccepted) {
     return res.json(httpResponse(500, 'failed to mark order as accepted, please try again later.',
-      'setOrderAsAccepted'))
+      'updateOrderStatus'))
   }
 
   return res.json(httpResponse(204))
@@ -49,7 +49,7 @@ const getOrderById = async (req, res) => {
 
 
 module.exports = {
-  setOrderAsAccepted,
+  updateOrderStatus,
   createNewOrder,
   getOrderById
 }

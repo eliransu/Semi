@@ -11,9 +11,11 @@ const createNewOrder = async (providerName, consumerName, productId, plan) => {
   const provider = await UserModel.findOne({ username: providerName })
   const consumer = await UserModel.findOne({ username: consumerName })
   const product = await ProductModel.findOne({ _id: productId })
-  console.log({ provider })
-  console.log({ consumer })
-  console.log({ product })
+
+  if (!provider.products_for_rent.find(p => product === p)) {
+    console.log('product is not belong to provider')
+    return false
+  }
   if (!provider || !consumer || !product) return false
 
   const today = new Date(Date.now())
@@ -38,16 +40,16 @@ const createNewOrder = async (providerName, consumerName, productId, plan) => {
   return newRent
 }
 
-const markOrderAsAccepted = async (providerName, orderId) => {
+const markOrderAsAccepted = async (providerName, orderId, accepted) => {
   const user = await UserModel.findOne({ username: providerName })
   if (!user) return false
-  const order = await RentModel.findOne({ _id: orderId })
-  console.log(order.provider)
-  console.log(user._id)
-  if (!order) return false
-  // if (!order.provider != user._id) return false
 
-  order.order_status = 'handled'
+  const order = await RentModel.findOne({ _id: orderId })
+  if (!order) return false
+
+  accepted
+    ? order.order_status = 'handled'
+    : order.order_status = 'rejected'
   await order.save()
 
   return true

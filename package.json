@@ -20,6 +20,7 @@
     "google-map-react": "^1.1.2",
     "helmet": "^3.16.0",
     "jwt-simple": "^0.5.5",
+    "lodash": "^4.17.11",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
     "mongoose": "^5.4.19",
