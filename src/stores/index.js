@@ -4,7 +4,7 @@ import ProductStore from './ProductStore';
 import CategoryStore from './CategoryStore';
 import AuthStore from './AuthStore';
 import OrderStore from "./OrderStore";
-
+//changed for suisa!
 
  //Initiate all stores
  const authStore = new AuthStore();
