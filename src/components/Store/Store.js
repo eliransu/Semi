@@ -73,6 +73,14 @@ class Store extends Component {
             }}
           />
         </div>
+        <div style={{ textAlign: "center", padding: "20px 0px" }}>
+          <Pagination
+            defaultCurrent={1}
+            total={dataSize}
+            pageSize={12}
+            onChange={this.onPageCanged}
+          />
+        </div>
       </React.Fragment>
     );
   }

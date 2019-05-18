@@ -1,27 +1,20 @@
-import React, {Component} from 'react';
-import './ImageCarousel.css';
-import {Carousel} from 'antd';
-
+import React, { Component } from "react";
+import "./ImageCarousel.css";
+import { Carousel } from "antd";
 
 export class ImageCarousel extends React.Component {
-    
-            
-    renderAllImages = (imgList) => {
+  renderAllImages = imgList => {
+    return imgList.map(img => (
+      <div>
+        <img alt="product" src={`${img}`} />
+      </div>
+    ));
+  };
 
-        return (
-            imgList.map(img => 
-                <div><img alt="product" src={require(`../../assets/${img}`)} /></div>
-     )
-    )}
-
-        render()
-        {
-                
-        return(
-            <Carousel autoplay>
-                {this.renderAllImages(this.props.imgList)}
-            </Carousel>
-            );
-        }
+  render() {
+    return (
+      <Carousel autoplay>{this.renderAllImages(this.props.imgList)}</Carousel>
+    );
+  }
 }
-export default ImageCarousel
+export default ImageCarousel;

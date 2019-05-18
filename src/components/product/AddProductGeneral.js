@@ -21,13 +21,29 @@ import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
 import AuthStore from "../../stores/AuthStore";
+import CategoryStore from "../../stores/CategoryStore";
 
 const { Content } = Layout;
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
+const categoryStore = rootStores[CategoryStore];
 
 @observer
 class AddProductGeneral extends React.Component {
+  componentDidMount() {
+    categoryStore.init();
+  }
+
+  handleSubmit = e => {
+    console.log("im here!!");
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.onNextClicked();
+      }
+    });
+  };
+  validate = () => {};
   onTitleChange = e => {
     this.props.product.title = e.target.value;
   };
@@ -48,6 +64,11 @@ class AddProductGeneral extends React.Component {
     this.props.product.images = urlList;
   };
 
+  renderOptions = () => {
+    return categoryStore.getAllCategories.map((category, index) => (
+      <Option value={`${category}`}>{category}</Option>
+    ));
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
 
@@ -91,7 +112,13 @@ class AddProductGeneral extends React.Component {
                     whitespace: true
                   }
                 ]
-              })(<Input placeholder="title" onChange={this.onTitleChange} />)}
+              })(
+                <Input
+                  style={{ width: 200 }}
+                  placeholder="title"
+                  onChange={this.onTitleChange}
+                />
+              )}
             </Form.Item>
             <Form.Item {...formItemLayout} label="Select category">
               {getFieldDecorator("select-category", {
@@ -104,44 +131,19 @@ class AddProductGeneral extends React.Component {
                 ]
               })(
                 <Select
+                  style={{ width: 200 }}
                   mode="default"
-                  placeholder="Please select the relevant category"
+                  placeholder="Please select category"
                   onSelect={this.onCategorySelect}
                 >
-                  <Option value="clothes">Clothes</Option>
-                  <Option value="electronics">Electronics</Option>
-                  <Option value="tools">Tools</Option>
-                  <Option value="home&garden">Home&Garden</Option>
-                  <Option value="games">Games</Option>
-                  <Option value="sport">Sport</Option>
-                </Select>
-              )}
-            </Form.Item>
-            <Form.Item {...formItemLayout} label="Sub-category">
-              {getFieldDecorator("select-subCategory", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please select sub category!",
-                    type: "string"
-                  }
-                ]
-              })(
-                <Select
-                  mode="default"
-                  placeholder="Please select sub category"
-                  onSelect={this.onSubCategorySelect}
-                >
-                  <Option value="sub1">sub 1</Option>
-                  <Option value="sub2">sub 2</Option>
-                  <Option value="sub3">sub 3</Option>
+                  {this.renderOptions()}
                 </Select>
               )}
             </Form.Item>
 
             <Form.Item {...formItemLayout} label={<span>Upload photo's</span>}>
               {getFieldDecorator("photo", {
-                rules: [{ required: false, message: "", type: "img" }]
+                rules: [{ required: false, message: "", type: "string" }]
               })(
                 <div {...formItemLayout}>
                   <PicturesWall onImagesChange={this.onImagesChange} />
@@ -165,7 +167,11 @@ class AddProductGeneral extends React.Component {
                 />
               )}
             </Form.Item>
-            <Form.Item {...formItemLayout} label="Quality">
+            <Form.Item
+              {...formItemLayout}
+              label="Quality"
+              style={{ paddingBottom: 20 }}
+            >
               {getFieldDecorator("quality", {
                 rules: [
                   {
@@ -174,13 +180,24 @@ class AddProductGeneral extends React.Component {
                   }
                 ]
               })(
-                <Select style={{ width: 120 }} onSelect={this.onQualitySelect}>
+                <Select style={{ width: 200 }} onSelect={this.onQualitySelect}>
                   <Option value="excellent">Excellent</Option>
                   <Option value="good">Good</Option>
                   <Option value="normal">Normal</Option>
                 </Select>
               )}
             </Form.Item>
+
+            <div style={{ flex: 1, textAlign: "center", paddingBottom: 25 }}>
+              <Button
+                htmlType="submit"
+                type="primary"
+                style={{ width: 200 }}
+                onClick={this.onNextClicked}
+              >
+                Next
+              </Button>
+            </div>
           </Form>
         </Content>
       </>
