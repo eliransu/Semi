@@ -191,7 +191,11 @@ class Master extends React.Component {
           )}
 
           {user.first_name !== undefined && (
-            <Menu.Item style={{ marginLeft: 300, marginBottom: 12 }} key="7">
+            <Menu.Item
+              style={{ marginLeft: 300, marginBottom: 12 }}
+              key="7"
+              onClick={() => this.handleMenuClicked(`/user/${user.username}`)}
+            >
               <Popup
                 trigger={
                   <Icon
