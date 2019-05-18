@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Col, Pagination } from "antd";
+import { Col, Pagination, Row } from "antd";
 import Product from "../Store/Product";
 import rootStores from "../../stores";
 import CategoryStore from "../../stores/CategoryStore";
@@ -51,17 +51,26 @@ class Category extends Component {
     const dataSize = category.length;
 
     return (
-      <div clasName="category-container">
-        <div className="header" style={{ textAlign: "center", paddingTop: 10 }}>
-          <h1>{this.props.match.params.id}</h1>
+      <React.Fragment>
+        <div clasName="category-container">
+          <div
+            className="header"
+            style={{ textAlign: "center", paddingTop: 10 }}
+          >
+            <h1>{this.props.match.params.id}</h1>
+          </div>
+          <Row>
+            <div className="all-products">{this.renderAllProducts()}</div>
+          </Row>
+          <div />
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 25
+            }}
+          />
         </div>
-        <div className="all-products">{this.renderAllProducts()}</div>
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: 25
-          }}
-        >
+        <div style={{ textAlign: "center", padding: "20px 0px" }}>
           <Pagination
             defaultCurrent={1}
             total={dataSize}
@@ -69,7 +78,7 @@ class Category extends Component {
             onChange={this.onPageCanged}
           />
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
