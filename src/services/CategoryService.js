@@ -17,7 +17,10 @@ class CategoryService {
       const categories = await axios.get("/api/products/categories");
       console.log({ categories: categories });
       if (!categories || !categories.data || !categories.data.data) return [];
-      else return categories.data.data;
+      else {
+        console.log({ category: categories.data.data });
+        return categories.data.data;
+      }
     } catch (err) {
       throw err;
     }

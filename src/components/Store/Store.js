@@ -52,31 +52,28 @@ class Store extends Component {
     console.log(authStore.getCurrentUser);
     const dataSize = productStore.getAllProducts.length;
     return (
-      <div>
-        <div className="main-store-container" style={{ marginBottom: 30 }}>
-          <Row style={{ padding: "30px 0px" }}>
-            <Col span={4}>
-              <UserDescription user={authStore.currentUser} />
-            </Col>
-            <Col span={20}>
-              <div className="all-products">{this.renderProducts()}</div>
-            </Col>
-          </Row>
-        </div>
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: 25
-          }}
-        >
-          <Pagination
-            defaultCurrent={1}
-            total={dataSize}
-            pageSize={12}
-            onChange={this.onPageCanged}
+      <React.Fragment>
+        <div>
+          <div className="main-store-container" style={{ marginBottom: 30 }}>
+            <Row style={{ padding: "30px 0px" }}>
+              <Col span={6}>
+                <UserDescription user={authStore.currentUser} />
+              </Col>
+              <Col span={18}>
+                <Row>
+                  <div className="all-products">{this.renderProducts()}</div>
+                </Row>
+              </Col>
+            </Row>
+          </div>
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 25
+            }}
           />
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

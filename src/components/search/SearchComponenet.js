@@ -6,6 +6,7 @@ import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
 import { Pagination, Col } from "antd";
 import Product from "../Store/Product";
+import { SSL_OP_LEGACY_SERVER_CONNECT } from "constants";
 
 const productStore = rootStores[ProductStore];
 @observer
@@ -14,9 +15,11 @@ class SearchComponenet extends Component {
     page: 1
   };
   componentDidMount() {
-    // const values = queryString.parse(this.props.location.search);
-    // console.log(this.props.location.search);
-    // console.log({ values });
+    if (this.props.location.search.length > 0) {
+      productStore.onProductSearch(this.props.location.search);
+    }
+  }
+  componentDidUpdate() {
     if (this.props.location.search.length > 0) {
       productStore.onProductSearch(this.props.location.search);
     }
@@ -42,12 +45,20 @@ class SearchComponenet extends Component {
   onPageCanged = page => {
     this.setState({ page });
   };
+  onSearchClicked = query => {
+    this.props.history.replace(query);
+    //window.refrsh();
+  };
+
   render() {
     const dataSize = productStore.getSearchResult.length;
     return (
       <div className="search-page-main-container">
         <div className="search-tab" style={{ padding: "35px 0px" }}>
-          <SearchMain />
+          <SearchMain
+            history={this.props.history}
+            onSearchClicked={this.onSearchClicked}
+          />
         </div>
         <div className="search-result-header" style={{ textAlign: "center" }}>
           <h1 style={{ textDecoration: "underline" }}>Search Result</h1>
