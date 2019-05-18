@@ -40,7 +40,7 @@ const Rent = new Schema({
   order_status: {
     type: String,
     required: true,
-    enum: ['handled', 'not handled', 'pending'],
+    enum: ['handled', 'not handled', 'rejected'],
     default: 'not handled'
   }
 })
