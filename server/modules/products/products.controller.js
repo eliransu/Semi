@@ -139,7 +139,10 @@ const scrapProducts = async (req, res) => {
     plans: product.plans,
     quality: product.quality
   }))
-  await Promise.all(addProducts)
+  addProducts.map(async (promise, idx) => {
+    await promise
+    console.log('added', idx)
+  })
   return res.json('ok')
 }
 

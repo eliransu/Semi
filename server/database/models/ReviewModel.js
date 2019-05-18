@@ -1,7 +1,7 @@
 const { Schema } = require("mongoose");
 const mongoose = require('mongoose')
 const autoPopulate = require('mongoose-autopopulate')
-
+const { userRestricted } = require('./restrictions')
 const Review = new Schema({
   content: {
     type: String,
@@ -11,7 +11,7 @@ const Review = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    autopopulate: true
+    autopopulate: { select: userRestricted }
   },
   stars: {
     type: Number

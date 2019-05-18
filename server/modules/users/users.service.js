@@ -1,7 +1,7 @@
 const UserModel = require('../../database/models/UserModel')
 const productService = require('../products/products.service')
 const rentService = require('../rents/rents.service')
-const CategoryModel = require('../../database/models/CategoryModel')
+const Category = require('../../database/models/CategoryModel')
 const jwt = require('jwt-simple')
 
 const getProductsByUserName = async (username) => {
@@ -18,9 +18,10 @@ const addProduct = async (username, product) => {
   if (!user) {
     return false
   }
-  let category = await CategoryModel.findOne({ name: product.category })
+  const name = product.category && product.category.replace(/\s/g, '')
+  let category = await Category.findOne({ name })
   if (!category) {
-    category = new CategoryModel({ name: product.category })
+    category = new Category({ name })
     await category.save()
   }
 
