@@ -20,9 +20,7 @@ const addProduct = async (username, product) => {
   }
   const name = product.category && product.category.replace(/\s/g, '')
   let category = await Category.findOne({ name })
-  console.log(category)
   if (!category) {
-    console.log(category, 'exist???')
     category = new Category({ name })
     await category.save()
   }
