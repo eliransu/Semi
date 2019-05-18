@@ -55,7 +55,6 @@ const updateProduct = async (username, product) => {
 
 const getUserByUsername = async (username) => {
   const user = await UserModel.findOne({ username })
-  console.log(user)
   if (!user) {
     return false
   } else {
