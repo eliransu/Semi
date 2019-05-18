@@ -1,4 +1,4 @@
-import { Icon, Layout, Menu, Modal } from "antd";
+import { Icon, Layout, Menu, Modal, Spin } from "antd";
 import { observer } from "mobx-react";
 import React from "react";
 import { withRouter } from "react-router";
@@ -22,11 +22,13 @@ import Home from "./Home";
 import CategoryStore from "../../stores/CategoryStore";
 import SearchComponent from "../search/SearchComponenet";
 import OrderStore from "../../stores/OrderStore";
+import ViewStore from "../../stores/ViewStore";
 
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
 const categoryStore = rootStores[CategoryStore];
 const orderStore = rootStores[OrderStore];
+const viewStore = rootStores[ViewStore];
 
 @observer
 class Master extends React.Component {
@@ -102,6 +104,7 @@ class Master extends React.Component {
     return (
       <Layout className="layout">
         <div className="logo" />
+
         <Menu
           theme="light"
           mode="horizontal"
@@ -167,7 +170,11 @@ class Master extends React.Component {
             </Menu.Item>
           )}
           {user.first_name !== undefined && (
-            <Menu.Item style={{ marginLeft: 300, marginBottom: 12 }} key="7">
+            <Menu.Item
+              style={{ marginLeft: 300, marginBottom: 12 }}
+              onClick={() => this.handleMenuClicked(`/user/${user.username}`)}
+              key="7"
+            >
               <Popup
                 trigger={
                   <Icon
@@ -261,6 +268,16 @@ class Master extends React.Component {
           )}
         </Menu>
         <Content style={{ padding: "0 50px", backgroundColor: "#fcfcfc" }}>
+          <div
+            style={{
+              width: 500,
+              textAlign: "center",
+              margin: "auto"
+            }}
+          >
+            <Spin spinning={viewStore.getLoader} tip="Loading..." />
+          </div>
+
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userName" component={UserProfile} />

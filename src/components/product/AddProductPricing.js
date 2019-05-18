@@ -38,6 +38,16 @@ class AddProductPricing extends Component {
       currentPrice: -1
     };
   }
+
+  handleSubmit = e => {
+    console.log("im here!!");
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.onDoneClicked();
+      }
+    });
+  };
   onRetailPriceChange = e => {
     this.props.product.retailPrice = e.target.value;
   };
@@ -100,7 +110,12 @@ class AddProductPricing extends Component {
                   message: "Please enter a retail price"
                 }
               ]
-            })(<Input onChange={this.onRetailPriceChange} />)}
+            })(
+              <Input
+                style={{ width: 200 }}
+                onChange={this.onRetailPriceChange}
+              />
+            )}
           </Form.Item>
 
           <Form.Item
@@ -121,6 +136,34 @@ class AddProductPricing extends Component {
               </span>
             )}
           </Form.Item>
+          <div
+            className="steps-action"
+            style={{
+              display: "flex",
+              width: "40%",
+              margin: "auto",
+              paddingBottom: 25
+            }}
+          >
+            <div style={{ flex: 1 }}>
+              <Button
+                loading={this.state.loading}
+                style={{ marginLeft: 8 }}
+                onClick={() => this.props.onPrevClicked()}
+              >
+                Previous
+              </Button>
+            </div>
+            <div style={{ flex: 1 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={this.onDoneClicked}
+              >
+                Done
+              </Button>
+            </div>
+          </div>
         </Form>
       </Content>
     );

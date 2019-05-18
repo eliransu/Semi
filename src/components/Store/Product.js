@@ -15,10 +15,10 @@ export class Product extends Component {
     const product = this.props.product;
 
     return (
-      <div style={{ height: 425 }}>
+      <div>
         {this.state.visible && <div>eliran</div>}
         <Card
-          style={{ width: 300 }}
+          style={{ width: "16vw", height: "43vh" }}
           cover={
             <img
               onClick={this.onProductClicked}
@@ -28,7 +28,13 @@ export class Product extends Component {
                   ? product.images[0]
                   : require(`../../assets/drill.jpg`)
               }
-              style={{ height: 300 }}
+              style={{
+                height: "25vh",
+                width: "10vw",
+                marginLeft: "2.5vw",
+                padding: 5,
+                cursor: "pointer"
+              }}
             />
           }
           actions={[
