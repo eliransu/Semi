@@ -21,10 +21,12 @@ import Product from "../product/Product";
 import Home from "./Home";
 import CategoryStore from "../../stores/CategoryStore";
 import SearchComponent from "../search/SearchComponenet";
+import OrderStore from "../../stores/OrderStore";
 
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
 const categoryStore = rootStores[CategoryStore];
+const orderStore = rootStores[OrderStore];
 
 @observer
 class Master extends React.Component {
@@ -78,6 +80,7 @@ class Master extends React.Component {
   onLoginSuccess = user => {
     if (user) {
       this.setState({ user });
+      orderStore.loadAllOrders();	
     }
   };
   onRegisterSuccess = user => {
@@ -113,8 +116,16 @@ class Master extends React.Component {
             <Icon fontSize={16} type="home" />
             Home
           </Menu.Item>
-          <Menu.Item style={{ fontSize: 16 }} key="3" onClick={this.showModal}>
-            <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
+          <Menu.Item
+            style={{ fontSize: 16 }}
+            key="3"
+            onClick={this.showModal}
+          >
+            <Icon
+              fontSize={16}
+              style={{ marginLeft: 4 }}
+              type="notification"
+            />
             Become A Renter!
           </Menu.Item>
           <Modal
@@ -146,7 +157,11 @@ class Master extends React.Component {
             key="4"
             onClick={() => this.handleMenuClicked("add-product-as-renter")}
           >
-            <Icon fontSize={16} style={{ marginLeft: 4 }} type="plus-circle" />
+            <Icon
+              fontSize={16}
+              style={{ marginLeft: 4 }}
+              type="plus-circle"
+            />
             Add prouct as renter!
           </Menu.Item>
 
@@ -164,7 +179,10 @@ class Master extends React.Component {
             </Menu.Item>
           )}
           {user.first_name !== undefined && (
-            <Menu.Item style={{ marginLeft: 300, marginBottom: 12 }} key="7">
+            <Menu.Item
+              style={{ marginLeft: 300, marginBottom: 12 }}
+              key="7"
+            >
               <Popup
                 trigger={
                   <Icon
@@ -206,7 +224,7 @@ class Master extends React.Component {
                     color: "#ff8080"
                   }}
                 >
-                  2
+                  {orderStore.getallOrdersNotHendeledAsProvider.length}
                 </div>
               </Popup>
               <Popup
@@ -253,7 +271,9 @@ class Master extends React.Component {
                 />
                 <NotificationCenter />
               </Popup>
-              <span>{`,Wellcome ${user.first_name} ${user.last_name}`}</span>
+              <span>{`,Wellcome ${user.first_name} ${
+                user.last_name
+              }`}</span>
             </Menu.Item>
           )}
         </Menu>
@@ -262,13 +282,21 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userName" component={UserProfile} />
             <Route exact path="/products" component={Product} />
-            <Route exact path="/products" component={FavoriteProductsCard} />
+            <Route
+              exact
+              path="/products"
+              component={FavoriteProductsCard}
+            />
             <Route
               exact
               path="/add-product-as-renter"
               component={AddProductCard}
             />
-            <Route exact path="/become-a-renter" component={BecomeArenter} />
+            <Route
+              exact
+              path="/become-a-renter"
+              component={BecomeArenter}
+            />
             <Route exact path="/about" component={About} />
             <Route exact path="/productPage/:id" component={ProductInfo} />
             <Route
