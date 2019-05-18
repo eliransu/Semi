@@ -4,6 +4,8 @@ import axios from 'axios';
 import AuthStore from '../../stores/AuthStore';
 import rootStores from '../../stores';
 import { observer } from 'mobx-react';
+import BecomeArenter from '../becomeArenter/BecomeArenter';
+import Registration from '../becomeArenter/Registrtion';
 
 const authStore = rootStores[AuthStore];
 
@@ -31,6 +33,20 @@ class HorizontalLoginForm extends Component {
 		authStore.toggleviewLoginModal();
 	};
 
+	onCancelClicked = () => {
+		authStore.togglevSignInModal();
+	};
+	onRegistrationSuccess = (user) => {
+		this.props.onRegistrationSuccess(user);
+	};
+
+	redirectToSignIn = () => {
+		authStore.toggleviewLoginModal();
+		return (
+			<Registration onRegistrationSuccess={this.onRegistrationSuccess} onCancelClicked={this.onCancelClicked} />
+		);
+	};
+
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields(async (err, values) => {
@@ -40,20 +56,6 @@ class HorizontalLoginForm extends Component {
 				if (res) {
 					this.props.onLoginSuccess(authStore.getCurrentUser);
 				}
-
-				// const body = {
-				//   email:values.userName,
-				//   password:values.password
-				// }
-
-				// axios.post('api/auth/login',body)
-				// .then(res=>{
-				//   console.log(res.data.data)
-				//   if(res&&res.data&&res.data.data){
-				//     this.props.onLoginSuccess(res.data.data);
-
-				//   }
-				// })
 			}
 		});
 	};
@@ -100,6 +102,11 @@ class HorizontalLoginForm extends Component {
 							<Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
 								Log in
 							</Button>
+						</Form.Item>
+						<Form.Item>
+							<a className="login-form-forgot" onClick={this.redirectToSignIn}>
+								New here? Sign in
+							</a>
 						</Form.Item>
 					</Form>
 				</Modal>
