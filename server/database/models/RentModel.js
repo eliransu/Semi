@@ -19,7 +19,7 @@ const Rent = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Product',
     required: true,
-    autopopulate: { select: 'name' }
+    autopopulate: { select: { __v: 0, owner: 0, quality: 0, reviews: 0, plans: 0, deleted: 0, description: 0 } }
   },
   start_time: {
     type: Date,
