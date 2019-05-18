@@ -1,7 +1,7 @@
 const { Schema } = require("mongoose");
 const mongoose = require('mongoose')
 const autoPopulate = require('mongoose-autopopulate')
-
+const { productRestricted } = require('./restrictions')
 const Rent = new Schema({
   consumer: {
     type: Schema.Types.ObjectId,
@@ -19,7 +19,7 @@ const Rent = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Product',
     required: true,
-    autopopulate: { select: { __v: 0, owner: 0, quality: 0, reviews: 0, plans: 0, deleted: 0, description: 0 } }
+    autopopulate: { select: productRestricted }
   },
   start_time: {
     type: Date,
