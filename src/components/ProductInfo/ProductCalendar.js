@@ -55,31 +55,22 @@ export class ProductCalendar extends Component {
     orderDaysOfYear: []
   };
 
-  constructor(props) {
-    super(props);
-    let orders = this.props.data;
+    constructor(props){
+        super(props)
+        let orders = this.props.data;
+        
+        let orderDaysOfYear = [];
+        orders.map(order => {
+            for (let i = moment(order.startDate).dayOfYear(); i <= moment(order.endDate).dayOfYear(); i++) {
+                orderDaysOfYear.push({day: i, consumerName: order.consumer.name, consumerAvatar: order.consumer.avatar });
+            }
+        })
+        this.state = {
+            orderDaysOfYear: orderDaysOfYear
+        }
+    }
 
-    let orderDaysOfYear = [];
-    orders.map(order => {
-      for (
-        let i = moment(order.startDate).dayOfYear();
-        i <= moment(order.endDate).dayOfYear();
-        i++
-      ) {
-        orderDaysOfYear.push({
-          day: i,
-          consumerName: `${order.consumer.first_name} ${
-            order.consumer.last_name
-          }`,
-          consumerAvatar: order.consumer.avatar
-        });
-      }
-    });
-    console.log("orderDaysOfYear", orderDaysOfYear);
-    this.state = {
-      orderDaysOfYear: orderDaysOfYear
-    };
-  }
+
   // <Avatar src={require(`../../assets/${item.consumerAvatar}`)} />
 
   convertBorrowDateToListData = value => {

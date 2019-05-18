@@ -4,6 +4,7 @@ import ProductStore from './ProductStore';
 import CategoryStore from './CategoryStore';
 import AuthStore from './AuthStore';
 import PaymentStore from './PaymentStore';
+import OrderStore from './OrderStore';
 
 
 //Initiate all stores
@@ -11,6 +12,7 @@ const authStore = new AuthStore();
 const productStore = new ProductStore();
 const categoryStore = new CategoryStore();
 const paymentStore = new PaymentStore();
+const orderStore = new OrderStore()
 
 
 
@@ -19,7 +21,8 @@ const rootStores = {
   [ProductStore]: productStore,
   [CategoryStore]: categoryStore,
   [AuthStore]: authStore,
-  [PaymentStore]: paymentStore
+  [PaymentStore]: paymentStore,
+  [OrderStore]: orderStore
 
 };
 

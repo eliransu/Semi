@@ -4,9 +4,10 @@ import moment from "moment";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
+import OrderStore from "../../stores/OrderStore";
 
 const productStore = rootStores['ProductStore']
-
+const orderStore = rootStores[OrderStore]
 @observer
 class OrderDetailsPopUp extends Component {
   
@@ -20,6 +21,10 @@ class OrderDetailsPopUp extends Component {
            //this.setState({ loading: false });
          }
        });
+    }
+
+    onOrderStatusClicked(order, accept) {
+      orderStore.changeOrderStatus(order, accept);
     }
 
     render(){
@@ -211,8 +216,8 @@ class OrderDetailsPopUp extends Component {
                     padding: "10px"
                   }}
                 >
-                  <Button type="danger">Decline</Button>
-                  <Button type="primary">Accept</Button>
+                  <Button onClick={()=>this.onOrderStatusClicked(order,false)} type="danger">Decline</Button>
+                  <Button onClick={()=>this.onOrderStatusClicked(order,true)} type="primary">Accept</Button>
                 </div>
               </Col>
             </Row>
