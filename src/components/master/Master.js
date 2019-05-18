@@ -1,27 +1,32 @@
-import { Icon, Layout, Menu, Modal } from "antd";
-import { observer } from "mobx-react";
-import React from "react";
-import { withRouter } from "react-router";
-import { Route, Switch } from "react-router-dom";
-import Popup from "reactjs-popup";
-import rootStores from "../../stores";
-import AuthStore from "../../stores/AuthStore";
-import Login from "../Login/Login";
-import ProductInfo from "../ProductInfo/ProductInfo";
-import UserProfile from "../Store/Store";
-import About from "../about/About";
-import BecomeArenter from "../becomeArenter/BecomeArenter";
-import RegistrationSuccess from "../becomeArenter/RegistrationSeccuss";
-import Category from "../category/Category";
-import NotificationCenter from "../notification/notificationCenter";
-import PaymentPage from "../paymentPage/PaymentPage";
-import AddProductCard from "../product/AddProductCard";
-import FavoriteProductsCard from "../product/FavoriteProductsCard";
-import Product from "../product/Product";
-import Home from "./Home";
-import CategoryStore from "../../stores/CategoryStore";
-import SearchComponent from "../search/SearchComponenet";
-import OrderStore from "../../stores/OrderStore";
+import React from 'react';
+import { Layout, Menu, Icon, Modal } from 'antd';
+import { withRouter } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
+import Home from './Home';
+import Carousel from '../mainHero/Carousel';
+import UserProfile from '../Store/Store';
+import About from '../about/About';
+import ProductInfo from '../ProductInfo/ProductInfo';
+import FavoriteProductsCard from '../product/FavoriteProductsCard';
+import AddProductCard from '../product/AddProductCard';
+import rootStores from '../../stores';
+import BecomeArenter from '../becomeArenter/BecomeArenter';
+import agudaImage from '../../assets/aguda.jpg';
+import colmanImage from '../../assets/colman.jpg';
+import BecomeARenter from '../becomeArenter/BecomeArenter';
+import axios from 'axios';
+import Login from '../Login/Login';
+import Product from '../product/Product';
+import Category from '../category/Category';
+import RegistrationSuccess from '../becomeArenter/RegistrationSeccuss';
+import { observer } from 'mobx-react';
+import AuthStore from '../../stores/AuthStore';
+import Popup from 'reactjs-popup';
+import NotificationCenter from '../notification/notificationCenter';
+import PaymentPage from '../paymentPage/PaymentPage';
+import CategoryStore from '../../stores/CategoryStore';
+import OrderStore from '../../stores/OrderStore';
+import SearchComponenet from '../search/SearchComponenet';
 
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
@@ -30,48 +35,48 @@ const orderStore = rootStores[OrderStore];
 
 @observer
 class Master extends React.Component {
-  state = {
-    visble: false,
-    registerSuccessModal: false,
-    user: null,
-    open: false
-  };
+	state = {
+		visble: false,
+		loginVisble: false,
+		registerSuccessModal: false,
+		user: null,
+		open: false
+	};
 
-  componentDidMount() {
-    try {
-      const loggedIn = authStore.tryLogin();
-      if (!loggedIn) {
-        this.handleMenuClicked("");
-        categoryStore.init();
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
+	componentDidMount() {
+		try {
+			const loggedIn = authStore.tryLogin();
+			if (!loggedIn) {
+				this.handleMenuClicked('');
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	}
 
-  showModal = () => {
-    this.setState({ visble: true });
-  };
-  handleOk = e => {
-    //need to send data to the server
-    console.log(e);
-    this.setState({ visble: false });
-  };
+	showModal = () => {
+		this.setState({ visble: true });
+	};
+	handleOk = (e) => {
+		//need to send data to the server
+		console.log(e);
+		this.setState({ visble: false });
+	};
 
-  closeModal = () => {
-    this.setState({ open: false });
-  };
-  openModal = () => {
-    this.setState({ open: true });
-  };
+	closeModal = () => {
+		this.setState({ open: false });
+	};
+	openModal = () => {
+		this.setState({ open: true });
+	};
 
-  handleCancel = e => {
-    console.log(e);
-    this.setState({
-      visble: false
-    });
-  };
-  handleMenuClicked = path => this.props.history.push(path);
+	handleCancel = (e) => {
+		console.log(e);
+		this.setState({
+			visble: false
+		});
+	};
+	handleMenuClicked = (path) => this.props.history.push(path);
 
   addProductClicked = () => {
     this.setState({ registerSuccessModal: false });
@@ -92,9 +97,9 @@ class Master extends React.Component {
     this.setState({ visble: false });
   };
 
-  returnToHomePage = () => {
-    this.setState({ registerSuccessModal: false });
-  };
+	onCancel = () => {
+		this.setState({ visble: false });
+	};
 
   render() {
     const user = authStore.getCurrentUser;
@@ -156,7 +161,7 @@ class Master extends React.Component {
           <Menu.Item
             style={{ fontSize: 16 }}
             key="6"
-            onClick={() => this.handleMenuClicked("/about")}
+            onClick={() => this.handleMenuClicked("about")}
           >
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="team" />
             About Us
@@ -167,7 +172,10 @@ class Master extends React.Component {
             </Menu.Item>
           )}
           {user.first_name !== undefined && (
-            <Menu.Item style={{ marginLeft: 300, marginBottom: 12 }} key="7">
+            <Menu.Item
+              style={{ marginLeft: 300, marginBottom: 12 }}
+              key="7"
+            >
               <Popup
                 trigger={
                   <Icon
@@ -256,7 +264,9 @@ class Master extends React.Component {
                 />
                 <NotificationCenter />
               </Popup>
-              <span>{`,Wellcome ${user.first_name} ${user.last_name}`}</span>
+              <span>{`,Wellcome ${user.first_name} ${
+                user.last_name
+              }`}</span>
             </Menu.Item>
           )}
         </Menu>
@@ -265,13 +275,21 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userName" component={UserProfile} />
             <Route exact path="/products" component={Product} />
-            <Route exact path="/products" component={FavoriteProductsCard} />
+            <Route
+              exact
+              path="/products"
+              component={FavoriteProductsCard}
+            />
             <Route
               exact
               path="/add-product-as-renter"
               component={AddProductCard}
             />
-            <Route exact path="/become-a-renter" component={BecomeArenter} />
+            <Route
+              exact
+              path="/become-a-renter"
+              component={BecomeArenter}
+            />
             <Route exact path="/about" component={About} />
             <Route exact path="/productPage/:id" component={ProductInfo} />
             <Route

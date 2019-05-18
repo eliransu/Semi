@@ -7,6 +7,8 @@ export default class AuthStore {
   @observable
   currentUser;
 
+  @observable viewLoginModal;
+
   @action
   login = async (email, password) => {
     const user = await authService.login(email, password);
@@ -18,6 +20,15 @@ export default class AuthStore {
       return false;
     }
   };
+
+  @action
+	toggleviewLoginModal = () => {
+		if (this.viewLoginModal) {
+			this.viewLoginModal = false;
+		} else {
+			this.viewLoginModal = true;
+		}
+	};
 
   @action
   tryLogin = async () => {
