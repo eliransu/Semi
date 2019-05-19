@@ -7,7 +7,7 @@ import { PeriodsAndPricingsTable } from "./PeriodsAndPricingsTable";
 import { contentRenderer } from "../utils/genericComponents";
 import { observer } from "mobx-react";
 import ReviewsList from "./ReviewsList";
-import { ProductCalendar } from "./ProductCalendar";
+import  ProductCalendar from "./ProductCalendar";
 import ProductStore from "../../stores/ProductStore";
 
 const productStore = rootStores[ProductStore];

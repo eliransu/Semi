@@ -53,6 +53,11 @@ export default class PaymentStore {
 			});
 	};
 
+	@action
+	setEndDate = (date)=>{
+		this.endDate=date
+	}
+
 	@computed
 	get getStartDate() {
 		return this.startDate;

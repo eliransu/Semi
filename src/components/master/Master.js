@@ -297,7 +297,7 @@ class Master extends React.Component {
               history={this.props.history}
               component={Category}
             />
-            <Route exact path="/search" component={SearchComponent} />
+            <Route exact path="/search" component={SearchComponenet} />
             <Route path="/paymentPage" component={PaymentPage} />
           </Switch>
         </Content>
