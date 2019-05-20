@@ -11,12 +11,6 @@ export class ImageCarousel extends React.Component {
     ));
   };
 
-        return (
-            imgList.map(img => 
-                <div><img alt="product" src={img} /></div>
-     )
-    )}
-
         render()
         {
                 
