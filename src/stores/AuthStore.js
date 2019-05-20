@@ -1,27 +1,26 @@
-import { observable, action, computed, toJS } from "mobx";
-import authService from "../services/AuthService";
+import { observable, action, computed, toJS } from 'mobx';
+import authService from '../services/AuthService';
 
 export default class AuthStore {
-  @observable
-  token;
-  @observable
-  currentUser;
+	@observable token;
+	@observable currentUser;
 
-  @observable viewLoginModal;
+	@observable viewLoginModal;
+	@observable viewSignInModal;
 
-  @action
-  login = async (email, password) => {
-    const user = await authService.login(email, password);
-    console.log("user from response:", user);
-    if (user) {
-      this.setCurrentUser(user);
-      return true;
-    } else {
-      return false;
-    }
-  };
+	@action
+	login = async (email, password) => {
+		const user = await authService.login(email, password);
+		console.log('user from response:', user);
+		if (user) {
+			this.setCurrentUser(user);
+			return true;
+		} else {
+			return false;
+		}
+	};
 
-  @action
+	@action
 	toggleviewLoginModal = () => {
 		if (this.viewLoginModal) {
 			this.viewLoginModal = false;
@@ -30,34 +29,43 @@ export default class AuthStore {
 		}
 	};
 
-  @action
-  tryLogin = async () => {
-    const user = await authService.tryLogin();
-    console.log("user in store", user);
-    if (user) {
-      this.setCurrentUser(user);
-      return true;
-    } else return false;
-  };
+	@action
+	togglevSignInModal = () => {
+		if (this.viewSignInModal) {
+			this.viewSignInModal = false;
+		} else {
+			this.viewSignInModal = true;
+		}
+	};
 
-  @action
-  register = async user => {
-    const res = await authService.register(user);
+	@action
+	tryLogin = async () => {
+		const user = await authService.tryLogin();
+		console.log('user in store', user);
+		if (user) {
+			this.setCurrentUser(user);
+			return true;
+		} else return false;
+	};
 
-    if (res) {
-      this.setCurrentUser(res.data.data);
-      return true;
-    } else {
-      return false;
-    }
-  };
+	@action
+	register = async (user) => {
+		const res = await authService.register(user);
 
-  @action
-  setCurrentUser = user => {
-    this.currentUser = user;
-  };
-  @computed
-  get getCurrentUser() {
-    return toJS(this.currentUser) || {};
-  }
+		if (res) {
+			this.setCurrentUser(res.data.data);
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	@action
+	setCurrentUser = (user) => {
+		this.currentUser = user;
+	};
+	@computed
+	get getCurrentUser() {
+		return toJS(this.currentUser) || {};
+	}
 }

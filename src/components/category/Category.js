@@ -5,8 +5,10 @@ import Product from "../Store/Product";
 import rootStores from "../../stores";
 import CategoryStore from "../../stores/CategoryStore";
 import { observer } from "mobx-react";
+import ViewStore from "../../stores/ViewStore";
 
 const categoryStore = rootStores[CategoryStore];
+const viewStore = rootStores[ViewStore];
 @observer
 class Category extends Component {
   state = {
@@ -15,10 +17,10 @@ class Category extends Component {
   };
 
   componentDidMount() {
-    console.log("in compo:", this.props.match.params.id);
-
+    viewStore.setLoader(true);
     categoryStore.getCategoryById(this.props.match.params.id).then(res => {
       if (res) {
+        viewStore.setLoader(false);
         this.setState({ loading: false });
       }
     });

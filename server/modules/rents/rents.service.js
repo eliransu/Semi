@@ -7,22 +7,21 @@ const addDays = (date, days) => {
   result.setDate(result.getDate() + days);
   return result;
 }
-const createNewOrder = async (providerName, consumerName, productId, plan) => {
+const createNewOrder = async (providerName, consumerName, startDate, productId, plan) => {
   const provider = await UserModel.findOne({ username: providerName })
   const consumer = await UserModel.findOne({ username: consumerName })
   const product = await ProductModel.findOne({ _id: productId })
+  if (!provider || !consumer || !product) return false
 
-  if (!provider.products_for_rent.find(p => product === p)) {
+  if (!provider.products_for_rent.some(p => productId == p)) {
     console.log('product is not belong to provider')
     return false
   }
-  if (!provider || !consumer || !product) return false
 
-  const today = new Date(Date.now())
   const newRent = new RentModel({
     consumer, provider, product,
-    start_time: today,
-    finish_time: addDays(today, plan.period),
+    start_time: startDate,
+    finish_time: addDays(startDate, plan.period),
     plan
   })
   await newRent.save()

@@ -1,12 +1,15 @@
-import React, {Component} from 'react';
-import './ImageCarousel.css';
-import {Carousel} from 'antd';
-
+import React, { Component } from "react";
+import "./ImageCarousel.css";
+import { Carousel } from "antd";
 
 export class ImageCarousel extends React.Component {
-    
-            
-    renderAllImages = (imgList) => {
+  renderAllImages = imgList => {
+    return imgList.map(img => (
+      <div>
+        <img alt="product" src={`${img}`} />
+      </div>
+    ));
+  };
 
         return (
             imgList.map(img => 
@@ -24,4 +27,4 @@ export class ImageCarousel extends React.Component {
             );
         }
 }
-export default ImageCarousel
+export default ImageCarousel;

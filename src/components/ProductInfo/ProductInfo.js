@@ -60,7 +60,7 @@ class ProductInfo extends Component {
                 />
               </div>
               <ImageCarousel
-                imgList={product && product.img ? product.img : []}
+                imgList={product && product.images ? product.images : []}
               />
             </Col>
             <Col xl={1}>

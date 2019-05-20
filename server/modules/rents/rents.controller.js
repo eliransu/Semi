@@ -3,15 +3,15 @@ const rentService = require('./rents.service')
 
 
 const createNewOrder = async (req, res) => {
-  const { providerName, consumerName, productId, plan } = req.body
-  if (!providerName || !consumerName || !productId || !plan) {
+  const { providerName, consumerName, productId, plan, startDate } = req.body
+  if (!providerName || !consumerName || !productId || !plan || !startDate) {
     return res.json(httpResponse(400, 'missing fields', 'createNewOrder'))
   }
   if (!plan.price || !plan.period) {
     return res.json(httpResponse(400, 'plan object must include "period" and "price"', 'createNewOrder'))
   }
 
-  const orderCreated = await rentService.createNewOrder(providerName, consumerName, productId, plan)
+  const orderCreated = await rentService.createNewOrder(providerName, consumerName, startDate, productId, plan)
   if (!orderCreated) {
     return res.json(httpResponse(500, 'failed to create order', 'createNewOrder'))
   }

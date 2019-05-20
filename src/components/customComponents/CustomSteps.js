@@ -61,7 +61,7 @@ class CustomSteps extends Component {
     return (
       <div>
         <Steps
-          style={{ width: "50%", margin: "auto", paddingBottom: 20 }}
+          style={{ width: "36%", margin: "auto", paddingBottom: 20 }}
           current={current}
         >
           {steps.map(item => (
@@ -71,44 +71,17 @@ class CustomSteps extends Component {
         {console.log({ current })}
         <div className="steps-content">
           {current === 0 ? (
-            <AddProductGeneral product={this.product} />
+            <AddProductGeneral
+              onNextClicked={() => this.next()}
+              onValidate={this.onValidate}
+              product={this.product}
+            />
           ) : (
-            <AddProductPricing product={this.product} />
-          )}
-        </div>
-        <div
-          className="steps-action"
-          style={{ display: "flex", width: "40%", margin: "auto" }}
-        >
-          {current < steps.length - 1 && (
-            <div style={{ flex: 1, textAlign: "center" }}>
-              <Button
-                type="primary"
-                style={{ width: "40%" }}
-                onClick={this.onNextClicked}
-              >
-                Next
-              </Button>
-            </div>
-          )}
-
-          {current === steps.length - 1 && (
-            <div style={{ flex: 1 }}>
-              <Button type="primary" onClick={this.onDoneClicked}>
-                Done
-              </Button>
-            </div>
-          )}
-          {current > 0 && (
-            <div style={{ flex: 1 }}>
-              <Button
-                loading={this.state.loading}
-                style={{ marginLeft: 8 }}
-                onClick={() => this.prev()}
-              >
-                Previous
-              </Button>
-            </div>
+            <AddProductPricing
+              product={this.product}
+              onDoneClicked={() => this.onDoneClicked()}
+              onPrevClicked={() => this.prev()}
+            />
           )}
         </div>
       </div>
