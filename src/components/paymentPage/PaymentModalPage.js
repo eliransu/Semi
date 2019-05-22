@@ -3,6 +3,8 @@ import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import rootStores from '../../stores';
 import PaymentStore from '../../stores/PaymentStore';
+import OrderService from "../../services/OrderService";
+import {toJS} from 'mobx';
 
 function hasErrors(fieldsError) {
 	return Object.keys(fieldsError).some((field) => fieldsError[field]);
@@ -52,7 +54,15 @@ class PaymentModalPage extends Component {
 	};
 
 	handleOk = (e) => {
-		console.log('okokokoko', e);
+		console.log("okokokoko", paymentStore);
+		const providerName = paymentStore.providerName;
+		const consumerName = paymentStore.consumerName;
+		const productId = paymentStore.currentProduct._id;
+		const plan = toJS(paymentStore.plan);
+		const startDate = paymentStore.startDate;
+		const Payment = paymentStore.payment;
+
+		OrderService.createNewOrder(providerName, consumerName, productId, plan, Payment,startDate)
 		paymentStore.toggleViewModal();
 	};
 

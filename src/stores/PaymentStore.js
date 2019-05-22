@@ -15,7 +15,7 @@ export default class PaymentStore {
 
 	@observable plan;
 
-	@observable price = 150;
+	@observable price=0;
 
 	@observable viewModal;
 

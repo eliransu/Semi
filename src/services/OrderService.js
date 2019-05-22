@@ -21,16 +21,19 @@ class OrderService {
 		}
 	};
 
-	async createNewOrder(providerName, consumerName, productId, plan, Payment) {
+	async createNewOrder(providerName, consumerName, productId, plan, Payment, startDate) {
 		const body = {
 			providerName,
 			consumerName,
 			productId,
 			plan,
-			Payment
+			Payment,
+			startDate
 		};
+		console.log("body",body);
 		try {
-			const result = await axios.put('/api/orders', body);
+
+			const result = await axios.post('/api/orders', body);
 		} catch (err) {
 			console.log('ERROR in createNewOrder: ', err);
 		}

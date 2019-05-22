@@ -8,10 +8,12 @@ import PaymentStore from '../../stores/PaymentStore';
 import ProductStore from '../../stores/ProductStore';
 import ImageCarousel from '../ProductInfo/ImageCarousel';
 import PaymentModalPage from './PaymentModalPage';
+import AuthStore from '../../stores/AuthStore';
 
 const {Option} = Select
 const productStore = rootStores[ProductStore];
 const paymentStore = rootStores[PaymentStore];
+const authStore = rootStores[AuthStore]
 
 const dateFormatList = [ 'DD/MM/YYYY' ];
 const { TextArea } = Input;
@@ -32,11 +34,15 @@ function onChangeRemarks(e) {
 }
 function onShippingCheckBoxChange(e) {
 	if (e.target.checked) {
-		
-		paymentStore.price += new Number(30.0);
+    console.log("e.target", e.target);
+    console.log("e", e);
+    console.log("paymentStore", paymentStore.type);
+		console.log("paymentStore.price:before", paymentStore.price);
+		paymentStore.price += 30 ;
+		console.log("paymentStore.price:after", paymentStore.price);
 	} else {
 	
-		paymentStore.price -= new Number(30.0);
+		paymentStore.price -= 30;
 	}
 }
 
@@ -50,6 +56,7 @@ class PaymentPage extends React.Component {
   componentDidMount() {
     this.props.form.validateFields();
     paymentStore.setEndDate(paymentStore.startDate);
+    paymentStore.consumerName = authStore.currentUser ? authStore.currentUser.username : "";
   }
 
 
@@ -66,20 +73,13 @@ class PaymentPage extends React.Component {
     console.log(`selected ${value}`);
     const curentProduct = paymentStore.currentProduct;
     const planPicked = curentProduct.plans[value];
-    console.log("planPicked", planPicked);
-    console.log(
-      "paymentStore.startDate - before:",
-      paymentStore.startDate.format("DD/MM/YYYY")
-    );
+    paymentStore.plan = planPicked;
     const newEndDate = moment(paymentStore.startDate).add(
       planPicked.period,
       "days"
     );
     paymentStore.setEndDate(newEndDate);
-    console.log(
-      "paymentStore.endDate - after:",
-      paymentStore.endDate.format("DD/MM/YYYY")
-    );
+   
     paymentStore.price = planPicked.price;
   };
   changeData = () => {
