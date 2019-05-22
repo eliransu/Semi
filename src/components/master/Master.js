@@ -85,6 +85,7 @@ class Master extends React.Component {
       this.setState({ user });
     }
   };
+
   onRegisterSuccess = user => {
     if (user) {
       this.setState({ user, visble: false, registerSuccessModal: true });
@@ -110,6 +111,10 @@ class Master extends React.Component {
     this.setState({ loginVisble: true });
   };
 
+  logOutClicked = () => {
+    console.log("logOut");
+  };
+
   render() {
     const user = authStore.getCurrentUser;
     console.log("user in render", user);
@@ -130,16 +135,8 @@ class Master extends React.Component {
             <Icon fontSize={16} type="home" />
             Home
           </Menu.Item>
-          <Menu.Item
-            style={{ fontSize: 16 }}
-            key="3"
-            onClick={this.showModal}
-          >
-            <Icon
-              fontSize={16}
-              style={{ marginLeft: 4 }}
-              type="notification"
-            />
+          <Menu.Item style={{ fontSize: 16 }} key="3" onClick={this.showModal}>
+            <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
             Become A Renter!
           </Menu.Item>
           <Modal
@@ -171,11 +168,7 @@ class Master extends React.Component {
             key="4"
             onClick={() => this.handleMenuClicked("add-product-as-renter")}
           >
-            <Icon
-              fontSize={16}
-              style={{ marginLeft: 4 }}
-              type="plus-circle"
-            />
+            <Icon fontSize={16} style={{ marginLeft: 4 }} type="plus-circle" />
             Add prouct as renter!
           </Menu.Item>
 
@@ -188,28 +181,32 @@ class Master extends React.Component {
             About Us
           </Menu.Item>
 
-          <Menu.Item
-            style={{ fontSize: 16 }}
-            key="8"
-            onClick={authStore.toggleviewLoginModal}
-          >
-            <Icon fontSize={16} style={{ marginLeft: 4 }} type="login" />
-            Log in
-          </Menu.Item>
-
-          {user.first_name === undefined && (
-            <Menu.Item style={{ marginLeft: 70, marginBottom: 20 }} key="7">
-              {<Login onLoginSuccess={this.onLoginSuccess} />}
+          {!user && (
+            <Menu.Item
+              style={{ fontSize: 16 }}
+              key="8"
+              onClick={() => authStore.toggleviewLoginModal()}
+            >
+              <Icon fontSize={16} style={{ marginLeft: 4 }} type="login" />
+              Log in
+            </Menu.Item>
+          )}
+          {user && (
+            <Menu.Item
+              style={{ fontSize: 16 }}
+              key="8"
+              onClick={this.logOutClicked}
+            >
+              <Icon fontSize={16} style={{ marginLeft: 4 }} type="logout" />
+              LogOut
             </Menu.Item>
           )}
 
-          {user.first_name !== undefined && (
+          {user && (
             <Menu.Item
               style={{ marginLeft: 300, marginBottom: 12 }}
               key="7"
-              onClick={() =>
-                this.handleMenuClicked(`/user/${user.username}`)
-              }
+              //   onClick={() => this.handleMenuClicked(`/user/${user.username}`)}
             >
               <Popup
                 trigger={
@@ -252,7 +249,9 @@ class Master extends React.Component {
                     color: "#ff8080"
                   }}
                 >
-                  {OrderStore.getallOrdersNotHendeledAsProvider ? OrderStore.getallOrdersNotHendeledAsProvider.length : 0}
+                  {OrderStore.getallOrdersNotHendeledAsProvider
+                    ? OrderStore.getallOrdersNotHendeledAsProvider.length
+                    : 0}
                 </div>
               </Popup>
               <Popup
@@ -300,33 +299,22 @@ class Master extends React.Component {
                 />
                 <NotificationCenter />
               </Popup>
-              <span>{`,Wellcome ${user.first_name} ${
-                user.last_name
-              }`}</span>
             </Menu.Item>
           )}
         </Menu>
-        <Login />
+        <Login onLoginSuccess={this.onLoginSuccess} />
         <Content style={{ padding: "0 50px", backgroundColor: "#fcfcfc" }}>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userName" component={UserProfile} />
             <Route exact path="/products" component={Product} />
-            <Route
-              exact
-              path="/products"
-              component={FavoriteProductsCard}
-            />
+            <Route exact path="/products" component={FavoriteProductsCard} />
             <Route
               exact
               path="/add-product-as-renter"
               component={AddProductCard}
             />
-            <Route
-              exact
-              path="/become-a-renter"
-              component={BecomeArenter}
-            />
+            <Route exact path="/become-a-renter" component={BecomeArenter} />
             <Route exact path="/about" component={About} />
             <Route
               exact

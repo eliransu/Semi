@@ -15,10 +15,10 @@ export class Product extends Component {
     const product = this.props.product;
 
     return (
-      <div>
+      <div style={{ height: 425 }}>
         {this.state.visible && <div>eliran</div>}
         <Card
-          style={{ width: "16vw", height: "43vh" }}
+          style={{ width: 300 }}
           cover={
             <img
               onClick={this.onProductClicked}
@@ -31,7 +31,7 @@ export class Product extends Component {
               style={{
                 height: "25vh",
                 width: "10vw",
-                marginLeft: "2.5vw",
+                marginLeft: "4.5vw",
                 padding: 5,
                 cursor: "pointer"
               }}

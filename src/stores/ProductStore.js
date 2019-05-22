@@ -7,6 +7,11 @@ import rootStores from "./index";
 import moment from "moment";
 
 export default class ProductStore {
+  authStore;
+
+  constructor(authStore) {
+    this.authStore = authStore;
+  }
   @observable
   currentProduct;
 

@@ -7,11 +7,11 @@ import ViewStore from "./ViewStore";
 
 //Initiate all stores
 const authStore = new AuthStore();
-const productStore = new ProductStore();
-const categoryStore = new CategoryStore();
-const paymentStore = new PaymentStore();
-const orderStore = new OrderStore();
-const viewStore = new ViewStore();
+const productStore = new ProductStore(authStore);
+const categoryStore = new CategoryStore(authStore);
+const paymentStore = new PaymentStore(authStore);
+const orderStore = new OrderStore(authStore);
+const viewStore = new ViewStore(authStore);
 
 //save the instances in global object
 const rootStores = {
