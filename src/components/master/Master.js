@@ -24,6 +24,7 @@ import SearchComponent from "../search/SearchComponenet";
 import OrderStore from "../../stores/OrderStore";
 import ViewStore from "../../stores/ViewStore";
 import SearchComponenet from "../search/SearchComponenet";
+import cookies from "cookies";
 
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
@@ -111,8 +112,8 @@ class Master extends React.Component {
     this.setState({ loginVisble: true });
   };
 
-  logOutClicked = () => {
-    console.log("logOut");
+  logOutClicked = async () => {
+    await authStore.logOut();
   };
 
   render() {

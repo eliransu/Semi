@@ -1,5 +1,7 @@
 import { observable, action, computed, toJS } from "mobx";
 import authService from "../services/AuthService";
+import AuthService from "../services/AuthService";
+import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
 export default class AuthStore {
   @observable token;
@@ -10,19 +12,31 @@ export default class AuthStore {
 
   @action
   login = async (email, password) => {
-    const user = await authService.login(email, password);
-    console.log("user from response:", user);
-    if (user) {
+    try {
+      const user = await authService.login(email, password);
+      console.log("user from response:", user);
+
       this.setCurrentUser(user);
-      return true;
-    } else {
-      return false;
+      return this.getCurrentUser;
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  @action
+  logOut = async () => {
+    try {
+      const res = await AuthService.logOut();
+      if (res) {
+        this.setCurrentUser(null);
+      }
+    } catch (err) {
+      throw err;
     }
   };
 
   @action
   toggleviewLoginModal = () => {
-    console.log("login!!!");
     this.viewLoginModal
       ? (this.viewLoginModal = false)
       : (this.viewLoginModal = true);
@@ -30,7 +44,9 @@ export default class AuthStore {
 
   @action
   togglevSignInModal = () => {
-    this.togglevSignInModal = !this.togglevSignInModa;
+    this.togglevSignInModal
+      ? (this.togglevSignInModal = false)
+      : (this.togglevSignInModal = true);
   };
 
   @action

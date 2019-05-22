@@ -6,6 +6,7 @@ import rootStores from "../../stores";
 import { observer } from "mobx-react";
 import BecomeArenter from "../becomeArenter/BecomeArenter";
 import Registration from "../becomeArenter/Registrtion";
+import AlertUtils from "../utils/AlertUtils";
 
 const authStore = rootStores[AuthStore];
 
@@ -51,13 +52,19 @@ class HorizontalLoginForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        const res = await authStore.login(values.userName, values.password);
+        try {
+          const res = await authStore.login(values.userName, values.password);
 
-        if (res) {
-          this.props.onLoginSuccess(authStore.getCurrentUser);
-          authStore.toggleviewLoginModal();
+          if (res) {
+            this.props.onLoginSuccess(authStore.getCurrentUser);
+            authStore.toggleviewLoginModal();
+            AlertUtils.successAlert("Login Success", "enjoy to share!");
+          }
+        } catch (err) {
+          AlertUtils.failureAlert(err.toString());
         }
       }
     });
