@@ -48,8 +48,6 @@ class DynamicFieldSet extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { keys, names } = values;
-        console.log("Received values of form: ", values);
-        console.log("hereeeeeee");
 
         productStore.getCurrentProduct.pricings = keys.map(key => names[key]);
       }
@@ -57,7 +55,6 @@ class DynamicFieldSet extends React.Component {
   };
 
   onPeriodSelected = val => {
-    console.log("value", val);
     this.props.onPeriodSelected(val);
   };
   onPeriodPricingChanged = val => {

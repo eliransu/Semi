@@ -99,13 +99,11 @@ class ProductCalendar extends Component {
              : "";
            paymentStore.startDate = day;
 
-           console.log("suisssssssaaaaaaaaaaa",this.props)
            this.props.history.push('/paymentPage')
 
          };
 
          dateCellRender = day => {
-           console.log("value::::::");
            const listData = this.convertBorrowDateToListData(day);
            if (listData.length > 0) {
              return (

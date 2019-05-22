@@ -35,7 +35,6 @@ class AddProductGeneral extends React.Component {
   }
 
   handleSubmit = e => {
-    console.log("im here!!");
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {

@@ -68,7 +68,6 @@ class CustomSteps extends Component {
             <Step key={item.title} title={item.title} />
           ))}
         </Steps>
-        {console.log({ current })}
         <div className="steps-content">
           {current === 0 ? (
             <AddProductGeneral

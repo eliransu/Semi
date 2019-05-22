@@ -16,12 +16,10 @@ class ProductService {
       quality: product.quality,
       plans: periods
     };
-    console.log("body", body);
 
     return axios
       .post("/api/users/product", { ...body })
       .then(response => {
-        console.log("Adding Product:", response);
         if (response && response.data.status === 201) {
           return true;
         } else {
@@ -40,22 +38,18 @@ class ProductService {
       if (!product || !product.data || !product.data.data) {
         return false;
       } else {
-        console.log("product", product.data.data);
 
         return product.data.data;
       }
     } catch (err) {
-      console.log("the request getProduct By Id faild.", err);
     }
   };
 
   onProductSearch = async searchParams => {
     let url = `/api/products/search${searchParams}`;
-    console.log({ url });
 
     try {
       const seacrhItems = await axios.get(url);
-      console.log({ seacrhItems });
       if (!seacrhItems) return [];
       else return seacrhItems.data.data;
     } catch (err) {
@@ -72,7 +66,6 @@ class ProductService {
   };
 
   getProductsByUserName = async userName => {
-    console.log("im in service!!!");
     try {
       const result = await axios.get(`/api/users/products/${userName}`);
       if (!result || !result.data || !result.data.data) {

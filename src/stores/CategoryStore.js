@@ -36,7 +36,6 @@ export default class CategoryStore {
 
   @action
   getCategoryById = async categoryId => {
-    console.log("im here");
     const result = await CategoryService.getCategoryById(categoryId);
     this.setCurrentCategory(result);
     if (this.getCurrentCategory[0]) {

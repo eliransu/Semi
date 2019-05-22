@@ -62,7 +62,6 @@ class SearchMain extends React.Component {
       query += `&&maxPrice=${maxPrice}`;
     }
     // `/search?category=${categoryName}&product=${productName}&userName=${userName}&quality=${quality}&min=${minPrice}&max=${maxPrice}`
-    console.log({ query });
     if (this.props.onSearchClicked) {
       this.props.onSearchClicked(query);
     } else {

@@ -84,7 +84,6 @@ export class Reviews extends Component {
   };
   commentRateChanged = value => {
     this.setState({ commentRate: value });
-    console.log(value);
   };
   render() {
     const { comments, submitting, value, commentRate } = this.state;

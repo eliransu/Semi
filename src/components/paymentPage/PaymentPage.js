@@ -34,12 +34,7 @@ function onChangeRemarks(e) {
 }
 function onShippingCheckBoxChange(e) {
 	if (e.target.checked) {
-    console.log("e.target", e.target);
-    console.log("e", e);
-    console.log("paymentStore", paymentStore.type);
-		console.log("paymentStore.price:before", paymentStore.price);
 		paymentStore.price += 30 ;
-		console.log("paymentStore.price:after", paymentStore.price);
 	} else {
 	
 		paymentStore.price -= 30;
@@ -64,7 +59,6 @@ class PaymentPage extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
       }
     });
   };

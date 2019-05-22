@@ -22,7 +22,6 @@ function handleMonthChange(value) {
 }
 function handleYearChange(value) {
 	paymentStore.cardValidityYear = value;
-	console.log(paymentStore.cardValidityYear);
 }
 
 function onChangeCreditCardNumber(e) {
@@ -54,7 +53,6 @@ class PaymentModalPage extends Component {
 	};
 
 	handleOk = (e) => {
-		console.log("okokokoko", paymentStore);
 		const providerName = paymentStore.providerName;
 		const consumerName = paymentStore.consumerName;
 		const productId = paymentStore.currentProduct._id;

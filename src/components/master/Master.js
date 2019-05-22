@@ -24,7 +24,7 @@ import SearchComponent from "../search/SearchComponenet";
 import OrderStore from "../../stores/OrderStore";
 import ViewStore from "../../stores/ViewStore";
 import SearchComponenet from "../search/SearchComponenet";
-import cookies from "cookies";
+
 
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
@@ -42,11 +42,15 @@ class Master extends React.Component {
     open: false
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     try {
-      const loggedIn = authStore.tryLogin();
+      const loggedIn = await authStore.tryLogin();
       if (!loggedIn) {
         this.handleMenuClicked("");
+      }
+      else{
+        orderStore.loadAllOrders();
+
       }
     } catch (err) {
       console.error(err);
@@ -102,7 +106,6 @@ class Master extends React.Component {
   };
 
   onLoginSuccess = user => {
-    orderStore.loadAllOrders();
     this.setState({ loginVisble: false });
   };
   onLoginCancel = () => {
@@ -118,7 +121,6 @@ class Master extends React.Component {
 
   render() {
     const user = authStore.getCurrentUser;
-    console.log("user in render", user);
     return (
       <Layout className="layout">
         <div className="logo" />
@@ -136,8 +138,16 @@ class Master extends React.Component {
             <Icon fontSize={16} type="home" />
             Home
           </Menu.Item>
-          <Menu.Item style={{ fontSize: 16 }} key="3" onClick={this.showModal}>
-            <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
+          <Menu.Item
+            style={{ fontSize: 16 }}
+            key="3"
+            onClick={this.showModal}
+          >
+            <Icon
+              fontSize={16}
+              style={{ marginLeft: 4 }}
+              type="notification"
+            />
             Become A Renter!
           </Menu.Item>
           <Modal
@@ -169,7 +179,11 @@ class Master extends React.Component {
             key="4"
             onClick={() => this.handleMenuClicked("add-product-as-renter")}
           >
-            <Icon fontSize={16} style={{ marginLeft: 4 }} type="plus-circle" />
+            <Icon
+              fontSize={16}
+              style={{ marginLeft: 4 }}
+              type="plus-circle"
+            />
             Add prouct as renter!
           </Menu.Item>
 
@@ -250,9 +264,7 @@ class Master extends React.Component {
                     color: "#ff8080"
                   }}
                 >
-                  {OrderStore.getallOrdersNotHendeledAsProvider
-                    ? OrderStore.getallOrdersNotHendeledAsProvider.length
-                    : 0}
+                  {orderStore.getLengthOrdersNotHandeledAsProvider}
                 </div>
               </Popup>
               <Popup
@@ -309,13 +321,21 @@ class Master extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/user/:userName" component={UserProfile} />
             <Route exact path="/products" component={Product} />
-            <Route exact path="/products" component={FavoriteProductsCard} />
+            <Route
+              exact
+              path="/products"
+              component={FavoriteProductsCard}
+            />
             <Route
               exact
               path="/add-product-as-renter"
               component={AddProductCard}
             />
-            <Route exact path="/become-a-renter" component={BecomeArenter} />
+            <Route
+              exact
+              path="/become-a-renter"
+              component={BecomeArenter}
+            />
             <Route exact path="/about" component={About} />
             <Route
               exact

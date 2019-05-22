@@ -56,7 +56,6 @@ export default class ProductStore {
   getProductById = async productId => {
     const product = await productService.getProductById(productId);
     if (product) {
-      console.log("prodcuctStore", product);
       this.setCurrentProduct(product);
       return true;
     } else {
@@ -87,7 +86,6 @@ export default class ProductStore {
   @action
   setCurrentProduct(product) {
     this.currentProduct = product;
-    console.log(toJS(this.currentProduct));
   }
 
   @action

@@ -32,7 +32,6 @@ class ProductInfo extends Component {
     const plans = product && product.plans ? product.plans : [];
     const orders = product && product.orders ? product.orders : [];
     const reviews = product && product.reviews ? product.reviews : [];
-    console.log({ product });
     return (
       <React.Fragment>
         <div>
@@ -153,7 +152,6 @@ class ProductInfo extends Component {
   };
 
   render() {
-    console.log("current Product", productStore.getCurrentProduct);
     return (
       <React.Fragment>
         {this.state.emptyState ? this.renderEmptyState() : this.renderProduct()}

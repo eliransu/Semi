@@ -40,7 +40,6 @@ class AddProductPricing extends Component {
   }
 
   handleSubmit = e => {
-    console.log("im here!!");
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -52,7 +51,6 @@ class AddProductPricing extends Component {
     this.props.product.retailPrice = e.target.value;
   };
   onPeriodSelected = value => {
-    console.log(value);
     this.setState({ curentPeriods: value });
   };
   onPeriodPricingChanged = val => {

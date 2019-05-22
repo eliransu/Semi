@@ -14,7 +14,6 @@ export default class AuthStore {
   login = async (email, password) => {
     try {
       const user = await authService.login(email, password);
-      console.log("user from response:", user);
 
       this.setCurrentUser(user);
       return this.getCurrentUser;
@@ -52,7 +51,6 @@ export default class AuthStore {
   @action
   tryLogin = async () => {
     const user = await authService.tryLogin();
-    console.log("user in store", user);
     if (user) {
       this.setCurrentUser(user);
       return true;

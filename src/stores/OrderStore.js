@@ -35,14 +35,23 @@ export default class OrderStore {
     loadAllOrders(){
         
         const currentUser = this.authStore.getCurrentUser;
-        OrderService.getAllOrdersByUserNameAndType(currentUser.username,orderType.Provider)
-        .then( allOrdersAsProvider =>{
-            this.allOrdersAsProvider.replace(toJS(allOrdersAsProvider))
-        }).then(() =>{
+        if(currentUser){
+            OrderService.getAllOrdersByUserNameAndType(currentUser.username,orderType.Provider)
+            .then( allOrdersAsProvider =>{
+                if(this.allOrdersAsProvider)
+                    this.allOrdersAsProvider.replace(toJS(allOrdersAsProvider))
+                else
+                    this.allOrdersAsProvider=[];
+            }).then(() =>{
                 const allOrdersNotHendeledAsProvider = this.allOrdersAsProvider.filter(
-                order => order.order_status === OrderStatus.NotHendeled);
-                this.allOrdersNotHendeledAsProvider.replace(toJS(allOrdersNotHendeledAsProvider))
-                })
+                    order => order.order_status === OrderStatus.NotHendeled);
+                    this.allOrdersNotHendeledAsProvider.replace(toJS(allOrdersNotHendeledAsProvider))
+                    })
+        }
+        else{
+            this.allOrdersNotHendeledAsProvider = [];
+            this.allOrdersAsProvider = [];
+        }
     }
     
     @action
@@ -76,6 +85,11 @@ export default class OrderStore {
     @computed
     get getallOrdersNotHendeledAsProvider(){
         return toJS(this.allOrdersNotHendeledAsProvider);
+    }
+    @computed
+    get getLengthOrdersNotHandeledAsProvider(){
+        return toJS(this.allOrdersNotHendeledAsProvider).length>0?toJS(this.allOrdersNotHendeledAsProvider).length : 0;
+
     }
 
     @computed

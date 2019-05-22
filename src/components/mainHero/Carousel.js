@@ -32,7 +32,6 @@ class Carousel extends React.Component {
   };
 
   onTabClicked = category => {
-    console.log({ category });
     this.props.history.push(`/category/${category}`);
   };
 

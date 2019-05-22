@@ -49,7 +49,6 @@ class Store extends Component {
     this.setState({ page });
   };
   render() {
-    console.log(authStore.getCurrentUser);
     const dataSize = productStore.getAllProducts.length;
     return (
       <React.Fragment>

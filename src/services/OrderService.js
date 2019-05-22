@@ -30,7 +30,6 @@ class OrderService {
 			Payment,
 			startDate
 		};
-		console.log("body",body);
 		try {
 
 			const result = await axios.post('/api/orders', body);
