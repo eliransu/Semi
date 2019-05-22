@@ -28,34 +28,34 @@ const columns = [
   },
   {
     title: "Phone",
-    dataIndex: "phone",
-    key: "phone"
+    dataIndex: "phone_number",
+    key: "phone_number"
   },
   {
     title: "Profile Image",
     dataIndex: "profile_image",
     key: "profile_image"
   },
-  {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    render: tags => (
-      <span>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </span>
-    )
-  },
+  //   {
+  //     title: "Tags",
+  //     key: "tags",
+  //     dataIndex: "tags",
+  //     render: tags => (
+  //       <span>
+  //         {tags.map(tag => {
+  //           let color = tag.length > 5 ? "geekblue" : "green";
+  //           if (tag === "loser") {
+  //             color = "volcano";
+  //           }
+  //           return (
+  //             <Tag color={color} key={tag}>
+  //               {tag.toUpperCase()}
+  //             </Tag>
+  //           );
+  //         })}
+  //       </span>
+  //     )
+  //   },
   {
     title: "Action",
     key: "action",
@@ -69,53 +69,55 @@ const columns = [
   }
 ];
 
-const data = [
-  {
-    key: "1",
-    first_name: "tom",
-    last_name: "lochi",
-    username: "tom.lochi",
-    email: "tom.lochi@gmail.com",
-    phone: "123456",
-    profile_image: "abc.jpg",
-    tags: ["nice", "developer"]
-  },
-  {
-    key: "2",
-    first_name: "sean",
-    last_name: "asis",
-    username: "seans",
-    email: "sean.asis@gmail.com",
-    phone: "123456",
-    profile_image: "abc.jpg",
-    tags: ["nice", "cool"]
-  },
-  {
-    key: "3",
-    first_name: "eliran",
-    last_name: "hasin",
-    username: "eliran.hasin",
-    email: "eliran.hasin@gmail.com",
-    phone: "123456",
-    profile_image: "abc.jpg",
-    tags: ["nice", "teacher"]
-  },
-  {
-    key: "4",
-    first_name: "alon",
-    last_name: "bayhmok",
-    username: "alon.brymok",
-    email: "alon.brymok@gmail.com",
-    phone: "123456",
-    profile_image: "abc.jpg",
-    tags: ["loser", "developer"]
-  }
-];
+// const data = [
+//   {
+//     key: "1",
+//     first_name: "tom",
+//     last_name: "lochi",
+//     username: "tom.lochi",
+//     email: "tom.lochi@gmail.com",
+//     phone: "123456",
+//     profile_image: "abc.jpg",
+//     tags: ["nice", "developer"]
+//   },
+//   {
+//     key: "2",
+//     first_name: "sean",
+//     last_name: "asis",
+//     username: "seans",
+//     email: "sean.asis@gmail.com",
+//     phone: "123456",
+//     profile_image: "abc.jpg",
+//     tags: ["nice", "cool"]
+//   },
+//   {
+//     key: "3",
+//     first_name: "eliran",
+//     last_name: "hasin",
+//     username: "eliran.hasin",
+//     email: "eliran.hasin@gmail.com",
+//     phone: "123456",
+//     profile_image: "abc.jpg",
+//     tags: ["nice", "teacher"]
+//   },
+//   {
+//     key: "4",
+//     first_name: "alon",
+//     last_name: "bayhmok",
+//     username: "alon.brymok",
+//     email: "alon.brymok@gmail.com",
+//     phone: "123456",
+//     profile_image: "abc.jpg",
+//     tags: ["loser", "developer"]
+//   }
+// ];
 
 const adminPanelStore = rootStores[AdminPanelStore];
 @observer
 class AdminPanelUsers extends Component {
   render() {
+    const data = adminPanelStore.getAllUsers;
+    console.log("the data is : ", data);
     const hide = adminPanelStore.viewUsers ? "" : "hide";
     return (
       <div className={`admin-panel-users ${hide}`}>

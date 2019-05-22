@@ -22,6 +22,11 @@ const columns = [
     key: "provider"
   },
   {
+    title: "Plan",
+    dataIndex: "plan",
+    key: "plan"
+  },
+  {
     title: "Order_Status",
     key: "tags",
     dataIndex: "tags",
@@ -60,6 +65,7 @@ const data = [
     product: "iphone",
     consumer: "tom",
     provider: "sean",
+    plan: "1",
     tags: ["on-hold"]
   },
   {
@@ -67,6 +73,7 @@ const data = [
     product: "I-robot",
     consumer: "eliran",
     provider: "alon",
+    plan: "1",
     tags: ["done"]
   },
   {
@@ -74,6 +81,7 @@ const data = [
     product: "MacBook Pro",
     consumer: "eliran",
     provider: "sean",
+    plan: "1",
     tags: ["done"]
   },
   {
@@ -81,6 +89,7 @@ const data = [
     product: "Apple TV",
     consumer: "sean",
     provider: "alon",
+    plan: "1",
     tags: ["on-hold"]
   }
 ];

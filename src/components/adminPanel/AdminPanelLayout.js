@@ -23,6 +23,7 @@ class AdminPanel extends React.Component {
   }
 
   onUsersClick() {
+    adminPanelStore.getAllUsersAPI();
     adminPanelStore.toggleViewUsers();
   }
 

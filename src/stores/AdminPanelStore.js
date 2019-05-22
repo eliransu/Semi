@@ -1,12 +1,13 @@
 import { observable, action, computed, toJS } from "mobx";
+import adminPanelService from "../services/AdminPanelService";
 
 export default class AdminPanelStore {
   @observable viewUsers;
   @observable ViewProducts;
   @observable viewOrders;
+  @observable allUsers = observable([]);
 
   @action toggleViewUsers() {
-    console.log("aaaaaaaa");
     if (this.viewUsers) {
       this.viewUsers = false;
     } else {
@@ -17,7 +18,6 @@ export default class AdminPanelStore {
   }
 
   @action toggleViewProducts() {
-    console.log("bbbbbbbbb");
     if (this.ViewProducts) {
       this.ViewProducts = false;
     } else {
@@ -28,7 +28,6 @@ export default class AdminPanelStore {
   }
 
   @action toggleViewOrders() {
-    console.log("cccccccc");
     if (this.viewOrders) {
       this.viewOrders = false;
     } else {
@@ -36,5 +35,18 @@ export default class AdminPanelStore {
     }
     this.ViewProducts = false;
     this.viewUsers = false;
+  }
+
+  @action
+  getAllUsersAPI = async () => {
+    const users = await adminPanelService.getAllUsers();
+    this.allUsers.replace(users);
+  };
+
+  @computed
+  get getAllUsers() {
+    if (this.allUsers) {
+      return toJS(this.allUsers);
+    }
   }
 }
