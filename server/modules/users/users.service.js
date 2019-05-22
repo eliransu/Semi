@@ -3,6 +3,7 @@ const productService = require('../products/products.service')
 const rentService = require('../rents/rents.service')
 const Category = require('../../database/models/CategoryModel')
 const jwt = require('jwt-simple')
+const ObjectId = require('mongodb').ObjectID;
 
 const getProductsByUserName = async (username) => {
   const user = await UserModel.findOne({ username })
@@ -125,6 +126,46 @@ const getAllUsers = async () => {
   return users
 }
 
+const manageMatching = async (userId, action, productIds) => {
+  const user = await UserModel.findOne({ _id: userId })
+  if (!user) return false
+  if (action === 'give') {
+    let errorFlag = false
+    for (let i = 0; i < productIds.length; i++) {
+      if (!user.products_for_rent.some(product => product._id == productIds[i])) {
+        console.log('product is not belongs to this user !')
+        errorFlag = true
+      }
+    }
+    if (!errorFlag) {
+      user.products_to_give = productIds
+    }
+
+  } else if (action === 'take') {
+    try {
+    } catch (err) {
+      console.log(err)
+    }
+    const existsProductsPromiseArray = productIds.map(id => {
+      try {
+        const oid = ObjectId(id)
+        return productService.getProductById(oid)
+      } catch (err) {
+        return false
+      }
+    })
+    const existing = await Promise.all(existsProductsPromiseArray)
+    if (existing.some(val => !val)) {
+      console.log('product is not exist..')
+      return false
+    }
+    user.products_to_take = productIds
+  }
+
+  await user.save()
+  return true
+}
+
 
 module.exports = {
   getProductsByUserName,
@@ -134,5 +175,6 @@ module.exports = {
   rentProduct,
   fetchActiveUser,
   getOrdersByUsername,
-  getAllUsers
+  getAllUsers,
+  manageMatching
 }

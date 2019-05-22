@@ -6,6 +6,8 @@ const helmet = require('helmet')
 const routes = require('./routes')
 const path = require('path')
 const cookieParser = require('cookie-parser')
+const { runMatching } = require('./modules/algorithms/matchingAlgorithm')
+
 require('dotenv').config()
 console.log(process.env.SEMI_DB_URI)
 connectToSemiDB()
@@ -39,6 +41,9 @@ function connectToSemiDB() {
     reconnectInterval: 10000
   })
   mongoose.connection.on('connected', () => {
+    setTimeout(() => {
+      runMatching()
+    }, 1000);
     console.log(`MongoDB connected`)
   })
 }

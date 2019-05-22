@@ -108,6 +108,19 @@ const getAllUsers = async (req, res) => {
   return res.json(httpResponse(200, users))
 }
 
+const manageMatching = async (req, res) => {
+  const { productIds, userId, action } = req.body
+  if (!action || !userId || !Array.isArray(productIds)) {
+    return res.json(httpResponse(500, 'missing fields', 'manageMatching'))
+  }
+  const matchPlacementCreated = await userService.manageMatching(userId, action, productIds)
+  if (!matchPlacementCreated) {
+    return res.json(httpResponse(500, 'failed to placement matching', 'manageMatching'))
+  }
+
+  return res.json(httpResponse(201))
+}
+
 
 module.exports = {
   getProducts,
@@ -117,5 +130,6 @@ module.exports = {
   rentProduct,
   fetchActiveUser,
   getOrdersByUsername,
-  getAllUsers
+  getAllUsers,
+  manageMatching
 }

@@ -9,6 +9,7 @@ users.get('/:username', usersController.getUserByUsername)
 users.post('/product', usersController.addProductToUser)
 users.put('/product', usersController.updateProductToUser)
 users.post('/rent', usersController.rentProduct)
+users.post('/match', usersController.manageMatching)
 //users.delete('/product', usersController.deleteProductToUser)
 //users.put('/', usersController.updateUserData)
 

@@ -51,6 +51,14 @@ const User = new Schema({
       default: []
     }]
   },
+  products_to_take: {
+    type: [String],
+    default: []
+  },
+  products_to_give: {
+    type: [String],
+    default: []
+  },
   phone_number: {
     type: String
   },
