@@ -159,6 +159,15 @@ const search = async (req, res) => {
   return res.json(httpResponse(200, results))
 }
 
+const getAllProducts = async (req, res) => {
+  const products = await productService.getAllProducts()
+  if (!products) {
+    return res.json(httpResponse(500, 'failed to load products', 'getAllProducts'))
+  }
+
+  return res.json(httpResponse(200, products))
+}
+
 module.exports = {
   getProductsByCategory,
   addProduct,
@@ -167,6 +176,7 @@ module.exports = {
   getProductsByNameOrId,
   getLatestProducts,
   addReviewToProduct,
+  getAllProducts,
   getAllCategories,
   uploadImage,
   scrapProducts,

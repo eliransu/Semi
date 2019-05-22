@@ -114,6 +114,18 @@ const getOrdersByUsername = async (username, type) => {
 
 }
 
+const getAllUsers = async () => {
+  const users = await UserModel.find({}).select({
+    products_for_rent: 0,
+    orders_as_provider: 0,
+    orders_as_consumer: 0,
+    deleted: 0,
+    __v: 0
+  })
+  return users
+}
+
+
 module.exports = {
   getProductsByUserName,
   addProduct,
@@ -121,5 +133,6 @@ module.exports = {
   getUserByUsername,
   rentProduct,
   fetchActiveUser,
-  getOrdersByUsername
+  getOrdersByUsername,
+  getAllUsers
 }

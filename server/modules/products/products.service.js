@@ -98,11 +98,17 @@ const getProductsByName = async (name) => {
 
 const getLatestProducts = async (limit) => {
   const limitNumeric = +limit
+  console.log(limitNumeric)
   const latestProducts = await ProductModel.find().sort({ 'createdAt': -1 }).limit(limitNumeric)
   if (latestProducts.length > 0) {
     return reduceProductsData(latestProducts)
   }
   return null
+}
+
+const getAllProducts = async () => {
+  const products = await ProductModel.find({}).select({ __v: 0, description: 0, reviews: 0 })
+  return products
 }
 
 const addReview = async (productId, username, stars, content) => {
@@ -183,5 +189,6 @@ module.exports = {
   getAllCategories,
   reduceProductsData,
   getProductsByUserName,
-  search
+  search,
+  getAllProducts
 }

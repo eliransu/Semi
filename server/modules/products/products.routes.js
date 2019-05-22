@@ -1,6 +1,7 @@
 const products = require('express').Router()
 const productsController = require('./products.controller')
 
+products.get('/', productsController.getAllProducts)
 products.get('/latest/:limit', productsController.getLatestProducts)
 products.get('/by-category/:category', productsController.getProductsByCategory)
 products.get('/categories', productsController.getAllCategories)

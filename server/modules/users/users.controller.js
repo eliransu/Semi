@@ -100,6 +100,14 @@ const getOrdersByUsername = async (req, res) => {
   return res.json(httpResponse(200, orders))
 }
 
+const getAllUsers = async (req, res) => {
+  const users = await userService.getAllUsers()
+  if (!users) {
+    return res.json(httpResponse(500, 'users not found', 'getAllUsers'))
+  }
+  return res.json(httpResponse(200, users))
+}
+
 
 module.exports = {
   getProducts,
@@ -108,5 +116,6 @@ module.exports = {
   getUserByUsername,
   rentProduct,
   fetchActiveUser,
-  getOrdersByUsername
+  getOrdersByUsername,
+  getAllUsers
 }
