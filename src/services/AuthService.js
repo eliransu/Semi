@@ -9,6 +9,7 @@ class AuthService {
     try {
       const result = await axios.post("api/auth/login", body);
       if (result && result.data && result.data.status === 200) {
+        // console.log({ result });
         return result.data.data;
       } else {
         throw new Error("User not found");

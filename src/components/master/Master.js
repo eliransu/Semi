@@ -25,6 +25,8 @@ import OrderStore from "../../stores/OrderStore";
 import ViewStore from "../../stores/ViewStore";
 import SearchComponenet from "../search/SearchComponenet";
 import cookies from "cookies";
+import MatchingModal from "../matches/MatchingModal";
+import MatchesMarket from "../matches/MatchesMarket";
 
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
@@ -39,7 +41,8 @@ class Master extends React.Component {
     loginVisble: false,
     registerSuccessModal: false,
     user: null,
-    open: false
+    open: false,
+    matchingModal: false
   };
 
   componentDidMount() {
@@ -67,6 +70,15 @@ class Master extends React.Component {
   };
   openModal = () => {
     this.setState({ open: true });
+  };
+
+  onMatchingClicked = () => {
+    if (authStore.getCurrentUser.products_to_give.length > 0) {
+      this.handleMenuClicked("/matching");
+    } else {
+      this.setState({});
+    }
+    this.setState({ matchingModal: true });
   };
 
   handleCancel = e => {
@@ -136,6 +148,24 @@ class Master extends React.Component {
             <Icon fontSize={16} type="home" />
             Home
           </Menu.Item>
+          <Menu.Item
+            style={{ fontSize: 16 }}
+            key="7"
+            onClick={() => this.onMatchingClicked()}
+          >
+            <Icon fontSize={16} type="usergroup-add" />
+            Matching
+          </Menu.Item>
+          <Modal
+            visible={this.state.matchingModal}
+            onCancel={() => this.setState({ matchingModal: false })}
+            footer={null}
+            title={
+              <div style={{ textAlign: "center", fontSize: 22 }}>Matching</div>
+            }
+          >
+            <MatchingModal user={user} />
+          </Modal>
           <Menu.Item style={{ fontSize: 16 }} key="3" onClick={this.showModal}>
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
             Become A Renter!
@@ -198,7 +228,12 @@ class Master extends React.Component {
               key="8"
               onClick={this.logOutClicked}
             >
-              <Icon fontSize={16} style={{ marginLeft: 4 }} type="logout" />
+              <Icon
+                onClick={this.logOutClicked}
+                fontSize={16}
+                style={{ marginLeft: 4 }}
+                type="logout"
+              />
               LogOut
             </Menu.Item>
           )}
@@ -329,6 +364,7 @@ class Master extends React.Component {
               history={this.props.history}
               component={Category}
             />
+            <Route exact path={"/matching"} component={MatchesMarket} />
             <Route exact path="/paymentPage" component={PaymentPage} />
             <Route exact path="/search" component={SearchComponenet} />
           </Switch>
