@@ -1,24 +1,43 @@
 import React, { Component } from "react";
-import { Card, Icon, Avatar, Rate } from "antd";
+import { Card, Icon, Avatar, Rate, Checkbox } from "antd";
 import Snownoard from "../../assets/snowboard.jpg";
 import ShowMoreText from "react-show-more-text";
 
 const { Meta } = Card;
 export class Product extends Component {
-  state = {};
+  state = {
+    opacity: this.props.opacity ? 0.5 : 1,
+    productStyle: ""
+  };
 
   onProductClicked = () => {
     this.props.history.replace(`/productPage/${this.props.product._id}`);
   };
+  onCheckBoxChanged = e => {
+    e.target.checked
+      ? this.setState({
+          productStyle: '"3px solid lightgreen"'
+        })
+      : this.setState({ productStyle: "" });
+    e.target.checked
+      ? this.setState({ opacity: 1 })
+      : this.setState({ opacity: 0.5 });
+  };
 
   render() {
     const product = this.props.product;
+    const opcity = this.props.marketPlace;
+    console.log(this.state.opacity);
 
     return (
       <div style={{ height: 425 }}>
         {this.state.visible && <div>eliran</div>}
         <Card
-          style={{ width: 300 }}
+          style={{
+            width: 300,
+            opacity: this.state.opacity,
+            border: this.state.productStyle
+          }}
           cover={
             <img
               onClick={this.onProductClicked}
@@ -40,6 +59,12 @@ export class Product extends Component {
           actions={[
             <div>
               <Rate />
+              {this.props.marketPlace && (
+                <Checkbox
+                  style={{ marginLeft: 30 }}
+                  onChange={e => this.onCheckBoxChanged(e)}
+                />
+              )}
             </div>
           ]}
         >

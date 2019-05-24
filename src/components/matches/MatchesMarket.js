@@ -2,16 +2,23 @@ import React, { Component } from "react";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
-import { Col, Row, Pagination } from "antd";
+import { Col, Row, Pagination, Alert } from "antd";
 import Product from "../Store/Product";
+import AlertUtils from "../utils/AlertUtils";
 const productStore = rootStores[ProductStore];
 @observer
 class MatchesMarket extends Component {
   async componentDidMount() {
-    const userName = productStore.authStore.getCurrentUser.username;
+    const userName = productStore.authStore.getCurrentUser
+      ? productStore.authStore.getCurrentUser.username
+      : null;
     try {
-      await productStore.getProductsByUserName(userName);
-    } catch (err) {}
+      if (userName) {
+        await productStore.getProductsByUserName(userName);
+      }
+    } catch (err) {
+      AlertUtils.failureAlert(err);
+    }
   }
 
   state = {
@@ -36,7 +43,13 @@ class MatchesMarket extends Component {
     const products = this.loadBulk(productStore.getAllProducts);
     return products.map((product, index) => (
       <Col span={8} style={{ padding: 30 }}>
-        <Product history={this.props.history} product={product} key={index} />
+        <Product
+          history={this.props.history}
+          product={product}
+          key={index}
+          marketPlace={true}
+          opacity={true}
+        />
       </Col>
     ));
   };

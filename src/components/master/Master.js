@@ -27,6 +27,7 @@ import SearchComponenet from "../search/SearchComponenet";
 import cookies from "cookies";
 import MatchingModal from "../matches/MatchingModal";
 import MatchesMarket from "../matches/MatchesMarket";
+import AlertUtils from "../utils/AlertUtils";
 
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
@@ -73,12 +74,13 @@ class Master extends React.Component {
   };
 
   onMatchingClicked = () => {
-    if (authStore.getCurrentUser.products_to_give.length > 0) {
+    if (!authStore.getCurrentUser) {
+      AlertUtils.failureAlert("for matching you must be logged In");
+    } else if (authStore.getCurrentUser.products_to_give.length > 0) {
       this.handleMenuClicked("/matching");
     } else {
-      this.setState({});
+      this.setState({ matchingModal: true });
     }
-    this.setState({ matchingModal: true });
   };
 
   handleCancel = e => {
