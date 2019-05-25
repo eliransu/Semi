@@ -50,7 +50,7 @@ class Master extends React.Component {
     try {
       const loggedIn = authStore.tryLogin();
       if (!loggedIn) {
-        this.handleMenuClicked("");
+        this.handleMenuClicked("/");
       }
     } catch (err) {
       console.error(err);

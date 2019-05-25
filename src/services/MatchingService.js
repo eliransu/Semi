@@ -6,10 +6,15 @@ class MatchingService {
       action,
       productIds
     };
-    console.log({ body });
-    console.log("matching service");
-    const result = await axios.post("/api/users/match", body);
-    console.log({ result });
+    try {
+      const result = await axios.post("/api/users/match", body);
+      console.log({ result });
+      if (!result || !result.data.status === 201) {
+        throw new Error("The Matching service not working, try it later");
+      }
+    } catch (err) {
+      throw err;
+    }
   };
 }
 

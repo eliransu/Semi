@@ -43,7 +43,7 @@ class AuthService {
       const user = await axios.get("/api/users/active-user");
       console.log("user", user.data.data);
       if (!user || !user.data || !user.data.data) {
-        return false;
+        throw new Error("the User Not Active.");
       } else {
         console.log("im in else");
         return user.data.data;
