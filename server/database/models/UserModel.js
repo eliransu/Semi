@@ -37,6 +37,9 @@ const User = new Schema({
   address: {
     type: Object
   },
+  isAdmin: {
+    type: Boolean
+  },
   orders_as_provider: {
     type: [{
       type: Schema.Types.ObjectId,

@@ -29,6 +29,8 @@ import MatchingModal from "../matches/MatchingModal";
 import MatchesMarket from "../matches/MatchesMarket";
 import AlertUtils from "../utils/AlertUtils";
 import BlockUi from "react-block-ui";
+import AdminPanel from '../adminPanel/AdminPanel'
+
 const semiIcon = require("../../assets/semi.ico");
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
@@ -63,21 +65,21 @@ class Master extends React.Component {
     }
   }
 
-	showModal = () => {
-		this.setState({ visble: true });
-	};
-	handleOk = (e) => {
-		//need to send data to the server
-		console.log(e);
-		this.setState({ visble: false });
-	};
+  showModal = () => {
+    this.setState({ visble: true });
+  };
+  handleOk = (e) => {
+    //need to send data to the server
+    console.log(e);
+    this.setState({ visble: false });
+  };
 
-	closeModal = () => {
-		this.setState({ open: false });
-	};
-	openModal = () => {
-		this.setState({ open: true });
-	};
+  closeModal = () => {
+    this.setState({ open: false });
+  };
+  openModal = () => {
+    this.setState({ open: true });
+  };
 
   onMatchingClicked = () => {
     if (!authStore.getCurrentUser) {
@@ -117,13 +119,13 @@ class Master extends React.Component {
     }
   };
 
-	onCancel = () => {
-		this.setState({ visble: false });
-	};
+  onCancel = () => {
+    this.setState({ visble: false });
+  };
 
-	returnToHomePage = () => {
-		this.setState({ registerSuccessModal: false });
-	};
+  returnToHomePage = () => {
+    this.setState({ registerSuccessModal: false });
+  };
 
   onLoginSuccess = user => {
     this.setState({ loginVisble: false });
@@ -400,6 +402,8 @@ class Master extends React.Component {
             <Route exact path={"/matching"} component={MatchesMarket} />
             <Route exact path="/paymentPage" component={PaymentPage} />
             <Route exact path="/search" component={SearchComponenet} />
+            <Route exact path="/adminPanel" component={AdminPanel} />
+
           </Switch>
         </Content>
         <Footer style={{ textAlign: "center" }}>

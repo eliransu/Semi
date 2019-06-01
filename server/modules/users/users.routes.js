@@ -1,8 +1,9 @@
 const users = require('express').Router()
 const usersController = require('./users.controller')
 const authMiddleware = require('../../middleware/authMiddleware')
+const adminMiddleware = require('../../middleware/adminMiddleware')
 
-users.get('/', usersController.getAllUsers)
+users.get('/', authMiddleware, adminMiddleware, usersController.getAllUsers)
 users.get('/active-user', usersController.fetchActiveUser)
 users.get('/products/:username', usersController.getProducts)
 users.get('/orders', usersController.getOrdersByUsername)
@@ -12,5 +13,5 @@ users.post('/product', authMiddleware, usersController.addProductToUser)
 users.put('/product', authMiddleware, usersController.updateProductToUser)
 users.post('/rent', authMiddleware, usersController.rentProduct)
 users.post('/match', authMiddleware, usersController.manageMatching)
-users.delete('/:userId', authMiddleware, usersController.deleteUserById)
+users.delete('/:userId', authMiddleware, adminMiddleware, usersController.deleteUserById)
 module.exports = users
