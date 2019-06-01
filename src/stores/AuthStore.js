@@ -1,7 +1,6 @@
 import { observable, action, computed, toJS } from "mobx";
 import authService from "../services/AuthService";
 import AuthService from "../services/AuthService";
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
 export default class AuthStore {
   @observable token;
@@ -50,11 +49,13 @@ export default class AuthStore {
 
   @action
   tryLogin = async () => {
-    const user = await authService.tryLogin();
-    if (user) {
+    try {
+      const user = await authService.tryLogin();
       this.setCurrentUser(user);
-      return true;
-    } else return false;
+      return this.getCurrentUser;
+    } catch (err) {
+      throw err;
+    }
   };
 
   @action

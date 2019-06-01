@@ -1,24 +1,66 @@
 import React, { Component } from "react";
-import { Card, Icon, Avatar, Rate } from "antd";
+import { Card, Icon, Avatar, Rate, Checkbox } from "antd";
 import Snownoard from "../../assets/snowboard.jpg";
 import ShowMoreText from "react-show-more-text";
+import { faSmile } from "@fortawesome/free-solid-svg-icons";
+import AlertUtils from "../utils/AlertUtils";
 
 const { Meta } = Card;
 export class Product extends Component {
-  state = {};
+  state = {
+    opacity: this.props.opacity ? 0.5 : 1,
+    productStyle: false
+  };
 
   onProductClicked = () => {
     this.props.history.replace(`/productPage/${this.props.product._id}`);
   };
+  onCheckBoxChanged = e => {
+    e.preventDefault();
+    if (this.props.counter < 5) {
+      this.props.onCounterChanged(e.target.checked, this.props.product._id);
+      e.target.checked
+        ? this.setState({
+            productStyle: true
+          })
+        : this.setState({ productStyle: false });
+      e.target.checked
+        ? this.setState({ opacity: 1 })
+        : this.setState({ opacity: 0.5 });
+      console.log(this.state.productStyle);
+    } else if (!e.target.checked) {
+      this.props.onCounterChanged(e.target.checked, this.props.product._id);
+      e.target.checked
+        ? this.setState({
+            productStyle: true
+          })
+        : this.setState({ productStyle: false });
+      e.target.checked
+        ? this.setState({ opacity: 1 })
+        : this.setState({ opacity: 0.5 });
+    } else {
+      AlertUtils.failureAlert("You can choose only 5 products for matching");
+    }
+  };
 
   render() {
     const product = this.props.product;
+    const opcity = this.props.marketPlace;
+    console.log(this.state.opacity);
+    const disabled =
+      this.props.checkBoxDisable && !this.state.productStyle ? true : false;
 
     return (
       <div style={{ height: 425 }}>
         {this.state.visible && <div>eliran</div>}
         <Card
-          style={{ width: 300 }}
+          style={{
+            marginLeft: "25%",
+            width: 300,
+            opacity: this.state.opacity,
+            border: this.state.productStyle ? "3px solid lightgreen" : "none",
+            boxShadow: "3px 2px 15px -3px rgba(0,0,0,0.5)"
+          }}
           cover={
             <img
               onClick={this.onProductClicked}
@@ -31,7 +73,7 @@ export class Product extends Component {
               style={{
                 height: "25vh",
                 width: "10vw",
-                marginLeft: "4.5vw",
+                marginLeft: "20%",
                 padding: 5,
                 cursor: "pointer"
               }}
@@ -39,7 +81,14 @@ export class Product extends Component {
           }
           actions={[
             <div>
-              <Rate />
+              <Rate disabled defaultValue={2} />
+              {this.props.marketPlace && (
+                <Checkbox
+                  style={{ marginLeft: 30 }}
+                  disabled={disabled}
+                  onChange={e => this.onCheckBoxChanged(e)}
+                />
+              )}
             </div>
           ]}
         >

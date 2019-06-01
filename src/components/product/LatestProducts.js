@@ -21,7 +21,10 @@ class LatestProducts extends Component {
     ));
   };
   render() {
-    return <>{this.renderAllProducts()}</>;
+    console.log(productStore.getLatestProducts);
+    return (
+      <div style={{ background: "black" }}>{this.renderAllProducts()}</div>
+    );
   }
 }
 

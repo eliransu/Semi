@@ -1,5 +1,6 @@
 const users = require('express').Router()
 const usersController = require('./users.controller')
+// const authMiddleware = require('../../middleware/authMiddleware')
 
 users.get('/', usersController.getAllUsers)
 users.get('/active-user', usersController.fetchActiveUser)

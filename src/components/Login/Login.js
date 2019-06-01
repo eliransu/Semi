@@ -20,6 +20,11 @@ class HorizontalLoginForm extends Component {
     this.props.form.validateFields();
   }
 
+  state = {
+    loading: false,
+    disabled: false
+  };
+
   showModal = () => {
     authStore.toggleviewLoginModal();
   };
@@ -56,14 +61,17 @@ class HorizontalLoginForm extends Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         try {
+          this.setState({ loading: true, disabled: true });
           const res = await authStore.login(values.userName, values.password);
 
           if (res) {
+            this.setState({ loading: false, disabled: false });
             this.props.onLoginSuccess(authStore.getCurrentUser);
             authStore.toggleviewLoginModal();
             AlertUtils.successAlert("Login Success", "enjoy to share!");
           }
         } catch (err) {
+          this.setState({ loading: false, disabled: false });
           AlertUtils.failureAlert(err.toString());
         }
       }
@@ -135,6 +143,8 @@ class HorizontalLoginForm extends Component {
                 htmlType="submit"
                 disabled={hasErrors(getFieldsError())}
                 onClick={this.handleSubmit}
+                loading={this.state.loading}
+                disabled={this.state.disabled}
               >
                 Log in
               </Button>

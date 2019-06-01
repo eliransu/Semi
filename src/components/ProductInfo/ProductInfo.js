@@ -7,7 +7,7 @@ import { PeriodsAndPricingsTable } from "./PeriodsAndPricingsTable";
 import { contentRenderer } from "../utils/genericComponents";
 import { observer } from "mobx-react";
 import ReviewsList from "./ReviewsList";
-import  ProductCalendar from "./ProductCalendar";
+import ProductCalendar from "./ProductCalendar";
 import ProductStore from "../../stores/ProductStore";
 
 const productStore = rootStores[ProductStore];
@@ -15,11 +15,13 @@ const productStore = rootStores[ProductStore];
 @observer
 class ProductInfo extends Component {
   componentDidMount() {
+    console.log("params", this.props.match.params.id);
     productStore.getProductById(this.props.match.params.id).then(res => {
       if (!res) {
         this.setState({ emptyState: true });
       }
     });
+    console.log("reviews!!", productStore.getCurrentProduct.reviews);
   }
 
   state = {
@@ -132,9 +134,7 @@ class ProductInfo extends Component {
             </div>
             <Card
               style={{ background: "rgb(245, 245, 245)", borderRadius: "30px" }}
-            >
-              <ReviewsList data={reviews} />
-            </Card>
+            />
 
             <div style={{ textAlign: "center", paddingTop: "30px" }} />
           </Row>

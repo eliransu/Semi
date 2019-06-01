@@ -34,10 +34,12 @@ class ProductService {
 
   getProductById = async productId => {
     try {
-      const product = await axios.get(`/api/products?id=${productId}`);
+      const product = await axios.get(`/api/products/query?id=${productId}`);
       if (!product || !product.data || !product.data.data) {
         return false;
       } else {
+        console.log({ product });
+        console.log("product in service", product.data.data);
 
         return product.data.data;
       }

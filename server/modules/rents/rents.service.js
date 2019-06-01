@@ -35,7 +35,8 @@ const createNewOrder = async (providerName, consumerName, startDate, productId, 
   consumer.orders_as_consumer.push(newRent)
   await provider.save()
   await consumer.save()
-
+  product.orders = Array.isArray(product.orders) ? product.orders.push(newRent) : [newRent]
+  await product.save()
   return newRent
 }
 
