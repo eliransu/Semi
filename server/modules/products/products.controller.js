@@ -9,7 +9,7 @@ const userService = require('../users/users.service')
 const { upload } = require('../utils/imageUploader');
 const singleUpload = upload.single('image')
 const axios = require('axios')
-
+const { ObjectId } = require('mongodb'); // or ObjectID 
 const getProductsByCategory = async (req, res) => {
   const { category } = req.params
   if (!category) {
@@ -79,7 +79,11 @@ const getProductsByNameOrId = async (req, res) => {
       return res.json(httpResponse(500, `products by name: ${name} are not found`))
     }
   } else if (id) {
-    const arrayBecauseOfReduceElements = await productService.getProductById(id)
+    const newId = id.length === 12 || id.length === 24 ? ObjectId(id) : false
+    if (!newId) {
+      return res.json(httpResponse(500, 'ID is incorrect'))
+    }
+    const arrayBecauseOfReduceElements = await productService.getProductById(newId)
     result = arrayBecauseOfReduceElements[0]
     if (!result) {
       return res.json(httpResponse(500, `product by id: ${id} is not found`))

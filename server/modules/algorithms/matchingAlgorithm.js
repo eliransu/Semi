@@ -2,7 +2,7 @@ const Graph = require("graph-data-structure");
 const UserModel = require('../../database/models/UserModel')
 const graph = Graph()
 
-const runMatching = async () => {
+const runMatching = async (user) => {
   const users = await UserModel.find({}).select({
     "username": 1, "products_to_give": 1,
     "products_to_take": 1
@@ -39,13 +39,14 @@ const runMatching = async () => {
       }
     })
   })
-  const result = graph.cycleDetection(['tom'])
+  const result = graph.cycleDetection([user])
   const cycle = result && result.reverse()
-  let matchFlag = true
+  let matchFlag = false
   for (let i = 0; i < cycle.length - 1; i++) {
     if (!matches.some(match => match.giver === cycle[i] && match.taker === cycle[i + 1])) {
-      matchFlag = false
+      return
     }
+    matchFlag = true
   }
   if (matchFlag) {
     return matches

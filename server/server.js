@@ -32,7 +32,7 @@ app.get('/*', (req, res) => {
 
 app.listen(PORT, async () => {
   console.log(`Semi server running on port: ${PORT}`)
-  console.log(await runMatching())
+  // console.log(await runMatching('tom'))
 })
 
 function connectToSemiDB() {
