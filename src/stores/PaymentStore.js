@@ -52,6 +52,11 @@ export default class PaymentStore {
 				console.log('ERROR in createNewOrder: ', err);
 			});
 	};
+	
+	@action
+  	setCurrentProduct(product) {
+	this.currentProduct = product;
+}
 
 	@action
 	setEndDate = (date)=>{

@@ -1,11 +1,10 @@
+import { Avatar, Card, Checkbox, Rate } from "antd";
 import React, { Component } from "react";
-import { Card, Icon, Avatar, Rate, Checkbox } from "antd";
-import Snownoard from "../../assets/snowboard.jpg";
 import ShowMoreText from "react-show-more-text";
-import { faSmile } from "@fortawesome/free-solid-svg-icons";
 import AlertUtils from "../utils/AlertUtils";
 
 const { Meta } = Card;
+
 export class Product extends Component {
   state = {
     opacity: this.props.opacity ? 0.5 : 1,
@@ -14,6 +13,7 @@ export class Product extends Component {
 
   onProductClicked = () => {
     this.props.history.replace(`/productPage/${this.props.product._id}`);
+
   };
   onCheckBoxChanged = e => {
     e.preventDefault();
@@ -21,8 +21,8 @@ export class Product extends Component {
       this.props.onCounterChanged(e.target.checked, this.props.product._id);
       e.target.checked
         ? this.setState({
-            productStyle: true
-          })
+          productStyle: true
+        })
         : this.setState({ productStyle: false });
       e.target.checked
         ? this.setState({ opacity: 1 })
@@ -32,8 +32,8 @@ export class Product extends Component {
       this.props.onCounterChanged(e.target.checked, this.props.product._id);
       e.target.checked
         ? this.setState({
-            productStyle: true
-          })
+          productStyle: true
+        })
         : this.setState({ productStyle: false });
       e.target.checked
         ? this.setState({ opacity: 1 })
@@ -45,8 +45,6 @@ export class Product extends Component {
 
   render() {
     const product = this.props.product;
-    const opcity = this.props.marketPlace;
-    console.log(this.state.opacity);
     const disabled =
       this.props.checkBoxDisable && !this.state.productStyle ? true : false;
 

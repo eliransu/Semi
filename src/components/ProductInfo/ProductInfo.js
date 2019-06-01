@@ -1,14 +1,13 @@
+import { Avatar, Card, Col, Divider, Rate, Row } from "antd";
+import { observer } from "mobx-react";
 import React, { Component } from "react";
-import "./ProductInfo.css";
 import rootStores from "../../stores";
-import { Row, Col, Rate, Card, Avatar, Divider } from "antd";
+import ProductStore from "../../stores/ProductStore";
+import { contentRenderer } from "../utils/genericComponents";
 import { ImageCarousel } from "./ImageCarousel";
 import { PeriodsAndPricingsTable } from "./PeriodsAndPricingsTable";
-import { contentRenderer } from "../utils/genericComponents";
-import { observer } from "mobx-react";
-import ReviewsList from "./ReviewsList";
 import ProductCalendar from "./ProductCalendar";
-import ProductStore from "../../stores/ProductStore";
+import "./ProductInfo.css";
 
 const productStore = rootStores[ProductStore];
 
@@ -33,7 +32,6 @@ class ProductInfo extends Component {
     const avgStarsRate = productStore.getAvarageScore;
     const plans = product && product.plans ? product.plans : [];
     const orders = product && product.orders ? product.orders : [];
-    const reviews = product && product.reviews ? product.reviews : [];
     return (
       <React.Fragment>
         <div>
@@ -125,7 +123,7 @@ class ProductInfo extends Component {
             <Card
               style={{ background: "rgb(245, 245, 245)", borderRadius: "30px" }}
             >
-              <ProductCalendar data={orders} />
+              <ProductCalendar applyOrder={true} width={"1250"} data={orders} />
             </Card>
 
             <Divider />
@@ -134,7 +132,9 @@ class ProductInfo extends Component {
             </div>
             <Card
               style={{ background: "rgb(245, 245, 245)", borderRadius: "30px" }}
-            />
+            >
+              {/* <ReviewsList data={reviews} /> */}
+            </Card>
 
             <div style={{ textAlign: "center", paddingTop: "30px" }} />
           </Row>

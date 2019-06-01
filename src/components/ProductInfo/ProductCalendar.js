@@ -7,6 +7,7 @@ import PaymentStore from "../../stores/PaymentStore";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import {withRouter} from 'react-router'
+import {toJS} from "mobx";
 function getMonthData(value) {
   if (value.month() === 8) {
     return 1394;
@@ -34,7 +35,7 @@ class ProductCalendar extends Component {
          constructor(props) {
            super(props);
            let orders = this.props.data;
-
+             paymentStore.setCurrentProduct(productStore.currentProduct);
            let orderDaysOfYear = [];
            orders.map(order => {
              for (
@@ -93,9 +94,8 @@ class ProductCalendar extends Component {
          };
 
          redirectToPaymentPage = (day) => {
-           paymentStore.currentProduct = productStore.currentProduct;
-           paymentStore.providerName = productStore.currentProduct
-             ? productStore.currentProduct.owner.username
+           paymentStore.providerName = paymentStore.currentProduct
+             ? paymentStore.currentProduct.owner.username
              : "";
            paymentStore.startDate = day;
 
@@ -105,6 +105,7 @@ class ProductCalendar extends Component {
 
          dateCellRender = day => {
            const listData = this.convertBorrowDateToListData(day);
+           const dateNotPass = moment(new Date()).dayOfYear() <= day.dayOfYear();
            if (listData.length > 0) {
              return (
                <ul className="events">
@@ -113,25 +114,32 @@ class ProductCalendar extends Component {
                  })}
                </ul>
              );
-           } else {
-             return (
-               <Button
-                 onClick={()=>this.redirectToPaymentPage(day)}
-                 type="primary"
-                 shape="round"
-               > 
-                Order Now!
-                 <Icon type="right" />
-               </Button>
-             );
-           }
+           } 
+           
+           else if (dateNotPass && this.props.applyOrder) {
+                  return (
+                    <Button
+                      onClick={() =>
+                        this.redirectToPaymentPage(day)
+                      }
+                      type="primary"
+                      shape="round"
+                    >
+                      Order Now!
+                      <Icon type="right" />
+                    </Button>
+                  );
+                } else {
+                  return null;
+                }
          };
 
          render() {
+           
            return (
              <div
                style={{
-                 width: 1250,
+                 width: this.props.width,
                  border: "1px solid #d9d9d9",
                  borderRadius: 10,
                  margin: "auto"
