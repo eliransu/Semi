@@ -19,7 +19,7 @@
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "google-map-react": "^1.1.2",
-    "graph-data-structure": "^1.8.0",
+    "graph-data-structure": "git+https://github.com/eliransu/semi-cycle-detection.git",
     "helmet": "^3.16.0",
     "jwt-simple": "^0.5.5",
     "lodash": "^4.17.11",
