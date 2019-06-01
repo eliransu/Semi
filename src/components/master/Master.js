@@ -1,4 +1,4 @@
-import { Icon, Layout, Menu, Modal, Spin } from "antd";
+import { Icon, Layout, Menu, Modal, Col } from "antd";
 import { observer } from "mobx-react";
 import React from "react";
 import { withRouter } from "react-router";
@@ -152,14 +152,16 @@ class Master extends React.Component {
             padding: "0px 350px 0px 220px"
           }}
         >
-          <Menu.Item
-            className="logo"
-            onClick={() => {
-              this.handleMenuClicked("");
-            }}
-          >
-            <img src={semiIcon} style={{ width: 70 }} />
-          </Menu.Item>
+          <Col style={{ alignItems: 'center' }} span={6}>
+            <Menu.Item
+              className="logo"
+              onClick={() => {
+                this.handleMenuClicked("");
+              }}
+            >
+              <img src={semiIcon} style={{ width: 70 }} />
+            </Menu.Item>
+          </Col>
           <Menu.Item
             style={{ fontSize: 16 }}
             key="1"

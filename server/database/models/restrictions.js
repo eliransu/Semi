@@ -8,9 +8,18 @@ const userRestricted = {
   __v: 0
 }
 
-const productRestricted = { __v: 0, owner: 0, quality: 0, reviews: 0, plans: 0, deleted: 0, description: 0 }
+const productRestricted = {
+  __v: 0, owner: 0, quality: 0,
+  reviews: 0, plans: 0, deleted: 0, description: 0,
+  orders: 0
+}
+
+const orderRestricted = {
+  __v: 0
+}
 
 module.exports = {
   userRestricted,
-  productRestricted
+  productRestricted,
+  orderRestricted
 }
