@@ -40,10 +40,13 @@ class AuthService {
 
   tryLogin = async () => {
     try {
+      console.log("im in tryLogin");
+
       const user = await axios.get("/api/users/active-user");
-      console.log("user", user.data.data);
+      console.log("user", user);
       if (!user || !user.data || !user.data.data) {
-        throw new Error("the User Not Active.");
+        console.log("not login");
+        return null;
       } else {
         console.log("im in else");
         return user.data.data;

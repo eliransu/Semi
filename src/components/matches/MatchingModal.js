@@ -5,7 +5,7 @@ import { observer } from "mobx-react";
 import ProductStore from "../../stores/ProductStore";
 import AlertUtils from "../utils/AlertUtils";
 import MatchesStore from "../../stores/MatchesStore";
-import { MatchingAction } from "../utils/enums.ts";
+import { MatchingAction } from "../utils/enums";
 
 const Option = Select.Option;
 const productStore = rootStores[ProductStore];
@@ -23,7 +23,8 @@ class MatchingModal extends Component {
   }
 
   state = {
-    selectedProducts: []
+    selectedProducts: [],
+    loading: false
   };
 
   renderAllOptions = () => {
@@ -48,15 +49,21 @@ class MatchingModal extends Component {
   };
 
   onSendClicked = async () => {
+    this.setState({ loading: true });
     if (this.state.selectedProducts.length > 0) {
       console.log("im in send");
       try {
         console.log(this.state.selectedProducts);
-        debugger;
         const res = await matchesStore.enterProductsForMatch(
           this.state.selectedProducts,
           MatchingAction.Give
         );
+        if (res) {
+          this.setState({ loading: false });
+          AlertUtils.successAlert("Start Matching");
+          this.props.history.replace("/matching");
+          this.props.closeModal();
+        }
       } catch (err) {}
     } else {
       AlertUtils.failureAlert("You must enter a product");
@@ -89,6 +96,7 @@ class MatchingModal extends Component {
             style={{ width: 200 }}
             loading={this.state.loading}
             onClick={this.onSendClicked}
+            loading={this.state.loading}
             type={"primary"}
           >
             Send

@@ -21,7 +21,8 @@ export default class MatchesStore {
         action,
         productsIds
       );
-      return res;
+      if (!res) return null;
+      else return res;
     } catch (err) {
       throw err;
     }

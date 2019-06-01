@@ -28,7 +28,8 @@ import cookies from "cookies";
 import MatchingModal from "../matches/MatchingModal";
 import MatchesMarket from "../matches/MatchesMarket";
 import AlertUtils from "../utils/AlertUtils";
-
+import BlockUi from "react-block-ui";
+const semiIcon = require("../../assets/semi.ico");
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
 const categoryStore = rootStores[CategoryStore];
@@ -43,7 +44,8 @@ class Master extends React.Component {
     registerSuccessModal: false,
     user: null,
     open: false,
-    matchingModal: false
+    matchingModal: false,
+    blocking: false
   };
 
   componentDidMount() {
@@ -91,6 +93,10 @@ class Master extends React.Component {
   };
   handleMenuClicked = path => this.props.history.push(path);
 
+  toggleBlock = value => {
+    this.state({ blocking: value });
+  };
+
   addProductClicked = () => {
     this.setState({ registerSuccessModal: false });
     this.handleMenuClicked("add-product-as-renter");
@@ -135,13 +141,18 @@ class Master extends React.Component {
     console.log("user in render", user);
     return (
       <Layout className="layout">
-        <div className="logo" />
         <Menu
           theme="light"
           mode="horizontal"
           defaultSelectedKeys={["1"]}
-          style={{ lineHeight: "85px" }}
+          style={{
+            lineHeight: "85px",
+            padding: "0px 350px 0px 220px"
+          }}
         >
+          <Menu.Item className="logo">
+            <img src={semiIcon} style={{ width: 70 }} />
+          </Menu.Item>
           <Menu.Item
             style={{ fontSize: 16 }}
             key="1"
@@ -152,7 +163,7 @@ class Master extends React.Component {
           </Menu.Item>
           <Menu.Item
             style={{ fontSize: 16 }}
-            key="7"
+            key="2"
             onClick={() => this.onMatchingClicked()}
           >
             <Icon fontSize={16} type="usergroup-add" />
@@ -166,7 +177,11 @@ class Master extends React.Component {
               <div style={{ textAlign: "center", fontSize: 22 }}>Matching</div>
             }
           >
-            <MatchingModal user={user} />
+            <MatchingModal
+              history={this.props.history}
+              closeModal={() => this.setState({ matchingModal: false })}
+              user={user}
+            />
           </Modal>
           <Menu.Item style={{ fontSize: 16 }} key="3" onClick={this.showModal}>
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
@@ -196,18 +211,24 @@ class Master extends React.Component {
               onAddProductClicked={this.addProductClicked}
             />
           </Modal>
-          <Menu.Item
-            style={{ fontSize: 16 }}
-            key="4"
-            onClick={() => this.handleMenuClicked("add-product-as-renter")}
-          >
-            <Icon fontSize={16} style={{ marginLeft: 4 }} type="plus-circle" />
-            Add prouct as renter!
-          </Menu.Item>
+          {user && (
+            <Menu.Item
+              style={{ fontSize: 16 }}
+              key="4"
+              onClick={() => this.handleMenuClicked("add-product-as-renter")}
+            >
+              <Icon
+                fontSize={16}
+                style={{ marginLeft: 4 }}
+                type="plus-circle"
+              />
+              Add prouct as renter!
+            </Menu.Item>
+          )}
 
           <Menu.Item
             style={{ fontSize: 16 }}
-            key="6"
+            key="5"
             onClick={() => this.handleMenuClicked("about")}
           >
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="team" />
@@ -217,7 +238,7 @@ class Master extends React.Component {
           {!user && (
             <Menu.Item
               style={{ fontSize: 16 }}
-              key="8"
+              key="6"
               onClick={() => authStore.toggleviewLoginModal()}
             >
               <Icon fontSize={16} style={{ marginLeft: 4 }} type="login" />
@@ -227,7 +248,7 @@ class Master extends React.Component {
           {user && (
             <Menu.Item
               style={{ fontSize: 16 }}
-              key="8"
+              key="7"
               onClick={this.logOutClicked}
             >
               <Icon
@@ -243,7 +264,7 @@ class Master extends React.Component {
           {user && (
             <Menu.Item
               style={{ marginLeft: 300, marginBottom: 12 }}
-              key="7"
+              key="8"
               //   onClick={() => this.handleMenuClicked(`/user/${user.username}`)}
             >
               <Popup
@@ -310,12 +331,7 @@ class Master extends React.Component {
                 <div
                   className="modal"
                   style={{ display: "flex", flexDirection: "row" }}
-                >
-                  {/* <a style={{display: "flex", flexDirection: "column", justifyContent: "center", maxHeight: "18px", marginLeft: "3px", fontSize: "29px"}} onClick={this.closeModal}>
-              onClick={() => this.handleMenuClicked(`/user/${user.username}`)}
-								&times;
-							</a> */}
-                </div>
+                />
                 <div
                   style={{
                     fontWeight: "bold",

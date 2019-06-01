@@ -22,7 +22,7 @@ class LatestProducts extends Component {
   };
   render() {
     console.log(productStore.getLatestProducts);
-    return <>{this.renderAllProducts()}</>;
+    return <div style={{ paddingLeft: 120 }}>{this.renderAllProducts()}</div>;
   }
 }
 
