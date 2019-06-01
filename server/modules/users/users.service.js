@@ -166,6 +166,11 @@ const manageMatching = async (userId, action, productIds) => {
   return true
 }
 
+const deleteUserById = async (id) => {
+  const userDeleted = await UserModel.findOneAndDelete({ _id: id })
+  return userDeleted
+}
+
 
 module.exports = {
   getProductsByUserName,
@@ -176,5 +181,6 @@ module.exports = {
   fetchActiveUser,
   getOrdersByUsername,
   getAllUsers,
-  manageMatching
+  manageMatching,
+  deleteUserById
 }

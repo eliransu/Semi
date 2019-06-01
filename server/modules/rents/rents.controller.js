@@ -55,10 +55,23 @@ const getAllOrders = async (req, res) => {
   return res.json(httpResponse(200, orders))
 }
 
+const deleteOrderById = async (req, res) => {
+  const { orderId } = req.params
+  if (!orderId) {
+    return res.json(httpResponse(400, 'orderId as param is required', 'deleteOrderById'))
+  }
+  const orderDeleted = await rentService.deleteOrderById(orderId)
+  if (!orderDeleted) {
+    return res.json(httpResponse(500, 'failed to delete order by id', 'deleteOrderById'))
+  }
+  return res.json(httpResponse(204))
+}
+
 
 module.exports = {
   updateOrderStatus,
   createNewOrder,
   getOrderById,
-  getAllOrders
+  getAllOrders,
+  deleteOrderById
 }
