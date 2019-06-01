@@ -108,7 +108,9 @@ class MatchesMarket extends Component {
           <h1 style={{ textDecoration: "underline" }}>Matching Market Place</h1>
         </div>
         <Row>
-          <div className="all-products">{this.renderAllProducts()}</div>
+          <div className="all-products" style={{ paddingLeft: 120 }}>
+            {this.renderAllProducts()}
+          </div>
         </Row>
         <div style={{ textAlign: "center", paddingBottom: 25 }}>
           <Button

@@ -150,7 +150,12 @@ class Master extends React.Component {
             padding: "0px 350px 0px 220px"
           }}
         >
-          <Menu.Item className="logo">
+          <Menu.Item
+            className="logo"
+            onClick={() => {
+              this.handleMenuClicked("");
+            }}
+          >
             <img src={semiIcon} style={{ width: 70 }} />
           </Menu.Item>
           <Menu.Item
@@ -265,7 +270,7 @@ class Master extends React.Component {
             <Menu.Item
               style={{ marginLeft: 300, marginBottom: 12 }}
               key="8"
-              //   onClick={() => this.handleMenuClicked(`/user/${user.username}`)}
+              onClick={() => this.handleMenuClicked(`/user/${user.username}`)}
             >
               <Popup
                 trigger={

@@ -55,9 +55,11 @@ export class Product extends Component {
         {this.state.visible && <div>eliran</div>}
         <Card
           style={{
+            marginLeft: "25%",
             width: 300,
             opacity: this.state.opacity,
-            border: this.state.productStyle ? "3px solid lightgreen" : "none"
+            border: this.state.productStyle ? "3px solid lightgreen" : "none",
+            boxShadow: "3px 2px 15px -3px rgba(0,0,0,0.5)"
           }}
           cover={
             <img
@@ -71,7 +73,7 @@ export class Product extends Component {
               style={{
                 height: "25vh",
                 width: "10vw",
-                marginLeft: "4.5vw",
+                marginLeft: "20%",
                 padding: 5,
                 cursor: "pointer"
               }}
@@ -79,7 +81,7 @@ export class Product extends Component {
           }
           actions={[
             <div>
-              <Rate />
+              <Rate disabled defaultValue={2} />
               {this.props.marketPlace && (
                 <Checkbox
                   style={{ marginLeft: 30 }}
