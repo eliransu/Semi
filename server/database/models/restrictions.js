@@ -2,6 +2,8 @@ const userRestricted = {
   products_for_rent: 0,
   orders_as_provider: 0,
   orders_as_consumer: 0,
+  products_to_take: 0,
+  products_to_give: 0,
   deleted: 0,
   __v: 0
 }

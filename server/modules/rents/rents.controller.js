@@ -47,9 +47,18 @@ const getOrderById = async (req, res) => {
   return res.json(httpResponse(200, order))
 }
 
+const getAllOrders = async (req, res) => {
+  const orders = await rentService.getAllOrders()
+  if (!orders) {
+    return res.json(httpResponse(500, 'failed to load all orders', 'getOrderById'))
+  }
+  return res.json(httpResponse(200, orders))
+}
+
 
 module.exports = {
   updateOrderStatus,
   createNewOrder,
-  getOrderById
+  getOrderById,
+  getAllOrders
 }

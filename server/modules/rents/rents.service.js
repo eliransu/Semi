@@ -54,6 +54,11 @@ const markOrderAsAccepted = async (providerName, orderId, accepted) => {
   return true
 }
 
+const getAllOrders = async () => {
+  const orders = await RentModel.find({})
+  return orders
+}
+
 const getOrderById = async id => {
   const order = await RentModel.findOne({ _id: id })
   if (!order) return false
@@ -64,5 +69,6 @@ const getOrderById = async id => {
 module.exports = {
   createNewOrder,
   markOrderAsAccepted,
-  getOrderById
+  getOrderById,
+  getAllOrders
 }

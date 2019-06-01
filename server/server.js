@@ -30,8 +30,9 @@ app.get('/*', (req, res) => {
   // }
 })
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Semi server running on port: ${PORT}`)
+  console.log(await runMatching())
 })
 
 function connectToSemiDB() {
@@ -42,7 +43,6 @@ function connectToSemiDB() {
   })
   mongoose.connection.on('connected', () => {
     setTimeout(() => {
-      runMatching()
     }, 1000);
     console.log(`MongoDB connected`)
   })
