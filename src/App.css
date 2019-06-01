@@ -1,5 +1,3 @@
-@import '~antd/dist/antd.css';
-
-
-
-
+@import "~antd/dist/antd.css";
+@import "./components/adminPanel/adminPanel.css";
+@import "./components/AppLoading/AppLoading.css";

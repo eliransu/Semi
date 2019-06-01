@@ -63,21 +63,21 @@ class Master extends React.Component {
     }
   }
 
-  showModal = () => {
-    this.setState({ visble: true });
-  };
-  handleOk = e => {
-    //need to send data to the server
-    console.log(e);
-    this.setState({ visble: false });
-  };
+	showModal = () => {
+		this.setState({ visble: true });
+	};
+	handleOk = (e) => {
+		//need to send data to the server
+		console.log(e);
+		this.setState({ visble: false });
+	};
 
-  closeModal = () => {
-    this.setState({ open: false });
-  };
-  openModal = () => {
-    this.setState({ open: true });
-  };
+	closeModal = () => {
+		this.setState({ open: false });
+	};
+	openModal = () => {
+		this.setState({ open: true });
+	};
 
   onMatchingClicked = () => {
     if (!authStore.getCurrentUser) {
@@ -117,13 +117,13 @@ class Master extends React.Component {
     }
   };
 
-  onCancel = () => {
-    this.setState({ visble: false });
-  };
+	onCancel = () => {
+		this.setState({ visble: false });
+	};
 
-  returnToHomePage = () => {
-    this.setState({ registerSuccessModal: false });
-  };
+	returnToHomePage = () => {
+		this.setState({ registerSuccessModal: false });
+	};
 
   onLoginSuccess = user => {
     this.setState({ loginVisble: false });

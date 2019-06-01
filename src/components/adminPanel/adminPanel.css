@@ -1,0 +1,14 @@
+.ant-layout-content {
+  padding: 0px 0px !important;
+}
+/* .ant-layout-sider-trigger {
+	display: none !important;
+} */
+.admin-panel-main-container {
+  display: flex;
+}
+.admin-panel-users {
+}
+.hide {
+  display: none;
+}

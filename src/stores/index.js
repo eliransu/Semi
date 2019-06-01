@@ -27,6 +27,6 @@ const rootStores = {
 };
 
 // TODO: Debugging purpose - delete
-window["stores"] = rootStores;
+window['stores'] = rootStores;
 
 export default rootStores;
