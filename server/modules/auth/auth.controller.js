@@ -1,7 +1,7 @@
 const UserModel = require('../../database/models/UserModel')
 const { httpResponse } = require('../../utils')
 const jwt = require('jwt-simple')
-
+const { runMatching } = require('../algorithms/matchingAlgorithm')
 const register = async (req, res) => {
   const { firstname,
     lastname,
@@ -49,7 +49,8 @@ const login = async (req, res) => {
   delete user.password
   delete user.deleted
   delete user._id
-  return res.json(httpResponse(200, user))
+  const matches = await runMatching(user.username)
+  return res.json(httpResponse(200, { ...user, matches }))
 }
 
 const logOut = async (req, res) => {

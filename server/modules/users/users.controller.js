@@ -121,6 +121,19 @@ const manageMatching = async (req, res) => {
   return res.json(httpResponse(201))
 }
 
+const deleteUserById = async (req, res) => {
+  const { userId } = req.params
+  if (!userId) {
+    return res.json(httpResponse(400, 'userId is required', 'deleteUserById'))
+  }
+  const userDeleted = await userService.deleteUserById(userId)
+  if (!userDeleted) {
+    return res.json(httpResponse(500, 'failed to delete user', 'deleteUserById'))
+  }
+
+  return res.json(httpResponse(204))
+}
+
 
 module.exports = {
   getProducts,
@@ -131,5 +144,6 @@ module.exports = {
   fetchActiveUser,
   getOrdersByUsername,
   getAllUsers,
-  manageMatching
+  manageMatching,
+  deleteUserById
 }

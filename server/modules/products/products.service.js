@@ -98,7 +98,6 @@ const getProductsByName = async (name) => {
 
 const getLatestProducts = async (limit) => {
   const limitNumeric = +limit
-  console.log(limitNumeric)
   const latestProducts = await ProductModel.find().sort({ 'createdAt': -1 }).limit(limitNumeric)
   if (latestProducts.length > 0) {
     return reduceProductsData(latestProducts)

@@ -1,9 +1,8 @@
 const Graph = require("graph-data-structure");
 const UserModel = require('../../database/models/UserModel')
-const jwt = require('jwt-simple')
 const graph = Graph()
 
-const runMatching = async () => {
+const runMatching = async (user) => {
   const users = await UserModel.find({}).select({
     "username": 1, "products_to_give": 1,
     "products_to_take": 1
@@ -20,8 +19,8 @@ const runMatching = async () => {
       }
     }
   }
-  // console.log(matchingArray)
 
+  const matches = []
   matchingArray.forEach(node => {
     graph.addNode(node.username)
   })
@@ -30,15 +29,28 @@ const runMatching = async () => {
     matchingArray.forEach(destention => {
       if (source.username !== destention.username) {
         if (source.edgeIn === destention.edgeOut) {
-          console.log('add edge')
           graph.addEdge(destention.username, source.username)
+          matches.push({
+            giver: destention.username,
+            taker: source.username,
+            product: destention.edgeOut
+          })
         }
       }
     })
   })
-
-  console.log(graph.nodes())
-
+  const result = graph.cycleDetection([user])
+  const cycle = result && result.reverse()
+  let matchFlag = false
+  for (let i = 0; i < cycle.length - 1; i++) {
+    if (!matches.some(match => match.giver === cycle[i] && match.taker === cycle[i + 1])) {
+      return
+    }
+    matchFlag = true
+  }
+  if (matchFlag) {
+    return matches
+  }
 }
 
 module.exports = { runMatching }

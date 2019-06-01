@@ -1,6 +1,7 @@
 const { Schema } = require("mongoose");
 const mongoose = require('mongoose')
 const autoPopulate = require('mongoose-autopopulate')
+const { userRestricted } = require('./restrictions')
 const Product = new Schema({
   name: {
     type: String,
@@ -29,7 +30,7 @@ const Product = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    autopopulate: true
+    autopopulate: { select: userRestricted }
   },
   deleted: {
     type: Boolean,

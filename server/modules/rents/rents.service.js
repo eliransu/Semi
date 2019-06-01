@@ -54,15 +54,25 @@ const markOrderAsAccepted = async (providerName, orderId, accepted) => {
   return true
 }
 
+const getAllOrders = async () => {
+  const orders = await RentModel.find({})
+  return orders
+}
+
 const getOrderById = async id => {
   const order = await RentModel.findOne({ _id: id })
-  if (!order) return false
-
   return order
+}
+
+const deleteOrderById = async id => {
+  const orderDeleted = await RentModel.findOneAndDelete({ _id: id })
+  return orderDeleted
 }
 
 module.exports = {
   createNewOrder,
   markOrderAsAccepted,
-  getOrderById
+  getOrderById,
+  getAllOrders,
+  deleteOrderById
 }
