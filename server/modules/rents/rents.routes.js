@@ -1,10 +1,11 @@
 const orders = require('express').Router()
 const rentsController = require('./rents.controller')
+const authMiddleware = require('../../middleware/authMiddleware')
 
 orders.get('/:id', rentsController.getOrderById)
-orders.post('/', rentsController.createNewOrder)
-orders.get('/', rentsController.getAllOrders)
-orders.put('/accept', rentsController.updateOrderStatus)
-orders.delete('/:orderId', rentsController.deleteOrderById)
+orders.post('/', authMiddleware, rentsController.createNewOrder)
+orders.get('/', authMiddleware, rentsController.getAllOrders)
+orders.put('/accept', authMiddleware, rentsController.updateOrderStatus)
+orders.delete('/:orderId', authMiddleware, rentsController.deleteOrderById)
 
 module.exports = orders

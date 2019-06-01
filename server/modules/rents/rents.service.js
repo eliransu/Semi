@@ -12,7 +12,7 @@ const createNewOrder = async (providerName, consumerName, startDate, productId, 
   const consumer = await UserModel.findOne({ username: consumerName })
   const product = await ProductModel.findOne({ _id: productId })
   if (!provider || !consumer || !product) return false
-
+  console.log(provider.products_for_rent)
   if (!provider.products_for_rent.some(p => productId == p)) {
     console.log('product is not belong to provider')
     return false
@@ -35,6 +35,7 @@ const createNewOrder = async (providerName, consumerName, startDate, productId, 
   consumer.orders_as_consumer.push(newRent)
   await provider.save()
   await consumer.save()
+
   product.orders = Array.isArray(product.orders) ? product.orders.push(newRent) : [newRent]
   await product.save()
   return newRent

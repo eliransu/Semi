@@ -2,7 +2,7 @@ import { Avatar, Card, Checkbox, Rate } from "antd";
 import React, { Component } from "react";
 import ShowMoreText from "react-show-more-text";
 import AlertUtils from "../utils/AlertUtils";
-
+import './Store.css'
 const { Meta } = Card;
 
 export class Product extends Component {
@@ -52,6 +52,7 @@ export class Product extends Component {
       <div style={{ height: 425 }}>
         {this.state.visible && <div>eliran</div>}
         <Card
+          className="hvr-bounce-in"
           style={{
             marginLeft: "25%",
             width: 300,
