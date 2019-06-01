@@ -7,7 +7,7 @@ class AuthService {
       password
     };
     try {
-      const result = await axios.post("api/auth/login", body);
+      const result = await axios.post("/api/auth/login", body);
       if (result && result.data && result.data.status === 200) {
         // console.log({ result });
         return result.data.data;
@@ -21,7 +21,7 @@ class AuthService {
 
   logOut = async () => {
     try {
-      const res = await axios.post("api/auth/logout", {});
+      const res = await axios.post("/api/auth/logout", {});
       if (res && res.data) {
         return true;
       }
