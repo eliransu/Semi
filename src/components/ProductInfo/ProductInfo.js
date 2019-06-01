@@ -123,7 +123,7 @@ class ProductInfo extends Component {
             <Card
               style={{ background: "rgb(245, 245, 245)", borderRadius: "30px" }}
             >
-              <ProductCalendar data={orders} />
+              <ProductCalendar applyOrder={true} width={"1250"} data={orders} />
             </Card>
 
             <Divider />
@@ -133,7 +133,7 @@ class ProductInfo extends Component {
             <Card
               style={{ background: "rgb(245, 245, 245)", borderRadius: "30px" }}
             >
-              <ReviewsList data={reviews} />
+              {/* <ReviewsList data={reviews} /> */}
             </Card>
 
             <div style={{ textAlign: "center", paddingTop: "30px" }} />

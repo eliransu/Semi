@@ -13,12 +13,13 @@ import moment from "moment";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
-import OrderStore from "../../stores/OrderStore";
+import OrderStore, {OrderStatus} from "../../stores/OrderStore";
 
 const productStore = rootStores[ProductStore];
 const orderStore = rootStores[OrderStore];
 @observer
 class OrderDetailsPopUp extends Component {
+  
   componentDidMount() {
     const order = this.props.order;
 
@@ -29,12 +30,14 @@ class OrderDetailsPopUp extends Component {
     });
   }
 
-  onOrderStatusClicked(order, accept) {
-    orderStore.changeOrderStatus(order, accept);
+ async onOrderStatusClicked(order, accept) {
+    await orderStore.changeOrderStatus(order, accept);
+    this.props.afterOrderStatusClicked();
   }
 
   render() {
     const order = this.props.order;
+    const buttonDisable = order.order_status === OrderStatus.Hendeled;
     const pStyle = {
       fontSize: 16,
       color: "rgba(0,0,0,0.85)",
@@ -161,7 +164,7 @@ class OrderDetailsPopUp extends Component {
           >
             <DescriptionItem
               title="Product"
-              content={<a>{productStore.getCurrentProduct.name}</a>}
+              content={<a>{order.product.name}</a>}
             />
           </Col>
           <Col span={12} style={{ paddingLeft: "15px" }}>
@@ -203,7 +206,7 @@ class OrderDetailsPopUp extends Component {
             Total Profit:
           </p>
           <InputNumber
-            defaultValue={order.totalPrice ? order.totalPrice : "0"}
+            defaultValue={order.plan ? order.plan.price : "0"}
             formatter={value =>
               `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
@@ -222,12 +225,14 @@ class OrderDetailsPopUp extends Component {
               }}
             >
               <Button
+                disabled ={buttonDisable}
                 onClick={() => this.onOrderStatusClicked(order, false)}
                 type="danger"
               >
                 Decline
               </Button>
               <Button
+                disabled ={buttonDisable}
                 onClick={() => this.onOrderStatusClicked(order, true)}
                 type="primary"
               >

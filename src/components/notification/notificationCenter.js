@@ -67,9 +67,7 @@ class notificationCenter extends Component {
             renderItem={item => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={
-                    <Avatar  src={item.consumerAvatar}  />
-                  }
+                  avatar={<Avatar src={item.consumerAvatar} />}
                   title={
                     <a onClick={this.openModal}>
                       {item.title}
@@ -108,7 +106,12 @@ class notificationCenter extends Component {
                           >
                             &times;
                           </a>
-                          <OrderDetailsPopUp order={orderStore.getOrderById(item.OrderId)}/>
+                          <OrderDetailsPopUp
+                            afterOrderStatusClicked={() => this.closeModal}
+                            order={orderStore.getOrderById(
+                              item.OrderId
+                            )}
+                          />
                         </div>
                       </Popup>
                     </a>

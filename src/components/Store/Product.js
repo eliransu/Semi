@@ -2,13 +2,19 @@ import React, { Component } from "react";
 import { Card, Icon, Avatar, Rate } from "antd";
 import Snownoard from "../../assets/snowboard.jpg";
 import ShowMoreText from "react-show-more-text";
+import rootStores from "../../stores";
+import ProductStore from "../../stores/ProductStore";
 
 const { Meta } = Card;
+
+const productStore = rootStores[ProductStore];
+
 export class Product extends Component {
   state = {};
 
   onProductClicked = () => {
     this.props.history.replace(`/productPage/${this.props.product._id}`);
+
   };
 
   render() {
