@@ -6,7 +6,6 @@ import { Table, Divider, Tag } from "antd";
 import ViewStore from "../../stores/ViewStore";
 
 const adminPanelStore = rootStores[AdminPanelStore];
-debugger
 const viewStore = rootStores[ViewStore];
 
 @observer
