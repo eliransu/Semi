@@ -161,7 +161,9 @@ class Master extends React.Component {
                 this.handleMenuClicked("");
               }}
             >
-              <img src={semiIcon} style={{ width: 70 }} />
+              <img src={semiIcon} alt="semi"
+                onClick={() => this.handleMenuClicked("")}
+                style={{ width: 70, cursor: 'pointer' }} />
             </Menu.Item>
           </Col>
           <Menu.Item
