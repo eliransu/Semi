@@ -82,7 +82,7 @@ class ProductCalendar extends Component {
 
   renderItem = item => {
     return (
-      <>
+      <div>
         <li style={{ paddingBottom: 7 }} key={item.content}>
           <Badge status={item.type} text={item.content} />
         </li>
@@ -96,69 +96,48 @@ class ProductCalendar extends Component {
           />
           <a href=""> {item.consumerName}</a>
         </li>
-      </>
+      </div>
     );
   };
 
-         dateCellRender = day => {
-           const listData = this.convertBorrowDateToListData(day);
-           const dateNotPass = moment(new Date()).dayOfYear() <= day.dayOfYear();
-           if (listData.length > 0) {
-             return (
-               <ul className="events">
-                 {listData.map(item => {
-                   this.renderItem(item);
-                 })}
-               </ul>
-             );
-           } 
-           
-           else if (dateNotPass && this.props.applyOrder) {
-                  return (
-                    <div className="events">
-                    <Badge
-                      status="success"
-                      text="Order Now"
-                    />
-                      <Icon
-                        style={{
-                          fontSize: "26px"
-                        }}
-                        twoToneColor="#87d068"
-                        type="plus-circle"
-                        theme="twoTone"
-                        onClick={() =>
-                          this.redirectToPaymentPage(day)
-                        }
-                      />
-                    </div>
-                  );
-                } else {
-                  return null;
-                }
-         };
+dateCellRender = day => {
+  const listData = this.convertBorrowDateToListData(day);
+  const dateNotPass = moment(new Date()).dayOfYear() <= day.dayOfYear();
+  if (listData.length > 0) {
+    return (
+      <ul className="events">
+          {listData.map(item => (
+          this.renderItem(item)
+        ))}
+      </ul>
+    );
+  } 
+  
+  else if (dateNotPass ) {
+        return (
+          <div className="events">
+          <Badge
+            status="success"
+            text="Order Now"
+          />
+            <Icon
+              style={{
+                fontSize: "26px"
+              }}
+              twoToneColor="#87d068"
+              type="plus-circle"
+              theme="twoTone"
+              onClick={() =>
+                this.redirectToPaymentPage(day)
+              }
+            />
+          </div>
+        );
+      } else {
+        return null;
+      }
+};
 
-  dateCellRender = day => {
-    const listData = this.convertBorrowDateToListData(day);
-    if (listData.length > 0) {
-      return (
-        <ul className="events">
-          {listData.map(item => this.renderItem(item))}
-        </ul>
-      );
-    } else {
-      return (
-        <Button
-          onClick={() => this.redirectToPaymentPage(day)}
-          type="primary"
-          shape="round"
-        >
-          Order Now!
-          <Icon type="right" />
-        </Button>
-      );
-    }
-  };
 
   render() {
     return (
