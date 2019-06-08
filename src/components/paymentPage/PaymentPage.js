@@ -257,6 +257,43 @@ class PaymentPage extends React.Component {
                       />
                     </Form.Item>
                   </div>
+              <Form.Item style={{ display: "flex", justifyContent: "center" }}>
+                <Checkbox onChange={e => this.onShippingCheckBoxChange(e)}>
+                  Shipping
+                </Checkbox>
+              </Form.Item>
+              <Divider />
+              <div
+                className="payment-page-renter-price"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textDecoration: "underline"
+                }}
+              >
+                <span
+                  style={{
+                    marginRight: "10px",
+                    width: "90px",
+                    fontWeight: "bold",
+                    textAlign: "center"
+                  }}
+                >
+                  Total Price :
+                </span>
+                <Form.Item>
+                  <InputNumber
+                    defaultValue={`${paymentStore.getPrice}`}
+                    value={`${paymentStore.getPrice}`}
+                    formatter={value =>
+                      `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }
+                    parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                    disabled={true}
+                  />
+                </Form.Item>
+              </div>
 
                   <div
                     className="payment-page-renter-remarks"

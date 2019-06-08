@@ -157,3 +157,5 @@ class ProductCalendar extends Component {
 }
 
 export default withRouter(ProductCalendar);
+
+export default withRouter(ProductCalendar)
