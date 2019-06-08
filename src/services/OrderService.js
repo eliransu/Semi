@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 class OrderService {
   getAllOrdersByUserNameAndType = async (userName, type) => {
     const url = `/api/users/orders?username=${userName}&type=${type}`;
@@ -15,7 +15,13 @@ class OrderService {
     };
     try {
       const result = await axios.put("/api/orders/accept", body);
+      console.log({ accept: result });
       console.log("result changeOrderStatus: ", result);
+      if (result.data.status === 204) {
+        return true;
+      } else {
+        throw new Error("Try it later");
+      }
     } catch (err) {
       console.log("ERROR in changeOrderStatus: ", err);
     }
@@ -37,6 +43,7 @@ class OrderService {
       Payment,
       startDate
     };
+    console.log("body", body);
     try {
       const result = await axios.post("/api/orders", body);
     } catch (err) {

@@ -52,14 +52,13 @@ class Master extends React.Component {
 
   async componentDidMount() {
     try {
-      const loggedIn = await authStore.tryLogin();
-      if (!loggedIn) {
-        this.handleMenuClicked("/");
-      }
-      else {
-        orderStore.loadAllOrders();
-
-      }
+      authStore.tryLogin().then(loggedIn => {
+        if (!loggedIn) {
+          this.handleMenuClicked("/");
+        } else {
+          orderStore.loadAllOrders();
+        }
+      });
     } catch (err) {
       console.error(err);
     }
@@ -278,7 +277,7 @@ class Master extends React.Component {
             <Menu.Item
               style={{ marginLeft: 300, marginBottom: 12 }}
               key="8"
-              onClick={() => this.handleMenuClicked(`/user/${user.username}`)}
+              // onClick={() => this.handleMenuClicked(`/user/${user.username}`)}
             >
               <Popup
                 trigger={
@@ -327,7 +326,7 @@ class Master extends React.Component {
               <Popup
                 open={this.state.open}
                 closeOnDocumentClick
-                onClose={this.closeModal}
+                onClose={() => this.closeModal()}
                 contentStyle={{
                   borderRadius: "20px",
                   width: "auto",
@@ -362,7 +361,7 @@ class Master extends React.Component {
                     margin: "auto"
                   }}
                 />
-                <NotificationCenter />
+                <NotificationCenter closeModal={() => this.closeModal()} />
               </Popup>
             </Menu.Item>
           )}

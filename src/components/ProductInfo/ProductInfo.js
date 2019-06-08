@@ -13,25 +13,31 @@ const productStore = rootStores[ProductStore];
 
 @observer
 class ProductInfo extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     console.log("params", this.props.match.params.id);
-    productStore.getProductById(this.props.match.params.id).then(res => {
-      if (!res) {
-        this.setState({ emptyState: true });
-      }
-    });
+    const res = await productStore.getProductById(this.props.match.params.id);
+    if (!res) {
+      this.setState({ emptyState: true });
+    }
+    this.setState({ avgScore: productStore.getAvarageScore });
+
     console.log("reviews!!", productStore.getCurrentProduct.reviews);
   }
+  // componentDidUpdate() {
+  //   this.setState({ avgScore: productStore.getAvarageScore });
+  // }
 
   state = {
-    emptyState: false
+    emptyState: false,
+    avgScore: 0
   };
 
-  renderProduct = () => {
-    const product = productStore.getCurrentProduct;
+  renderProduct = product => {
     const avgStarsRate = productStore.getAvarageScore;
     const plans = product && product.plans ? product.plans : [];
     const orders = product && product.orders ? product.orders : [];
+    const reviews = product && product.reviews ? product.reviews : [];
+
     return (
       <React.Fragment>
         <div>
@@ -41,10 +47,18 @@ class ProductInfo extends Component {
                 <p>Owner:</p>
                 <Avatar
                   size="large"
-                  src={require(`../../assets/eliran.png`)}
+                  src={
+                    product && product.owner && product.owner.profile_image
+                      ? product.owner.profile_image
+                      : require(`../../assets/eliran.png`)
+                  }
                   style={{ marginRight: 10 }}
                 />
-                <a href={`/user/eliranh1`}>
+                <a
+                  href={`/user/${
+                    product && product.owner ? product.owner.username : ""
+                  }`}
+                >
                   {product && product.owner
                     ? `${product.owner.first_name} ${product.owner.last_name}`
                     : ""}
@@ -54,7 +68,7 @@ class ProductInfo extends Component {
                 <Rate
                   allowHalf
                   disabled
-                  defaultValue={avgStarsRate}
+                  defaultValue={this.state.avgScore}
                   style={{ textAlign: "center", fontSize: "30px" }}
                 />
               </div>
@@ -133,7 +147,7 @@ class ProductInfo extends Component {
             <Card
               style={{ background: "rgb(245, 245, 245)", borderRadius: "30px" }}
             >
-              {/* <ReviewsList data={reviews} /> */}
+              <ReviewsList data={reviews} />
             </Card>
 
             <div style={{ textAlign: "center", paddingTop: "30px" }} />
@@ -152,12 +166,154 @@ class ProductInfo extends Component {
   };
 
   render() {
+    const product = productStore.getCurrentProduct;
+    console.log({ "product in render~!!!@!@": product.avgScore });
+    const avgScore = product && product.avgScore ? product.avgScore : 0;
+    const plans = product && product.plans ? product.plans : [];
+    const orders = product && product.orders ? product.orders : [];
+    const reviews = product && product.reviews ? product.reviews : [];
+    console.log({ "orders in productCalnder": orders });
+
     return (
       <React.Fragment>
-        {this.state.emptyState ? this.renderEmptyState() : this.renderProduct()}
+        {this.state.emptyState ? (
+          <div style={{ textAlign: "center" }}>
+            <h1>The Product Not Found.</h1>
+          </div>
+        ) : (
+          <React.Fragment>
+            <div>
+              <Row>
+                <Col xs={1} sm={3} md={5} lg={7} xl={6}>
+                  <div style={{ textAlign: "center", paddingTop: "30px" }}>
+                    <p>Owner:</p>
+                    <Avatar
+                      size="large"
+                      src={
+                        product && product.owner && product.owner.profile_image
+                          ? product.owner.profile_image
+                          : require(`../../assets/eliran.png`)
+                      }
+                      style={{ marginRight: 10 }}
+                    />
+                    <a
+                      href={`/user/${
+                        product && product.owner ? product.owner.username : ""
+                      }`}
+                    >
+                      {product && product.owner
+                        ? `${product.owner.first_name} ${
+                            product.owner.last_name
+                          }`
+                        : ""}
+                    </a>
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <Rate
+                      disabled
+                      defaultValue={avgScore}
+                      style={{ textAlign: "center", fontSize: "30px" }}
+                    />
+                  </div>
+                  <ImageCarousel
+                    imgList={product && product.images ? product.images : []}
+                  />
+                </Col>
+                <Col xl={1}>
+                  <div className="separator--vertical" />
+                </Col>
+                <Col
+                  xs={2}
+                  sm={4}
+                  md={6}
+                  lg={8}
+                  xl={15}
+                  style={{ paddingTop: "20px" }}
+                >
+                  <div style={{ textAlign: "center", paddingTop: "30px" }}>
+                    {contentRenderer(
+                      product && product.title ? product.title : "",
+                      "",
+                      22
+                    )}
+                  </div>
+                  <Card
+                    style={{
+                      width: 992,
+                      background: "rgb(245, 245, 245)",
+                      borderRadius: "30px"
+                    }}
+                  >
+                    <p>
+                      Category:{" "}
+                      {product && product.category ? product.category.name : ""}
+                    </p>
+                    <p>
+                      Sub-Category:{" "}
+                      {product && product.subCategory
+                        ? product.subCategory
+                        : "NONE"}
+                    </p>
+                    <p>
+                      Description:{""}
+                      {product && product.description
+                        ? product.description
+                        : ""}
+                    </p>
+                    <p>
+                      Quality:{" "}
+                      {product && product.quality ? product.quality : ""}
+                    </p>
+                    <p>
+                      Reatail Price (as new):{" "}
+                      {product && product.retailPrice ? product.retailPrice : 0}
+                    </p>
+                    <p>Time periods / Prices :</p>
+
+                    <PeriodsAndPricingsTable data={plans} />
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Divider />
+
+                <div style={{ textAlign: "center", paddingTop: "30px" }}>
+                  {contentRenderer("Product Availability:", "", 22)}
+                </div>
+                <Card
+                  style={{
+                    background: "rgb(245, 245, 245)",
+                    borderRadius: "30px"
+                  }}
+                >
+                  <ProductCalendar data={orders} />
+                </Card>
+
+                <Divider />
+                <div style={{ textAlign: "center", paddingTop: "30px" }}>
+                  {contentRenderer("Reviews:", "", 22)}
+                </div>
+                <Card
+                  style={{
+                    background: "rgb(245, 245, 245)",
+                    borderRadius: "30px"
+                  }}
+                >
+                  <ReviewsList data={reviews} />
+                </Card>
+
+                <div style={{ textAlign: "center", paddingTop: "30px" }} />
+              </Row>
+            </div>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }
 }
 
 export default ProductInfo;
+
+// {this.state.emptyState
+//   ? this.renderEmptyState()
+//   : this.renderProduct(productStore.getCurrentProduct)}

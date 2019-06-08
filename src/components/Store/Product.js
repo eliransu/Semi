@@ -2,10 +2,14 @@ import { Avatar, Card, Checkbox, Rate } from "antd";
 import React, { Component } from "react";
 import ShowMoreText from "react-show-more-text";
 import AlertUtils from "../utils/AlertUtils";
-import './Store.css'
-const { Meta } = Card;
+import ProductStore from "../../stores/ProductStore";
+import { observer } from "mobx-react";
+import rootStores from "../../stores";
 
-export class Product extends Component {
+const { Meta } = Card;
+const productStore = rootStores[ProductStore];
+@observer
+class Product extends Component {
   state = {
     opacity: this.props.opacity ? 0.5 : 1,
     productStyle: false
@@ -45,6 +49,9 @@ export class Product extends Component {
 
   render() {
     const product = this.props.product;
+    const avgScore = product && product.avgScore ? product.avgScore : 0;
+    const opcity = this.props.marketPlace;
+    console.log(this.state.opacity);
     const disabled =
       this.props.checkBoxDisable && !this.state.productStyle ? true : false;
 
@@ -80,7 +87,7 @@ export class Product extends Component {
           }
           actions={[
             <div>
-              <Rate disabled defaultValue={2} />
+              <Rate disabled defaultValue={avgScore} />
               {this.props.marketPlace && (
                 <Checkbox
                   style={{ marginLeft: 30 }}

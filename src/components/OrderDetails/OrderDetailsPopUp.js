@@ -13,7 +13,8 @@ import moment from "moment";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
-import OrderStore, {OrderStatus} from "../../stores/OrderStore";
+import OrderStore from "../../stores/OrderStore";
+import AlertUtil from "../utils/AlertUtils";
 
 const productStore = rootStores[ProductStore];
 const orderStore = rootStores[OrderStore];
@@ -30,10 +31,24 @@ class OrderDetailsPopUp extends Component {
     });
   }
 
- async onOrderStatusClicked(order, accept) {
-    await orderStore.changeOrderStatus(order, accept);
-    this.props.afterOrderStatusClicked();
-  }
+  state = {
+    loadingAccept: false,
+    loadingDecline: false
+  };
+
+  onOrderStatusClicked = async (order, accept) => {
+    try {
+      const result = await orderStore.changeOrderStatus(order, accept);
+      if (result) {
+        AlertUtil.successAlert("Request Success");
+        await orderStore.loadAllOrders();
+      }
+    } catch (err) {
+      AlertUtil.failurAlert(err);
+    }
+    this.setState({ loadingDecline: false, loadingAccept: false });
+    this.props.closeModal();
+  };
 
   render() {
     const order = this.props.order;
@@ -164,7 +179,11 @@ class OrderDetailsPopUp extends Component {
           >
             <DescriptionItem
               title="Product"
-              content={<a>{order.product.name}</a>}
+              content={
+                <a href={`/productPage/${order.product._id}`}>
+                  {order.product.name}
+                </a>
+              }
             />
           </Col>
           <Col span={12} style={{ paddingLeft: "15px" }}>
@@ -206,7 +225,7 @@ class OrderDetailsPopUp extends Component {
             Total Profit:
           </p>
           <InputNumber
-            defaultValue={order.plan ? order.plan.price : "0"}
+            defaultValue={order && order.plan ? order.plan.price : "0"}
             formatter={value =>
               `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
@@ -225,16 +244,22 @@ class OrderDetailsPopUp extends Component {
               }}
             >
               <Button
-                disabled ={buttonDisable}
-                onClick={() => this.onOrderStatusClicked(order, false)}
+                onClick={() => {
+                  this.setState({ loadingDecline: false });
+                  this.onOrderStatusClicked(order, false);
+                }}
                 type="danger"
+                loading={this.state.loadingDecline}
               >
                 Decline
               </Button>
               <Button
-                disabled ={buttonDisable}
-                onClick={() => this.onOrderStatusClicked(order, true)}
+                onClick={() => {
+                  this.setState({ loadingAccept: true });
+                  this.onOrderStatusClicked(order, true);
+                }}
                 type="primary"
+                loading={this.state.loadingAccept}
               >
                 Accept
               </Button>

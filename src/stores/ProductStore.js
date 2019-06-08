@@ -114,18 +114,26 @@ export default class ProductStore {
   @computed
   get getAvarageScore() {
     let sum = 0;
+    console.log(
+      "iii",
+      this.currentProduct ? this.getCurrentProduct.reviews : null
+    );
     if (
-      !this.currentProduct ||
-      !this.currentProduct.review ||
-      !this.currentProduct.reviews.lenght > 0
+      !this.getCurrentProduct ||
+      (!this.getCurrentProduct.reviews ||
+        !this.getCurrentProduct.reviews.length > 0)
+      // get(this.getCurrentProduct, 'reviews.length') > 0
     ) {
+      console.log("not reviews");
       return sum;
     }
 
-    this.currentProduct.reviews.forEach(review => {
+    console.log("we have some reviews");
+    this.getCurrentProduct.reviews.forEach(review => {
       sum += review.stars;
     });
-    return sum / this.currentProduct.review.lenght;
+
+    return sum / this.currentProduct.reviews.length;
   }
 
   @computed
@@ -133,117 +141,3 @@ export default class ProductStore {
     return toJS(this.allProducts) || [];
   }
 }
-//   constructor() {
-//     //this.loadAllProducts();
-//     this.currentProduct = {
-//       title: "Wilson Federer Tennis Racquet",
-//       img: [
-//         "blueRacket.jpg",
-//         "blueRacket2.jpg",
-//         "blueRacket3.jpg",
-//         "blueRacket4.jpg"
-//       ],
-//       reviews: [
-//         {
-//           content:
-//             "very recommended racket i borrow a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently",
-//           datetime: "2019-04-25",
-//           numOfstart: 5,
-//           user: { name: "Sean Assis", avatar: "seanAvatar.png" }
-//         },
-//         {
-//           content:
-//             "average racket i borrow a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently",
-//           datetime: "2019-04-23",
-//           numOfstart: 3,
-//           user: {
-//             name: "Eliran Hasin",
-//             avatar: "hasinAvatar.png"
-//           }
-//         },
-//         {
-//           content:
-//             "good racket i borrow a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently",
-//           datetime: "2019-04-22",
-//           numOfstart: 4,
-//           user: {
-//             name: "Eliran Suisa",
-//             avatar: "suisaAvatar.png"
-//           }
-//         },
-//         {
-//           content:
-//             "bad racket i borrow a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently",
-//           datetime: "2019-04-21",
-//           numOfstart: 2,
-//           user: {
-//             name: "Alon Braymok",
-//             avatar: "alonAvatar.png"
-//           }
-//         },
-//         {
-//           content:
-//             "highly recommended racket i borrow a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently",
-//           datetime: "2019-04-20",
-//           numOfstart: 5,
-//           user: {
-//             name: "Tom Lochi",
-//             avatar: "lochiAvatar.png"
-//           }
-//         }
-//       ],
-//       periodAndPrices: [
-//         { key: 1, period: "One day", price: "10$" },
-//         { key: 2, period: "Two days", price: "15$" },
-//         { key: 3, period: "One week", price: "50$" },
-//         { key: 4, period: "Two weeks", price: "70$" },
-//         { key: 5, period: "One Month", price: "120$" }
-//       ],
-//       description: `Power String bridge
-//                           Longer main strings for explosive power
-//                           Stop shock sleeves for improved comfort
-//                           Grip Size: 4 3/8`,
-//       owner: {
-//         name: "Meron Brumberg",
-//         avatar: "meronAvatar.png"
-//       },
-//       category: "Sport",
-//       subCategory: "Sport equipmenet",
-//       quality: "Execllent",
-//       retailPrice: "400$",
-//       orders: [
-//         {
-//           consumer: {
-//             name: "Sean assis",
-//             avatar: "seanAvatar.png"
-//           },
-//           startDate: "2019-04-18",
-//           endDate: "2019-04-25"
-//         },
-//         {
-//           consumer: {
-//             name: "Eliran Suisa",
-//             avatar: "suisaAvatar.png"
-//           },
-//           startDate: "2019-05-01",
-//           endDate: "2019-05-10"
-//         }
-//       ]
-//     };
-//   }
-
-//TODO: service that load all the products
-// @action
-// loadAllProducts(){
-
-//     return ProductService.getAllProducts()
-//     .then(products =>{
-//         this.allProducts.replace(products)
-//     })
-//     .catch(err =>{
-//         if(this.currentProduct){
-//             console.log(`Error while loading products. currentProductID: ${this.currentProduct._id}`,err);
-//         }
-//         return false;
-//     })
-// }
