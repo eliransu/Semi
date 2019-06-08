@@ -38,8 +38,6 @@ class ProductCalendar extends Component {
   componentDidUpdate(prev) {
     let orders = this.props.data;
 
-
-
     console.log({ "orders in update": orders });
     orders.map(order => {
       for (
@@ -59,6 +57,15 @@ class ProductCalendar extends Component {
     });
     console.log();
   }
+
+  redirectToPaymentPage = day => {
+    paymentStore.currentProduct = productStore.currentProduct;
+    paymentStore.providerName = productStore.currentProduct
+      ? productStore.currentProduct.owner.username
+      : "";
+    paymentStore.startDate = day;
+    this.props.history.push("/paymentPage");
+  };
 
   convertBorrowDateToListData = value => {
     const consumer = this.state.orderDaysOfYear.filter(
@@ -100,44 +107,34 @@ class ProductCalendar extends Component {
     );
   };
 
-dateCellRender = day => {
-  const listData = this.convertBorrowDateToListData(day);
-  const dateNotPass = moment(new Date()).dayOfYear() <= day.dayOfYear();
-  if (listData.length > 0) {
-    return (
-      <ul className="events">
-          {listData.map(item => (
-          this.renderItem(item)
-        ))}
-      </ul>
-    );
-  } 
-  
-  else if (dateNotPass ) {
-        return (
-          <div className="events">
-          <Badge
-            status="success"
-            text="Order Now"
+  dateCellRender = day => {
+    const listData = this.convertBorrowDateToListData(day);
+    const dateNotPass = moment(new Date()).dayOfYear() <= day.dayOfYear();
+    if (listData.length > 0) {
+      return (
+        <ul className="events">
+          {listData.map(item => this.renderItem(item))}
+        </ul>
+      );
+    } else if (dateNotPass) {
+      return (
+        <div className="events">
+          <Badge status="success" text="Order Now" />
+          <Icon
+            style={{
+              fontSize: "26px"
+            }}
+            twoToneColor="#87d068"
+            type="plus-circle"
+            theme="twoTone"
+            onClick={day => this.redirectToPaymentPage(day)}
           />
-            <Icon
-              style={{
-                fontSize: "26px"
-              }}
-              twoToneColor="#87d068"
-              type="plus-circle"
-              theme="twoTone"
-              onClick={() =>
-                this.redirectToPaymentPage(day)
-              }
-            />
-          </div>
-        );
-      } else {
-        return null;
-      }
-};
-
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
 
   render() {
     return (
