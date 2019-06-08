@@ -38,21 +38,7 @@ class ProductCalendar extends Component {
   componentDidUpdate(prev) {
     let orders = this.props.data;
 
-         renderItem = item => {
-           return (
-             <>
-               <li key={item.content}>
-                 <Badge status={item.type} text={item.content} />
-               </li>
-               <li style={{ display: "flex", justifyContent: "center" }}>
-                 <Avatar
-                   src={require(`../../assets/${item.consumerAvatar}`)}
-                 />
-                 <a href=""> {item.consumerName}</a>
-               </li>
-             </>
-           );
-         };
+
 
     console.log({ "orders in update": orders });
     orders.map(order => {
