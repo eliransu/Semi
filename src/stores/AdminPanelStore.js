@@ -5,6 +5,8 @@ export default class AdminPanelStore {
   @observable viewUsers;
   @observable ViewProducts;
   @observable viewOrders;
+  @observable viewStatistics;
+  @observable viewStatisticsByCategory;
   @observable allUsers = observable([]);
   @observable allOrders = observable([]);
   @observable allProducts = observable([]);
@@ -17,6 +19,7 @@ export default class AdminPanelStore {
     }
     this.ViewProducts = false;
     this.viewOrders = false;
+    this.viewStatistics = true;
   }
 
   @action toggleViewProducts() {
@@ -27,6 +30,7 @@ export default class AdminPanelStore {
     }
     this.viewOrders = false;
     this.viewUsers = false;
+    this.viewStatistics = true;
   }
 
   @action toggleViewOrders() {
@@ -37,6 +41,18 @@ export default class AdminPanelStore {
     }
     this.ViewProducts = false;
     this.viewUsers = false;
+    this.viewStatistics = true;
+  }
+
+  @action toggleStatistics() {
+    if (this.viewStatistics) {
+      this.viewStatistics = false;
+    } else {
+      this.viewStatistics = true;
+    }
+    this.ViewProducts = false;
+    this.viewUsers = false;
+    this.viewOrders = false;
   }
 
   @action
