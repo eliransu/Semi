@@ -12,7 +12,11 @@ const MainHero = props => {
     <Row style={{ paddingTop: 15 }} type="flex" justify="center">
       <Col>
         <img
-          style={{ ...styles, marginBottom: 7, borderRadius: 25 }}
+          style={{
+            ...styles,
+            marginBottom: 7,
+            borderRadius: 25
+          }}
           src="https://i.ibb.co/tbVSMtZ/main.png"
           alt="hero"
         />

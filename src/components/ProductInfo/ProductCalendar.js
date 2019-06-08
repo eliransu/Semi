@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { Calendar, Badge, Avatar, Button, Icon,  } from "antd";
-
+import { Calendar, Badge, Avatar, Button, Icon } from "antd";
 import moment from "moment";
 import "./ProductCalendar.css";
 import PaymentStore from "../../stores/PaymentStore";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
-import {withRouter} from 'react-router'
-import {toJS} from "mobx";
+import { withRouter } from "react-router";
 function getMonthData(value) {
   if (value.month() === 8) {
     return 1394;
@@ -25,58 +23,20 @@ function monthCellRender(value) {
   ) : null;
 }
 
-const paymentStore = rootStores[PaymentStore]
-const productStore = rootStores[ProductStore]
+const paymentStore = rootStores[PaymentStore];
+const productStore = rootStores[ProductStore];
 
 class ProductCalendar extends Component {
-         state = {
-           orderDaysOfYear: []
-         };
+  state = {
+    orderDaysOfYear: []
+  };
 
-         constructor(props) {
-           super(props);
-           let orders = this.props.data;
-             paymentStore.setCurrentProduct(productStore.currentProduct);
-           let orderDaysOfYear = [];
-           orders.map(order => {
-             for (
-               let i = moment(order.startDate).dayOfYear();
-               i <= moment(order.endDate).dayOfYear();
-               i++
-             ) {
-               orderDaysOfYear.push({
-                 day: i,
-                 consumerName: order.consumer.name,
-                 consumerAvatar: order.consumer.avatar
-               });
-             }
-           });
-           this.state = {
-             orderDaysOfYear: orderDaysOfYear
-           };
-         }
+  constructor(props) {
+    super(props);
+  }
 
-         convertBorrowDateToListData = value => {
-           const consumer = this.state.orderDaysOfYear.filter(
-             item => item.day === value.dayOfYear()
-           );
-           let listData;
-           if (
-             this.state.orderDaysOfYear.some(
-               item => item.day === value.dayOfYear()
-             )
-           ) {
-             listData = [
-               {
-                 type: "error",
-                 content: "Product rented by:",
-                 consumerName: consumer[0]["consumerName"],
-                 consumerAvatar: consumer[0]["consumerAvatar"]
-               }
-             ];
-           }
-           return listData || [];
-         };
+  componentDidUpdate(prev) {
+    let orders = this.props.data;
 
          renderItem = item => {
            return (
@@ -86,7 +46,7 @@ class ProductCalendar extends Component {
                </li>
                <li style={{ display: "flex", justifyContent: "center" }}>
                  <Avatar
-                   src={item.consumerAvatar ? item.consumerAvatar :  require(`../../assets/alonAvatar.png`)}
+                   src={require(`../../assets/${item.consumerAvatar}`)}
                  />
                  <a href=""> {item.consumerName}</a>
                </li>
@@ -94,15 +54,65 @@ class ProductCalendar extends Component {
            );
          };
 
-         redirectToPaymentPage = (day) => {
-           paymentStore.providerName = paymentStore.currentProduct
-             ? paymentStore.currentProduct.owner.username
-             : "";
-           paymentStore.startDate = day;
+    console.log({ "orders in update": orders });
+    orders.map(order => {
+      for (
+        let i = moment(order.start_time).dayOfYear();
+        i <= moment(order.finish_time).dayOfYear();
+        i++
+      ) {
+        console.log({ i });
+        this.state.orderDaysOfYear.push({
+          day: i,
+          consumerName: order.consumer.username,
+          consumerAvatar: order.consumer.profile_image
+            ? order.consumer.profile_image
+            : require("../../assets/eliran.png")
+        });
+      }
+    });
+    console.log();
+  }
 
-           this.props.history.push('/paymentPage')
+  convertBorrowDateToListData = value => {
+    const consumer = this.state.orderDaysOfYear.filter(
+      item => item.day === value.dayOfYear()
+    );
+    let listData;
+    if (
+      this.state.orderDaysOfYear.some(item => item.day === value.dayOfYear())
+    ) {
+      listData = [
+        {
+          type: "error",
+          content: "Product rented by:",
+          consumerName: consumer[0]["consumerName"],
+          consumerAvatar: consumer[0]["consumerAvatar"]
+        }
+      ];
+    }
+    return listData || [];
+  };
 
-         };
+  renderItem = item => {
+    return (
+      <>
+        <li style={{ paddingBottom: 7 }} key={item.content}>
+          <Badge status={item.type} text={item.content} />
+        </li>
+        <li style={{ display: "flex", justifyContent: "center" }}>
+          <Avatar
+            src={
+              item && item.consumerAvatar
+                ? item.consumerAvatar
+                : require(`../../assets/eliran.png`)
+            }
+          />
+          <a href=""> {item.consumerName}</a>
+        </li>
+      </>
+    );
+  };
 
          dateCellRender = day => {
            const listData = this.convertBorrowDateToListData(day);
@@ -119,49 +129,62 @@ class ProductCalendar extends Component {
            
            else if (dateNotPass && this.props.applyOrder) {
                   return (
-                    <div className="events">
-                    <Badge
-                      status="success"
-                      text="Order Now"
-                    />
-                      <Icon
-                        style={{
-                          fontSize: "26px"
-                        }}
-                        twoToneColor="#87d068"
-                        type="plus-circle"
-                        theme="twoTone"
-                        onClick={() =>
-                          this.redirectToPaymentPage(day)
-                        }
-                      />
-                    </div>
+                    <Button
+                      onClick={() =>
+                        this.redirectToPaymentPage(day)
+                      }
+                      type="primary"
+                      shape="round"
+                    >
+                      Order Now!
+                      <Icon type="right" />
+                    </Button>
                   );
                 } else {
                   return null;
                 }
          };
 
-         render() {
-           
-           return (
-             <div
-               style={{
-                 width: this.props.width,
-                 border: "1px solid #d9d9d9",
-                 borderRadius: 10,
-                 margin: "auto"
-               }}
-             >
-               <Calendar
-                 dateCellRender={this.dateCellRender}
-                 monthCellRender={monthCellRender}
-               />
-               ,
-             </div>
-           );
-         }
-       }
+  dateCellRender = day => {
+    const listData = this.convertBorrowDateToListData(day);
+    if (listData.length > 0) {
+      return (
+        <ul className="events">
+          {listData.map(item => this.renderItem(item))}
+        </ul>
+      );
+    } else {
+      return (
+        <Button
+          onClick={() => this.redirectToPaymentPage(day)}
+          type="primary"
+          shape="round"
+        >
+          Order Now!
+          <Icon type="right" />
+        </Button>
+      );
+    }
+  };
 
+  render() {
+    return (
+      <div
+        style={{
+          width: 1250,
+          border: "1px solid #d9d9d9",
+          borderRadius: 10,
+          margin: "auto"
+        }}
+      >
+        <Calendar
+          dateCellRender={this.dateCellRender}
+          monthCellRender={monthCellRender}
+        />
+        ,
+      </div>
+    );
+  }
+}
 
-export default withRouter(ProductCalendar)
+export default withRouter(ProductCalendar);

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toJS } from "mobx";
+import get from "lodash/get";
 class ProductService {
   addProductToUser = (username, product, periods) => {
     console.log(`add new product to the user ${username}`, product);
@@ -40,6 +41,19 @@ class ProductService {
       } else {
         console.log({ product });
         console.log("product in service", product.data.data);
+        let sum = 0;
+        if (get(product, "data.data.reviews.length", 0) > 0) {
+          let sum = 0;
+          product.data.data.reviews.forEach(review => {
+            sum += review.stars;
+          });
+
+          const returnProduct = {
+            ...product.data.data,
+            avgScore: sum / product.data.data.reviews.length
+          };
+          return returnProduct;
+        }
 
         return product.data.data;
       }
