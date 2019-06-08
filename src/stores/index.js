@@ -5,6 +5,7 @@ import PaymentStore from "./PaymentStore";
 import OrderStore from "./OrderStore";
 import ViewStore from "./ViewStore";
 import MatchesStore from "./MatchesStore";
+import AdminPanelStore from './AdminPanelStore';
 
 //Initiate all stores
 const authStore = new AuthStore();
@@ -14,6 +15,7 @@ const paymentStore = new PaymentStore(authStore);
 const orderStore = new OrderStore(authStore);
 const viewStore = new ViewStore(authStore);
 const matchesStore = new MatchesStore(authStore);
+const adminPanelStore = new AdminPanelStore(authStore)
 
 //save the instances in global object
 const rootStores = {
@@ -23,10 +25,11 @@ const rootStores = {
   [PaymentStore]: paymentStore,
   [OrderStore]: orderStore,
   [ViewStore]: viewStore,
-  [MatchesStore]: matchesStore
+  [MatchesStore]: matchesStore,
+  [AdminPanelStore]: adminPanelStore
 };
 
 // TODO: Debugging purpose - delete
-window["stores"] = rootStores;
+window['stores'] = rootStores;
 
 export default rootStores;

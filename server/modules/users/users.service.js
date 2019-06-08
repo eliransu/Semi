@@ -171,6 +171,12 @@ const deleteUserById = async (id) => {
   return userDeleted
 }
 
+const getAllProductsToReplace = async (userId) => {
+  const productsToGiveWithoutMine = await UserModel.find({ _id: { $ne: userId } }).select({ products_to_give: 1, _id: 0, username: 1 })
+  console.log(productsToGiveWithoutMine)
+  return productsToGiveWithoutMine.filter(pToGive => pToGive.products_to_give.length > 0).map(obj => ({ providerName: obj.username, products: obj.products_to_give }))
+}
+
 
 module.exports = {
   getProductsByUserName,
@@ -182,5 +188,6 @@ module.exports = {
   getOrdersByUsername,
   getAllUsers,
   manageMatching,
-  deleteUserById
+  deleteUserById,
+  getAllProductsToReplace
 }

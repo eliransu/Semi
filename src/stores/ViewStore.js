@@ -1,29 +1,27 @@
 import { observable, computed, toJS, action } from "mobx";
 
 export default class ViewStore {
-  @observable
-  loader = false;
+  @observable appLoadingBoolean = true;
+  @observable appLoadingText;
 
   @observable
   blocking = false;
 
   @action
-  setLoader = loadded => {
-    this.loader = loadded;
+  setappLoadingBoolean = loadded => {
+    this.appLoadingBoolean = loadded;
   };
 
-  @action
-  setBlocking = value => {
-    this.blocking = value;
-  };
-
-  @computed
-  get getBlocking() {
-    return toJS(this.blocking);
+  @action toggleappLoadingBoolean() {
+    if (this.appLoadingBoolean) {
+      this.appLoadingBoolean = false;
+    } else {
+      this.appLoadingBoolean = true;
+    }
   }
 
   @computed
-  get getLoader() {
-    return toJS(this.loader);
+  get getappLoadingBoolean() {
+    return toJS(this.appLoadingBoolean);
   }
 }

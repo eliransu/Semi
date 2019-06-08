@@ -1,6 +1,7 @@
 
 const { httpResponse } = require('../../utils')
 const userService = require('../users/users.service')
+const { ObjectId } = require('mongodb')
 
 const getProducts = async (req, res) => {
   const { username } = req.params
@@ -134,6 +135,18 @@ const deleteUserById = async (req, res) => {
   return res.json(httpResponse(204))
 }
 
+const getAllProductsToReplace = async (req, res) => {
+  const { userId } = req.params
+  if (!userId || (userId.length !== 12 && userId.length !== 24)) {
+    return res.json(httpResponse(400, 'wrong userId', 'getAllProductsToReplace'))
+  }
+  const allProductsToReplace = await userService.getAllProductsToReplace(userId)
+  if (!allProductsToReplace) {
+    return res.json(httpResponse(500, 'failed to load products to replace',
+      'getAllProductsToReplace'))
+  }
+  return res.json(httpResponse(200, allProductsToReplace))
+}
 
 module.exports = {
   getProducts,
@@ -145,5 +158,6 @@ module.exports = {
   getOrdersByUsername,
   getAllUsers,
   manageMatching,
-  deleteUserById
+  deleteUserById,
+  getAllProductsToReplace
 }

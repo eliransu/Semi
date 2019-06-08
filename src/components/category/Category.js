@@ -17,10 +17,10 @@ class Category extends Component {
   };
 
   componentDidMount() {
-    viewStore.setLoader(true);
+    // viewStore.setLoader(true);
     categoryStore.getCategoryById(this.props.match.params.id).then(res => {
       if (res) {
-        viewStore.setLoader(false);
+        // viewStore.setLoader(false);
         this.setState({ loading: false });
       }
     });

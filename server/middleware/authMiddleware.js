@@ -1,8 +1,8 @@
 const jwt = require('jwt-simple')
 const UserModel = require('../database/models/UserModel')
 const { httpResponse } = require('../utils')
+
 const authMiddleware = async (req, res, next) => {
-  console.log('here...')
   const { JWT_TOKEN } = req.cookies
   if (!JWT_TOKEN) {
     return res.json(httpResponse(401, 'Unauthorized - Login is required'))
@@ -15,7 +15,8 @@ const authMiddleware = async (req, res, next) => {
   if (!user) {
     return res.json(httpResponse(401, 'Unauthorized - User not found'))
   }
-  next()
+  req.user = user
+  return next()
 }
 
 module.exports = authMiddleware

@@ -29,6 +29,8 @@ import MatchingModal from "../matches/MatchingModal";
 import MatchesMarket from "../matches/MatchesMarket";
 import AlertUtils from "../utils/AlertUtils";
 import BlockUi from "react-block-ui";
+import AdminPanel from '../adminPanel/AdminPanel'
+
 const semiIcon = require("../../assets/semi.ico");
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
@@ -66,7 +68,7 @@ class Master extends React.Component {
   showModal = () => {
     this.setState({ visble: true });
   };
-  handleOk = e => {
+  handleOk = (e) => {
     //need to send data to the server
     console.log(e);
     this.setState({ visble: false });
@@ -159,7 +161,9 @@ class Master extends React.Component {
                 this.handleMenuClicked("");
               }}
             >
-              <img src={semiIcon} style={{ width: 70 }} />
+              <img src={semiIcon} alt="semi"
+                onClick={() => this.handleMenuClicked("")}
+                style={{ width: 70, cursor: 'pointer' }} />
             </Menu.Item>
           </Col>
           <Menu.Item
@@ -400,6 +404,8 @@ class Master extends React.Component {
             <Route exact path={"/matching"} component={MatchesMarket} />
             <Route exact path="/paymentPage" component={PaymentPage} />
             <Route exact path="/search" component={SearchComponenet} />
+            <Route exact path="/adminPanel" component={AdminPanel} />
+
           </Switch>
         </Content>
         <Footer style={{ textAlign: "center" }}>

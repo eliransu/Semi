@@ -1,0 +1,29 @@
+.react-loading {
+  margin-top: 180px;
+}
+.hide {
+  display: none !important;
+}
+.react-loading-main-container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  background: white;
+  opacity: 0.8;
+}
+.app-loading-text-main-contaier {
+  display: flex;
+  justify-content: center;
+  position: initial;
+  z-index: 6;
+}
+.app-loading-text {
+  position: fixed;
+  z-index: 500;
+  margin: calc(291px + 12vw) auto;
+  font-size: calc((1vw + 28px) / 1.05);
+  padding-right: 1.5vw;
+}

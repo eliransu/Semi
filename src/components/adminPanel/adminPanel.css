@@ -1,0 +1,24 @@
+.ant-layout-content {
+  padding: 0px 0px !important;
+}
+/* .ant-layout-sider-trigger {
+	display: none !important;
+} */
+.admin-panel-main-container {
+  display: flex;
+}
+.admin-panel-users {
+  justify-content: center;
+  width: 100%;
+}
+.admin-panel-product {
+  justify-content: center;
+  width: 100%;
+}
+.admin-panel-orders {
+  justify-content: center;
+  width: 100%;
+}
+.hide {
+  display: none;
+}
