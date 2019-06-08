@@ -46,6 +46,9 @@ class OrderService {
     console.log("body", body);
     try {
       const result = await axios.post("/api/orders", body);
+      if (result) {
+        return true;
+      } else return false;
     } catch (err) {
       console.log("ERROR in createNewOrder: ", err);
     }

@@ -15,12 +15,12 @@ import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
 import OrderStore from "../../stores/OrderStore";
 import AlertUtil from "../utils/AlertUtils";
+import { OrderStatus } from "../../stores/OrderStore";
 
 const productStore = rootStores[ProductStore];
 const orderStore = rootStores[OrderStore];
 @observer
 class OrderDetailsPopUp extends Component {
-  
   componentDidMount() {
     const order = this.props.order;
 

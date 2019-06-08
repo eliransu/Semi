@@ -66,6 +66,25 @@ export default class OrderStore {
     );
   };
 
+  @action
+  createNewOrder = async (
+    providerName,
+    consumerName,
+    productId,
+    plan,
+    payment,
+    startDate
+  ) => {
+    return OrderService.createNewOrder(
+      providerName,
+      consumerName,
+      productId,
+      plan,
+      payment,
+      startDate
+    );
+  };
+
   @computed
   get currentOrder() {
     return this.currentOrder;
@@ -73,11 +92,9 @@ export default class OrderStore {
 
   @computed
   get getAllOrdersAsProvider() {
-    const orderedAllOrdersAsProvider = orderBy(
-      this.allOrdersAsProvider,
-      [order => order["order_status"]]
-    
-    );
+    const orderedAllOrdersAsProvider = orderBy(this.allOrdersAsProvider, [
+      order => order["order_status"]
+    ]);
     return orderedAllOrdersAsProvider;
   }
 
@@ -105,6 +122,11 @@ export default class OrderStore {
         notifications.push(notif);
       });
     }
+
     return toJS(notifications);
+  }
+  @computed
+  get getLengthOrdersNotHandeledAsProvider() {
+    return this.getallOrdersNotHendeledAsProvider.length || 0;
   }
 }

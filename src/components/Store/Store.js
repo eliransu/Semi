@@ -54,11 +54,11 @@ class Store extends Component {
       <React.Fragment>
         <div>
           <div className="main-store-container" style={{ marginBottom: 30 }}>
-            <Row style={{ padding: "30px 0px" }}>
-              <Col span={6}>
+            <Row style={{ padding: 30 }}>
+              <Col span={4}>
                 <UserDescription user={authStore.currentUser} />
               </Col>
-              <Col span={18}>
+              <Col span={20}>
                 <Row>
                   <div className="all-products">{this.renderProducts()}</div>
                 </Row>

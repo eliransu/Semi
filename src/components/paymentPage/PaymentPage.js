@@ -7,7 +7,9 @@ import {
   Divider,
   Form,
   Input,
-  InputNumber
+  InputNumber,
+  Col,
+  Row
 } from "antd";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
@@ -19,6 +21,7 @@ import ProductStore from "../../stores/ProductStore";
 import ImageCarousel from "../ProductInfo/ImageCarousel";
 import PaymentModalPage from "./PaymentModalPage";
 import AuthStore from "../../stores/AuthStore";
+import ProductCalendar from "../ProductInfo/ProductCalendar";
 
 const { Option } = Select;
 const productStore = rootStores[ProductStore];
@@ -118,7 +121,8 @@ class PaymentPage extends React.Component {
   render() {
     const { getFieldsError } = this.props.form;
     const currentProduct = toJS(paymentStore.getCurrentProduct);
-    const orders = currentProduct && currentProduct.orders ? currentProduct.orders : [];
+    const orders =
+      currentProduct && currentProduct.orders ? currentProduct.orders : [];
 
     const { endDate } = paymentStore;
 
@@ -151,7 +155,9 @@ class PaymentPage extends React.Component {
                     </span>
                     <Form.Item>
                       <span style={{ width: "350px" }}>{`${
-                        currentProduct.owner ? currentProduct.owner.username : "no owner"
+                        currentProduct.owner
+                          ? currentProduct.owner.username
+                          : "no owner"
                       }`}</span>
                       {currentProduct.owner.profile_name && (
                         <span style={{ width: "350px" }}>{`${
@@ -190,9 +196,7 @@ class PaymentPage extends React.Component {
                     <Form.Item>
                       <DatePicker
                         defaultValue={moment(
-                          moment(paymentStore.startDate).format(
-                            "DD/MM/YYYY"
-                          ),
+                          moment(paymentStore.startDate).format("DD/MM/YYYY"),
                           "DD/MM/YYYY"
                         )}
                         format={"DD/MM/YYYY"}
@@ -214,64 +218,10 @@ class PaymentPage extends React.Component {
                     <Form.Item>{this.renderPeriodsOptions()}</Form.Item>
                   </div>
 
-              <Form.Item style={{ display: "flex", justifyContent: "center" }}>
-                <Checkbox onChange={e => this.onShippingCheckBoxChange(e)}>
-                  Shipping
-                </Checkbox>
-              </Form.Item>
-              <Divider />
-              <div
-                className="payment-page-renter-price"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textDecoration: "underline"
-                }}
-              >
-                <span
-                  style={{
-                    marginRight: "10px",
-                    width: "90px",
-                    fontWeight: "bold",
-                    textAlign: "center"
-                  }}
-                >
-                  Total Price :
-                </span>
-                <Form.Item>
-                  <InputNumber
-                    defaultValue={`${paymentStore.getPrice}`}
-                    value={`${paymentStore.getPrice}`}
-                    formatter={value =>
-                      `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }
-                    parser={value => value.replace(/\$\s?|(,*)/g, "")}
-                    disabled={true}
-                  />
-                </Form.Item>
-              </div>
-
-                  <div
-                    className="payment-page-renter-remarks"
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    <span style={{ marginRight: "10px", width: "70px" }}>
-                      Remarks :
-                    </span>
-                    <Form.Item>
-                      <TextArea
-                        onChange={onChangeRemarks}
-                        style={{ width: "350px" }}
-                        rows={4}
-                      />
-                    </Form.Item>
-                  </div>
-
                   <Form.Item
                     style={{ display: "flex", justifyContent: "center" }}
                   >
-                    <Checkbox onChange={onShippingCheckBoxChange}>
+                    <Checkbox onChange={e => this.onShippingCheckBoxChange(e)}>
                       Shipping
                     </Checkbox>
                   </Form.Item>
@@ -297,13 +247,59 @@ class PaymentPage extends React.Component {
                     </span>
                     <Form.Item>
                       <InputNumber
+                        defaultValue={`${paymentStore.getPrice}`}
+                        value={`${paymentStore.getPrice}`}
+                        formatter={value =>
+                          `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                        disabled={true}
+                      />
+                    </Form.Item>
+                  </div>
+
+                  <div
+                    className="payment-page-renter-remarks"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <span style={{ marginRight: "10px", width: "70px" }}>
+                      Remarks :
+                    </span>
+                    <Form.Item>
+                      <TextArea
+                        onChange={onChangeRemarks}
+                        style={{ width: "350px" }}
+                        rows={4}
+                      />
+                    </Form.Item>
+                  </div>
+
+                  <Divider />
+                  <div
+                    className="payment-page-renter-price"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textDecoration: "underline"
+                    }}
+                  >
+                    <span
+                      style={{
+                        marginRight: "10px",
+                        width: "90px",
+                        fontWeight: "bold",
+                        textAlign: "center"
+                      }}
+                    >
+                      Total Price :
+                    </span>
+                    <Form.Item>
+                      <InputNumber
                         defaultValue={`${paymentStore.price}`}
                         value={`${paymentStore.price}`}
                         formatter={value =>
-                          `$ ${value}`.replace(
-                            /\B(?=(\d{3})+(?!\d))/g,
-                            ","
-                          )
+                          `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                         }
                         parser={value => value.replace(/\$\s?|(,*)/g, "")}
                         disabled={true}
@@ -331,13 +327,18 @@ class PaymentPage extends React.Component {
                 </Form>
               </Card>
             </Col>
-            <Col xl={1}>
-            
-            </Col >
-            <Col xs={2} sm={4} md={6} lg={8} xl={15} style={{ paddingTop: "20px" }}>
-            <ProductCalendar applyOrder={false} width={"900"}  data={orders} />
+            <Col xl={1} />
+            <Col
+              xs={2}
+              sm={4}
+              md={6}
+              lg={8}
+              xl={15}
+              style={{ paddingTop: "20px" }}
+            >
+              <ProductCalendar applyOrder={false} width={"900"} data={orders} />
             </Col>
-            <PaymentModalPage />
+            <PaymentModalPage history={this.props.history} />
           </Row>
         </div>
       );

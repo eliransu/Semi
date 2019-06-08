@@ -7,6 +7,7 @@ import { contentRenderer } from "../utils/genericComponents";
 import { ImageCarousel } from "./ImageCarousel";
 import { PeriodsAndPricingsTable } from "./PeriodsAndPricingsTable";
 import ProductCalendar from "./ProductCalendar";
+import ReviewsList from "./ReviewsList";
 import "./ProductInfo.css";
 
 const productStore = rootStores[ProductStore];
