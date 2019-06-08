@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { Calendar, Badge, Avatar,Button, Icon } from "antd";
+import { Calendar, Badge, Avatar, Button, Icon,  } from "antd";
+
 import moment from "moment";
 import "./ProductCalendar.css";
 import PaymentStore from "../../stores/PaymentStore";
@@ -85,7 +86,7 @@ class ProductCalendar extends Component {
                </li>
                <li style={{ display: "flex", justifyContent: "center" }}>
                  <Avatar
-                   src={require(`../../assets/${item.consumerAvatar}`)}
+                   src={item.consumerAvatar ? item.consumerAvatar :  require(`../../assets/alonAvatar.png`)}
                  />
                  <a href=""> {item.consumerName}</a>
                </li>
@@ -118,16 +119,23 @@ class ProductCalendar extends Component {
            
            else if (dateNotPass && this.props.applyOrder) {
                   return (
-                    <Button
-                      onClick={() =>
-                        this.redirectToPaymentPage(day)
-                      }
-                      type="primary"
-                      shape="round"
-                    >
-                      Order Now!
-                      <Icon type="right" />
-                    </Button>
+                    <div className="events">
+                    <Badge
+                      status="success"
+                      text="Order Now"
+                    />
+                      <Icon
+                        style={{
+                          fontSize: "26px"
+                        }}
+                        twoToneColor="#87d068"
+                        type="plus-circle"
+                        theme="twoTone"
+                        onClick={() =>
+                          this.redirectToPaymentPage(day)
+                        }
+                      />
+                    </div>
                   );
                 } else {
                   return null;
