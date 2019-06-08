@@ -115,16 +115,23 @@ class ProductCalendar extends Component {
            
            else if (dateNotPass && this.props.applyOrder) {
                   return (
-                    <Button
-                      onClick={() =>
-                        this.redirectToPaymentPage(day)
-                      }
-                      type="primary"
-                      shape="round"
-                    >
-                      Order Now!
-                      <Icon type="right" />
-                    </Button>
+                    <div className="events">
+                    <Badge
+                      status="success"
+                      text="Order Now"
+                    />
+                      <Icon
+                        style={{
+                          fontSize: "26px"
+                        }}
+                        twoToneColor="#87d068"
+                        type="plus-circle"
+                        theme="twoTone"
+                        onClick={() =>
+                          this.redirectToPaymentPage(day)
+                        }
+                      />
+                    </div>
                   );
                 } else {
                   return null;
