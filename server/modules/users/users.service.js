@@ -4,7 +4,7 @@ const rentService = require('../rents/rents.service')
 const Category = require('../../database/models/CategoryModel')
 const jwt = require('jwt-simple')
 const ObjectId = require('mongodb').ObjectID;
-const { clone } = require('lodash')
+const { flatMap } = require('lodash')
 const getProductsByUserName = async (username) => {
   const user = await UserModel.findOne({ username })
   if (!user) {
@@ -173,8 +173,10 @@ const deleteUserById = async (id) => {
 
 const getAllProductsToReplace = async (userId) => {
   const productsToGiveWithoutMine = await UserModel.find({ _id: { $ne: userId } }).select({ products_to_give: 1, _id: 0, username: 1 })
-  console.log(productsToGiveWithoutMine)
-  return productsToGiveWithoutMine.filter(pToGive => pToGive.products_to_give.length > 0).map(obj => ({ providerName: obj.username, products: obj.products_to_give }))
+  const products = productsToGiveWithoutMine.map(v => v.products_to_give.filter(p => p.length > 0))
+  const p = products.filter(product => product.length > 0)
+  const productsObject = await productService.getProductsByProductIds((flatMap(p)))
+  return productsObject
 }
 
 const getReplacementProductsByUsername = async (username) => {
