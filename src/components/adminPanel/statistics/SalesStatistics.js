@@ -2,36 +2,35 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import rootStores from "../../../stores";
 import AdminPanelStore from "../../../stores/AdminPanelStore";
+import { toJS } from "mobx";
 var Chart = require("chart.js");
 
 const adminPanelStore = rootStores[AdminPanelStore];
 
 @observer
 class SalesStatistics extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     const node = this.node;
 
+    try {
+      await adminPanelStore.statsByMonthAPI();
+    } catch (err) {
+      console.log(err);
+    }
+    const stattistics = adminPanelStore.statsByMonthObject;
+    var months = [];
+    var results = [];
+    const temp = stattistics.map(
+      data => (months.push(data.month), results.push(data.numOfOrders))
+    );
     var myChart = new Chart(node, {
       type: "line",
       data: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December"
-        ],
+        labels: months.reverse(),
         datasets: [
           {
             label: "Monthly rentals",
-            data: [12, 19, 3, 5, 2, 3, 5, 8, 11, 45, 2, 4]
+            data: results.reverse()
             // backgroundColor: [
             //   "rgba(255, 99, 132)",
             //   "rgba(54, 162, 23)",
@@ -66,3 +65,18 @@ class SalesStatistics extends Component {
 }
 
 export default SalesStatistics;
+
+// [
+//   "January",
+//   "February",
+//   "March",
+//   "April",
+//   "May",
+//   "June",
+//   "July",
+//   "August",
+//   "September",
+//   "October",
+//   "November",
+//   "December"
+// ]

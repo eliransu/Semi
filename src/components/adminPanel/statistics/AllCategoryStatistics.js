@@ -2,22 +2,31 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import rootStores from "../../../stores";
 import AdminPanelStore from "../../../stores/AdminPanelStore";
+import { toJS } from "mobx";
 var Chart = require("chart.js");
 
 const adminPanelStore = rootStores[AdminPanelStore];
 
 @observer
 class CategoryStatistics extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     const node = this.node;
+    try {
+      await adminPanelStore.statsByCategoryAPI();
+    } catch (err) {
+      console.log(err);
+    }
+    const stattistics = adminPanelStore.statsByCategoryObject;
+    const categories = Object.keys(stattistics);
+    const results = Object.values(stattistics);
 
     var myChart = new Chart(node, {
       type: "pie",
       data: {
-        labels: ["Phones", "Laptop", "Furniture", "Garden", "Home", "Cars"],
+        labels: categories,
         datasets: [
           {
-            data: [12, 19, 3, 5, 2, 3],
+            data: results,
             backgroundColor: [
               "rgba(255, 99, 132)",
               "rgba(54, 162, 23)",
