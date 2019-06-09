@@ -67,11 +67,29 @@ const deleteOrderById = async (req, res) => {
   return res.json(httpResponse(204))
 }
 
+const getOrdersStatsByCategories = async (req, res) => {
+  const ordersStats = await rentService.getOrdersStats()
+  if (!ordersStats) {
+    return res.json(httpResponse(500, 'Server Error', 'getOrdersStatsByCategories'))
+  }
+  return res.json(httpResponse(200, ordersStats))
+}
+
+const getOrdersByMonths = async (req, res) => {
+  const statsByMonths = await rentService.getOrdersByMonthStats()
+  if (!statsByMonths) {
+    return res.json(httpResponse(500, 'Server Error', 'getOrdersByMonths'))
+  }
+  return res.json(httpResponse(200, statsByMonths))
+}
+
 
 module.exports = {
   updateOrderStatus,
   createNewOrder,
   getOrderById,
   getAllOrders,
-  deleteOrderById
+  getOrdersStatsByCategories,
+  deleteOrderById,
+  getOrdersByMonths
 }

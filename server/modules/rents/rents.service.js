@@ -1,6 +1,8 @@
 const RentModel = require('../../database/models/RentModel')
 const UserModel = require('../../database/models/UserModel')
 const ProductModel = require('../../database/models/ProductModel')
+const get = require('lodash/get')
+const countBy = require('lodash/countBy')
 
 const addDays = (date, days) => {
   var result = new Date(date);
@@ -72,10 +74,37 @@ const deleteOrderById = async id => {
   return orderDeleted
 }
 
+const getOrdersStats = async () => {
+  const orders = await RentModel.find()
+  const orderProducts = orders.map(order => get(order, 'product.category'))
+  const orderCountsByCategories = countBy(orderProducts, 'name')
+  return orderCountsByCategories
+}
+
+const getOrdersByMonthStats = async () => {
+  const ordersByMonths = await RentModel.aggregate([{
+    $project: {
+      month: { $month: "$start_time" }
+    }
+  }, {
+    $group: {
+      _id: "$month",
+      count: { $sum: 1 }
+    }
+  }
+  ])
+  const statsByMonths = ordersByMonths.map(grouped => ({ month: grouped._id, numOfOrders: grouped.count }))
+  console.log(statsByMonths)
+  return statsByMonths
+
+}
+
 module.exports = {
   createNewOrder,
   markOrderAsAccepted,
   getOrderById,
   getAllOrders,
-  deleteOrderById
+  getOrdersByMonthStats,
+  deleteOrderById,
+  getOrdersStats
 }
