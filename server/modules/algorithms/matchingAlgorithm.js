@@ -1,6 +1,7 @@
 const Graph = require("graph-data-structure");
 const UserModel = require('../../database/models/UserModel')
 const ProductModel = require('../../database/models/ProductModel')
+const userService = require('../../modules/users/users.service')
 const graph = Graph()
 
 const runMatching = async (user) => {
@@ -55,11 +56,12 @@ const runMatching = async (user) => {
   if (matchFlag) {
     const promises = await Promise.all(matches.map(match =>
       ProductModel.findOne({ _id: match.product })))
-    console.log(promises)
+    const providers = await Promise.all(matches.map(match => userService.getRestrictedUserData(match.provider)))
+    const consumers = await Promise.all(matches.map(match => userService.getRestrictedUserData(match.consumer)))
     const newMatches = matches.map((match, idx) => {
       return ({
-        provider: match.provider,
-        consumer: match.consumer,
+        provider: providers[idx],
+        consumer: consumers[idx],
         product: promises[idx]
       })
     })
