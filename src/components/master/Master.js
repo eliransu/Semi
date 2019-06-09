@@ -424,7 +424,7 @@ class Master extends React.Component {
             />
             <Route
               exact
-              path="/users/matching/match"
+              path="/users/matching/match/:userName"
               component={MatchComponent}
             />
           </Switch>

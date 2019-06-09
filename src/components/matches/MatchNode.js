@@ -13,8 +13,17 @@ class MatchNode extends Component {
 
   render() {
     const userData = authStore.getUserData;
-    console.log({ userData });
-    return <div>{userData && <UserDescription user={userData.user} />}</div>;
+    const { count } = this.props;
+    return (
+      <div
+        style={{
+          paddingTop: count % 2 === 0 && count !== 0 ? 150 : 40,
+          paddingLeft: 20
+        }}
+      >
+        {userData && <UserDescription isMatch={true} user={userData.user} />}
+      </div>
+    );
   }
 }
 

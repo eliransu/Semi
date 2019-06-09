@@ -5,10 +5,11 @@ const { Meta } = Card;
 
 export class UserDescription extends Component {
   render() {
-    const { user } = this.props;
+    const { user, isMatch } = this.props;
     console.log({ " user in desc": user });
+
     return (
-      <div>
+      <div style={{ textAlign: isMatch ? "-webkit-center" : "" }}>
         <div className="user-card">
           <Card
             hoverable

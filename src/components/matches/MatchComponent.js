@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import MatchNode from "./MatchNode";
+import { Col } from "antd";
+import rootStores from "../../stores";
+import MatchesStore from "../../stores/MatchesStore";
+import { observer } from "mobx-react";
+import ViewStore from "../../stores/ViewStore";
+import AlertUtils from "../utils/AlertUtils";
 const data = [
   {
     consumer: "elranh1",
@@ -58,12 +64,41 @@ const data = [
   }
 ];
 
-export default class MatchComponent extends Component {
+const matchesStore = rootStores[MatchesStore];
+const viewStore = rootStores[ViewStore];
+@observer
+class MatchComponent extends Component {
+  componentDidMount() {
+    const userName = this.props.match.params.userName;
+    console.log({ userName });
+    viewStore.setappLoadingBoolean(false);
+    matchesStore
+      .checkMatching(userName)
+      .then(match => {
+        if (!match) {
+          AlertUtils.infoAlert("You dosen`t have any match");
+        } else {
+          console.log("match in comp", matchesStore.getMatch);
+        }
+      })
+      .catch(err => {
+        AlertUtils.failureAlert(err);
+      })
+      .finally(() => {
+        viewStore.setappLoadingBoolean(true);
+      });
+  }
+  renderAllNodes = () => {
+    return data.map((node, index) => (
+      <Col span={12}>
+        {console.log({ "key in comp": index })}
+        <MatchNode userId={node.owner} count={index} />
+      </Col>
+    ));
+  };
   render() {
-    return (
-      <div>
-        <MatchNode userId={data[0].owner} />
-      </div>
-    );
+    return <div style={{ textAlign: "center" }}>{this.renderAllNodes()}</div>;
   }
 }
+
+export default MatchComponent;
