@@ -148,6 +148,32 @@ const getAllProductsToReplace = async (req, res) => {
   return res.json(httpResponse(200, allProductsToReplace))
 }
 
+const getReplacementProductsByUsername = async (req, res) => {
+  const { username } = req.params
+  if (!username) {
+    return res.json(httpResponse(400, 'username is required as param',
+      'getReplacementProductsByUsername'))
+  }
+  const replacementProducts = await userService.getReplacementProductsByUsername(username)
+  if (!replacementProducts) {
+    return res.json(httpResponse(500, 'Server Error', 'getReplacementProductsByUsername'))
+  }
+  return res.json(httpResponse(200, replacementProducts))
+}
+
+const getRestrictedUserData = async (req, res) => {
+  const { username } = req.params
+  if (!username) {
+    return res.json(httpResponse(400, 'username is required as param',
+      'getRestrictedUserData'))
+  }
+  const userRestricted = await userService.getRestrictedUserData(username)
+  if (!userRestricted) {
+    return res.json(httpResponse(500, 'Server Error', 'getRestrictedUserData'))
+  }
+  return res.json(httpResponse(200, userRestricted))
+}
+
 module.exports = {
   getProducts,
   addProductToUser,
@@ -159,5 +185,7 @@ module.exports = {
   getAllUsers,
   manageMatching,
   deleteUserById,
-  getAllProductsToReplace
+  getAllProductsToReplace,
+  getRestrictedUserData,
+  getReplacementProductsByUsername
 }

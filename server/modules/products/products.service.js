@@ -1,6 +1,7 @@
 const ProductModel = require('../../database/models/ProductModel')
 const ReviewModel = require('../../database/models/ReviewModel')
 const CategoryModel = require('../../database/models/CategoryModel')
+const ObjectId = require('mongodb').ObjectID;
 
 const reduceProductsData = (products) => {
   let productsArray = []
@@ -176,6 +177,16 @@ const findByOptionalParams = (products, optional) => {
   return filtteredProducts
 }
 
+const getProductsByProductIds = async (productIds) => {
+  try {
+    const productsAsObjectIds = productIds.map(id => ObjectId(id))
+    const products = await ProductModel.find({ _id: { $in: productsAsObjectIds } })
+    return products
+  } catch (err) {
+    console.log(err, ' at getProductsByProductIds')
+  }
+}
+
 module.exports = {
   addProduct,
   getProductsByCategory,
@@ -189,5 +200,6 @@ module.exports = {
   reduceProductsData,
   getProductsByUserName,
   search,
-  getAllProducts
+  getAllProducts,
+  getProductsByProductIds
 }

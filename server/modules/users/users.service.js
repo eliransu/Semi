@@ -4,7 +4,7 @@ const rentService = require('../rents/rents.service')
 const Category = require('../../database/models/CategoryModel')
 const jwt = require('jwt-simple')
 const ObjectId = require('mongodb').ObjectID;
-
+const { clone } = require('lodash')
 const getProductsByUserName = async (username) => {
   const user = await UserModel.findOne({ username })
   if (!user) {
@@ -177,6 +177,19 @@ const getAllProductsToReplace = async (userId) => {
   return productsToGiveWithoutMine.filter(pToGive => pToGive.products_to_give.length > 0).map(obj => ({ providerName: obj.username, products: obj.products_to_give }))
 }
 
+const getReplacementProductsByUsername = async (username) => {
+  const user = await UserModel.findOne({ username })
+  const productsToGive = await productService.getProductsByProductIds(user.products_to_give)
+  const productsToTake = await productService.getProductsByProductIds(user.products_to_take)
+  return ({ productsToGive, productsToTake })
+}
+
+const getRestrictedUserData = async (username) => {
+  const user = await UserModel.findOne({ username }).select({ first_name: 1, last_name: 1, username: 1, profile_image: 1 })
+  const replacementProducts = await getReplacementProductsByUsername(username)
+  return ({ user, ...replacementProducts })
+}
+
 
 module.exports = {
   getProductsByUserName,
@@ -189,5 +202,7 @@ module.exports = {
   getAllUsers,
   manageMatching,
   deleteUserById,
-  getAllProductsToReplace
+  getAllProductsToReplace,
+  getReplacementProductsByUsername,
+  getRestrictedUserData
 }
