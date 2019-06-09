@@ -59,13 +59,17 @@ class notificationCenter extends Component {
         {content}
       </div>
     );
+
+    const newRequestStyle = { background: "#eeeeee" };
+    const oldRequestStyle = { background: "white", padding:"2px" };
     return (
       <List
+        style={{height: "400px", width:"250px", overflowY:"auto"}}
         itemLayout="horizontal"
         dataSource={orderStore.getAllOrdersAsNotifications}
         renderItem={(item, index) => (
-          <List.Item key={index}>
-            {console.log(item, index)}
+          <>
+          <List.Item key={index} style={item.title === "old request" ? oldRequestStyle : newRequestStyle}>
             <List.Item.Meta
               avatar={<Avatar src={item.consumerAvatar} />}
               title={
@@ -120,7 +124,10 @@ class notificationCenter extends Component {
               description={item.consumerName}
             />
           </List.Item>
+            <div style={{border:"1px", padding:"2px"}}/>
+            </>
         )}
+        
       />
     );
   }

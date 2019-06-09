@@ -37,7 +37,7 @@ class ProductCalendar extends Component {
   }
 
   componentDidUpdate(prev) {
-    let orders = this.props.data;
+    const orders = this.props.data;
 
     orders.map(order => {
       for (
@@ -136,6 +136,7 @@ class ProductCalendar extends Component {
   };
 
   render() {
+    console.log("this.props.data:", this.props.data);
     return (
       <div
         style={{
@@ -149,7 +150,6 @@ class ProductCalendar extends Component {
           dateCellRender={day => this.dateCellRender(day)}
           monthCellRender={monthCellRender}
         />
-        ,
       </div>
     );
   }

@@ -22,11 +22,14 @@ import ImageCarousel from "../ProductInfo/ImageCarousel";
 import PaymentModalPage from "./PaymentModalPage";
 import AuthStore from "../../stores/AuthStore";
 import ProductCalendar from "../ProductInfo/ProductCalendar";
+import AlertUtils from "../utils/AlertUtils";
+import OrderStore from "../../stores/OrderStore";
 
 const { Option } = Select;
 const productStore = rootStores[ProductStore];
 const paymentStore = rootStores[PaymentStore];
 const authStore = rootStores[AuthStore];
+const orderStore = rootStores[OrderStore];
 
 const dateFormatList = ["DD/MM/YYYY"];
 const { TextArea } = Input;
@@ -45,6 +48,7 @@ function onChangeRemarks(e) {
   const pass = e.target.value;
   paymentStore.remarks = pass;
 }
+
 
 @observer
 class PaymentPage extends React.Component {
@@ -78,6 +82,20 @@ class PaymentPage extends React.Component {
       paymentStore.removeDeliveryCommission();
     }
   };
+  
+  isPossiblePeriod = (startDate, endDate ) =>{
+    const currentProduct = toJS(paymentStore.getCurrentProduct);
+    const oldOrders = currentProduct && currentProduct.orders ? currentProduct.orders : [];
+    const result = oldOrders.every(oldOrder => {
+
+      if(( moment(startDate).isBetween(oldOrder.start_time, oldOrder.finish_time))
+        ||(moment(endDate).isBetween(oldOrder.start_time,oldOrder.finish_time))){
+          return false;
+        }
+        return true
+    })
+    return result;
+  }
 
   handleChange = value => {
     const curentProduct = paymentStore.currentProduct;
@@ -87,12 +105,20 @@ class PaymentPage extends React.Component {
       planPicked.period,
       "days"
     );
-    paymentStore.endDate = newEndDate;
-    this.setState({endDate:newEndDate})
-    console.log("newEndDate:::::",this.state.endDate);
-    
-    console.log("EndDate:::::", paymentStore.endDate);
-    paymentStore.price = parseFloat(planPicked.price);
+      if(this.isPossiblePeriod(moment(paymentStore.startDate), newEndDate)){
+        paymentStore.endDate = newEndDate;
+        this.setState({endDate:newEndDate});        
+        paymentStore.price = parseFloat(planPicked.price);
+        AlertUtils.successAlert(
+          "Product Available!"
+        );
+      }
+      else{
+        AlertUtils.failureAlert(
+          "Sorry, Product already ordered in this date!"
+        );
+      }
+
   };
   changeData = () => {
     paymentStore.toggleViewStartDate();
@@ -125,9 +151,7 @@ class PaymentPage extends React.Component {
   render() {
     const { getFieldsError } = this.props.form;
     const currentProduct = toJS(paymentStore.getCurrentProduct);
-    const orders =
-      currentProduct && currentProduct.orders ? currentProduct.orders : [];
-
+    const orders = currentProduct && currentProduct.orders ? currentProduct.orders : [];
     if (currentProduct) {
       return (
         <div className="payment-page-main-container">
@@ -235,10 +259,13 @@ class PaymentPage extends React.Component {
                     </span>
                     <Form.Item>
                       <DatePicker
+                        value={moment(
+                          moment(this.state.endDate).format("DD/MM/YYYY"),
+                          "DD/MM/YYYY"
+                        )}
+                        format={"DD/MM/YYYY"}
                         defaultValue={moment(
-                          moment(this.state.endDate).format(
-                            "DD/MM/YYYY"
-                          ),
+                          moment(this.state.endDate).format("DD/MM/YYYY"),
                           "DD/MM/YYYY"
                         )}
                         format={"DD/MM/YYYY"}
@@ -338,7 +365,6 @@ class PaymentPage extends React.Component {
               style={{ paddingTop: "20px" }}
             >
               <ProductCalendar
-                applyOrder={false}
                 width={"900"}
                 data={orders}
               />
