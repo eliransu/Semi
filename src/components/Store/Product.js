@@ -17,7 +17,6 @@ class Product extends Component {
 
   onProductClicked = () => {
     this.props.history.replace(`/productPage/${this.props.product._id}`);
-
   };
   onCheckBoxChanged = e => {
     e.preventDefault();
@@ -25,8 +24,8 @@ class Product extends Component {
       this.props.onCounterChanged(e.target.checked, this.props.product._id);
       e.target.checked
         ? this.setState({
-          productStyle: true
-        })
+            productStyle: true
+          })
         : this.setState({ productStyle: false });
       e.target.checked
         ? this.setState({ opacity: 1 })
@@ -36,8 +35,8 @@ class Product extends Component {
       this.props.onCounterChanged(e.target.checked, this.props.product._id);
       e.target.checked
         ? this.setState({
-          productStyle: true
-        })
+            productStyle: true
+          })
         : this.setState({ productStyle: false });
       e.target.checked
         ? this.setState({ opacity: 1 })
@@ -61,6 +60,7 @@ class Product extends Component {
         <Card
           className="hvr-bounce-in"
           style={{
+            paddingTop: 30,
             marginLeft: "25%",
             width: 300,
             opacity: this.state.opacity,
