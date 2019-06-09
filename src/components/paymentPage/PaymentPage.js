@@ -235,10 +235,13 @@ class PaymentPage extends React.Component {
                     </span>
                     <Form.Item>
                       <DatePicker
+                        value={moment(
+                          moment(this.state.endDate).format("DD/MM/YYYY"),
+                          "DD/MM/YYYY"
+                        )}
+                        format={"DD/MM/YYYY"}
                         defaultValue={moment(
-                          moment(this.state.endDate).format(
-                            "DD/MM/YYYY"
-                          ),
+                          moment(this.state.endDate).format("DD/MM/YYYY"),
                           "DD/MM/YYYY"
                         )}
                         format={"DD/MM/YYYY"}
