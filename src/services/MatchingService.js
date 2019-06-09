@@ -24,7 +24,6 @@ class MatchingService {
       const match = await axios.get(`/api/users/matching/${userName}`);
       console.log({ match });
       if (get(match, "data.data.length") > 0) {
-        console.log("im in if");
         return match.data.data;
       } else {
         return false;

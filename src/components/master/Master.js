@@ -315,11 +315,13 @@ class Master extends React.Component {
                 <Menu.Item
                   key="14"
                   onClick={() =>
-                    this.handleMenuClicked(`/user/matching/${user.username}`)
+                    this.handleMenuClicked(
+                      `/users/matching/match/${user.username}`
+                    )
                   }
                 >
                   <Icon style={{ marginLeft: 4 }} type="team" />
-                  My Matching products
+                  My Matching
                 </Menu.Item>
               )}
               {user.isAdmin && (

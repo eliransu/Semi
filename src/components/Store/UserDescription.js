@@ -34,9 +34,7 @@ export class UserDescription extends Component {
                                           }\n
                                           Location:${
                                             user ? user.address.country : ""
-                                          }-${user ? user.address.city : ""}-${
-                user ? user.street : ""
-              }`}
+                                          }-${user ? user.address.city : ""}`}
             />
             {user &&
             user.products_to_give &&

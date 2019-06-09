@@ -3,25 +3,49 @@ import rootStores from "../../stores";
 import { observer } from "mobx-react";
 import AuthStore from "../../stores/AuthStore";
 import { UserDescription } from "../Store/UserDescription";
+import { Card, Col, Row } from "antd";
+import Product from "../Store/Product";
 const authStore = rootStores[AuthStore];
 @observer
 class MatchNode extends Component {
-  componentDidMount() {
-    const { userId } = this.props;
-    authStore.getUserDataFromServer("eliranh1");
-  }
-
   render() {
-    const userData = authStore.getUserData;
     const { count } = this.props;
+    const { match } = this.props;
+    console.log({ match });
     return (
-      <div
-        style={{
-          paddingTop: count % 2 === 0 && count !== 0 ? 150 : 40,
-          paddingLeft: 20
-        }}
-      >
-        {userData && <UserDescription isMatch={true} user={userData.user} />}
+      //   <div
+      //     style={{
+      //       paddingLeft: 20
+      //     }}
+      //   >
+      //     <UserDescription isMatch={true} user={this.props.user} />
+      //   </div>
+      <div>
+        <Card>
+          <Row>
+            <Col span={6}>
+              <UserDescription user={match.provider.user} />
+            </Col>
+            <Col span={3}>
+              <img
+                style={{ width: 100, paddingTop: 100 }}
+                src={require("../../assets/arrow-right-solid.svg")}
+              />
+            </Col>
+            <Col span={6} style={{ paddingRight: 300 }}>
+              <Product product={match.product} history={this.props.history} />
+            </Col>
+            <Col span={3}>
+              <img
+                style={{ width: 100, paddingTop: 100 }}
+                src={require("../../assets/arrow-right-solid.svg")}
+              />
+            </Col>
+            <Col span={6}>
+              <UserDescription user={match.consumer.user} />
+            </Col>
+          </Row>
+        </Card>
       </div>
     );
   }
