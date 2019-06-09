@@ -1,7 +1,7 @@
 
 const { httpResponse } = require('../../utils')
 const userService = require('../users/users.service')
-const { ObjectId } = require('mongodb')
+const { runMatching } = require('../algorithms/matchingAlgorithm')
 
 const getProducts = async (req, res) => {
   const { username } = req.params
@@ -174,6 +174,19 @@ const getRestrictedUserData = async (req, res) => {
   return res.json(httpResponse(200, userRestricted))
 }
 
+const getMatchingIfExist = async (req, res) => {
+  const { username } = req.params
+  if (!username) {
+    return res.json(httpResponse(400, 'username is required as param',
+      'getMatchingIfExist'))
+  }
+  const cycle = await runMatching(username)
+  if (!cycle) {
+    return res.json(httpResponse(500, 'failed to load cycle', 'getMatchingIfExist'))
+  }
+  return res.json(httpResponse(200, cycle))
+}
+
 module.exports = {
   getProducts,
   addProductToUser,
@@ -187,5 +200,6 @@ module.exports = {
   deleteUserById,
   getAllProductsToReplace,
   getRestrictedUserData,
-  getReplacementProductsByUsername
+  getReplacementProductsByUsername,
+  getMatchingIfExist
 }

@@ -1,5 +1,6 @@
 const Graph = require("graph-data-structure");
 const UserModel = require('../../database/models/UserModel')
+const ProductModel = require('../../database/models/ProductModel')
 const graph = Graph()
 
 const runMatching = async (user) => {
@@ -32,8 +33,8 @@ const runMatching = async (user) => {
           graph.addEdge(destention.username, source.username)
           if (!products.includes(destention.edgeOut)) {
             matches.push({
-              giver: destention.username,
-              taker: source.username,
+              provider: destention.username,
+              consumer: source.username,
               product: destention.edgeOut
             })
             products.push(destention.edgeOut)
@@ -43,19 +44,27 @@ const runMatching = async (user) => {
     })
   })
   const result = graph.cycleDetection([user])
-  console.log(result)
   const cycle = result && result.reverse()
   let matchFlag = false
   for (let i = 0; i < cycle.length - 1; i++) {
-    if (!matches.some(match => match.giver === cycle[i] && match.taker === cycle[i + 1])) {
+    if (!matches.some(match => match.provider === cycle[i] && match.consumer === cycle[i + 1])) {
       return
     }
     matchFlag = true
   }
   if (matchFlag) {
-    return matches
+    const promises = await Promise.all(matches.map(match =>
+      ProductModel.findOne({ _id: match.product })))
+    console.log(promises)
+    const newMatches = matches.map((match, idx) => {
+      return ({
+        provider: match.provider,
+        consumer: match.consumer,
+        product: promises[idx]
+      })
+    })
+    return newMatches
   }
-  console.log(matchFlag)
 }
 
 module.exports = { runMatching }
