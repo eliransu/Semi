@@ -187,7 +187,11 @@ const getReplacementProductsByUsername = async (username) => {
 }
 
 const getRestrictedUserData = async (username) => {
-  const user = await UserModel.findOne({ username }).select({ first_name: 1, last_name: 1, username: 1, profile_image: 1 })
+  const user = await UserModel.findOne({ username })
+    .select({
+      _id: 1, first_name: 1, address: 1, last_name: 1,
+      email: 1, username: 1, profile_image: 1, phone_number: 1
+    })
   const replacementProducts = await getReplacementProductsByUsername(username)
   return ({ user, ...replacementProducts })
 }

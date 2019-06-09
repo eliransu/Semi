@@ -21,25 +21,29 @@ const runMatching = async (user) => {
   }
 
   const matches = []
+  const products = []
   matchingArray.forEach(node => {
     graph.addNode(node.username)
   })
-
   matchingArray.forEach(source => {
     matchingArray.forEach(destention => {
       if (source.username !== destention.username) {
         if (source.edgeIn === destention.edgeOut) {
           graph.addEdge(destention.username, source.username)
-          matches.push({
-            giver: destention.username,
-            taker: source.username,
-            product: destention.edgeOut
-          })
+          if (!products.includes(destention.edgeOut)) {
+            matches.push({
+              giver: destention.username,
+              taker: source.username,
+              product: destention.edgeOut
+            })
+            products.push(destention.edgeOut)
+          }
         }
       }
     })
   })
   const result = graph.cycleDetection([user])
+  console.log(result)
   const cycle = result && result.reverse()
   let matchFlag = false
   for (let i = 0; i < cycle.length - 1; i++) {
@@ -51,6 +55,7 @@ const runMatching = async (user) => {
   if (matchFlag) {
     return matches
   }
+  console.log(matchFlag)
 }
 
 module.exports = { runMatching }
