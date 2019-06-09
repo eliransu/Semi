@@ -1,5 +1,20 @@
 import axios from "axios";
 
+const mapNumberToMonth = {
+  1: "January",
+  2: "February",
+  3: "March",
+  4: "April",
+  5: "May",
+  6: "June",
+  7: "July",
+  8: "August",
+  9: "September",
+  10: "October",
+  11: "November",
+  12: "December"
+};
+
 class AdminPanelService {
   getAllUsers = async () => {
     try {
@@ -66,6 +81,40 @@ class AdminPanelService {
       throw err;
     }
   };
+
+  async statsByCategory() {
+    try {
+      const res = await axios.get(`/api/orders/stats-by-category`);
+      if (res) {
+        const stats = res.data;
+        return stats;
+      }
+      throw new Error("Error in response from statsByCategory");
+    } catch (err) {
+      console.log(`error in statsByCategory`, err);
+      throw err;
+    }
+  }
+
+  async statsByMonth() {
+    try {
+      const res = await axios.get(`/api/orders/stats-by-month`);
+      if (res) {
+        const stats = res.data;
+        stats.data = stats.data.map(data => ({
+          month: mapNumberToMonth[data.month],
+          numOfOrders: data.numOfOrders
+        }));
+        console.log(stats);
+
+        return stats;
+      }
+      throw new Error("Error in response from statsByMonth");
+    } catch (err) {
+      console.log(`error in statsByMonth`, err);
+      throw err;
+    }
+  }
 }
 
 export default new AdminPanelService();

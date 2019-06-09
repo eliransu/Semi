@@ -5,9 +5,13 @@ export default class AdminPanelStore {
   @observable viewUsers;
   @observable ViewProducts;
   @observable viewOrders;
+  @observable viewStatistics;
+  @observable viewStatisticsByCategory;
   @observable allUsers = observable([]);
   @observable allOrders = observable([]);
   @observable allProducts = observable([]);
+  @observable statsByCategoryObject = observable([]);
+  @observable statsByMonthObject = observable([]);
 
   @action toggleViewUsers() {
     if (this.viewUsers) {
@@ -17,6 +21,7 @@ export default class AdminPanelStore {
     }
     this.ViewProducts = false;
     this.viewOrders = false;
+    this.viewStatistics = true;
   }
 
   @action toggleViewProducts() {
@@ -27,6 +32,7 @@ export default class AdminPanelStore {
     }
     this.viewOrders = false;
     this.viewUsers = false;
+    this.viewStatistics = true;
   }
 
   @action toggleViewOrders() {
@@ -37,6 +43,18 @@ export default class AdminPanelStore {
     }
     this.ViewProducts = false;
     this.viewUsers = false;
+    this.viewStatistics = true;
+  }
+
+  @action toggleStatistics() {
+    if (this.viewStatistics) {
+      this.viewStatistics = false;
+    } else {
+      this.viewStatistics = true;
+    }
+    this.ViewProducts = false;
+    this.viewUsers = false;
+    this.viewOrders = false;
   }
 
   @action
@@ -83,6 +101,27 @@ export default class AdminPanelStore {
   deleteUserAPI = async id => {
     try {
       await adminPanelService.deleteUser(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  @action
+  statsByCategoryAPI = async () => {
+    try {
+      const stats = await adminPanelService.statsByCategory();
+      this.statsByCategoryObject = stats.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  @action
+  statsByMonthAPI = async () => {
+    try {
+      const monthStats = await adminPanelService.statsByMonth();
+      this.statsByMonthObject = monthStats.data;
+      console.log(this.statsByMonthObject);
     } catch (err) {
       console.log(err);
     }

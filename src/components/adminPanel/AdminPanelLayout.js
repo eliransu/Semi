@@ -62,6 +62,10 @@ class AdminPanel extends React.Component {
     }
   };
 
+  onStatisticsClick = () => {
+    adminPanelStore.toggleStatistics();
+  };
+
   render() {
     return (
       <div>
@@ -74,15 +78,19 @@ class AdminPanel extends React.Component {
           >
             <div className="logo" />
             <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-              <Menu.Item key="1" onClick={this.onUsersClick}>
+              <Menu.Item key="1" onClick={this.onStatisticsClick}>
+                <Icon type="shop" />
+                <span>Statistics</span>
+              </Menu.Item>
+              <Menu.Item key="2" onClick={this.onUsersClick}>
                 <Icon type="user" />
                 <span>Users</span>
               </Menu.Item>
-              <Menu.Item key="2" onClick={this.onProductsClick}>
+              <Menu.Item key="3" onClick={this.onProductsClick}>
                 <Icon type="desktop" />
                 <span>Products</span>
               </Menu.Item>
-              <Menu.Item key="3" onClick={this.onOrdersClick}>
+              <Menu.Item key="4" onClick={this.onOrdersClick}>
                 <Icon type="shop" />
                 <span>Orders</span>
               </Menu.Item>

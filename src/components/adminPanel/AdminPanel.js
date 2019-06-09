@@ -4,17 +4,8 @@ import AdminPanelLayout from "./AdminPanelLayout";
 import AdminPanelOrders from "./AdminPanelOrders";
 import AdminPanelProducts from "./AdminPanelProducts";
 import AdminPanelUsers from "./AdminPanelUsers";
+import AdminPanelStatistics from "./statistics/AdminPanelStatistics";
 export default class AdminPanel extends Component {
-  state = {
-    collapsed: false
-  };
-  onCollapse = collapsed => {
-    console.log(collapsed);
-    this.setState({ collapsed });
-  };
-  onclickOrders = () => {
-    return <div>aaaaaa</div>;
-  };
   render() {
     return (
       <div className="admin-panel-main-container">
@@ -22,6 +13,7 @@ export default class AdminPanel extends Component {
         <AdminPanelOrders />
         <AdminPanelProducts />
         <AdminPanelUsers />
+        <AdminPanelStatistics />
       </div>
     );
   }

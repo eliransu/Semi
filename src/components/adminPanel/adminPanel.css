@@ -19,6 +19,18 @@
   justify-content: center;
   width: 100%;
 }
+.admin-panel-all-category-statistics {
+  padding: 20px;
+}
+
+.admin-panel-sales-statistics {
+  margin-top: 50px;
+  padding: 20px;
+}
+.admin-panel-category-statistics {
+  margin-top: 50px;
+  padding: 20px;
+}
 .hide {
   display: none;
 }
