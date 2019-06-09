@@ -1,29 +1,29 @@
+import { Button, Col, Pagination, Row } from "antd";
+import { observer } from "mobx-react";
 import React, { Component } from "react";
 import rootStores from "../../stores";
+import MatchesStore from "../../stores/MatchesStore";
 import ProductStore from "../../stores/ProductStore";
-import { observer } from "mobx-react";
-import { Col, Row, Pagination, Button } from "antd";
 import Product from "../Store/Product";
 import AlertUtils from "../utils/AlertUtils";
-import MatchesStore from "../../stores/MatchesStore";
-import ViewStore from "../../stores/ViewStore";
 import { MatchingAction } from "../utils/enums";
-import BlockUi from "react-block-ui";
 const productStore = rootStores[ProductStore];
 const matchesStore = rootStores[MatchesStore];
 @observer
 class MatchesMarket extends Component {
-  async componentDidMount() {
-    const userName = productStore.authStore.getCurrentUser
-      ? productStore.authStore.getCurrentUser.username
-      : null;
-    console.log({ userName });
+  componentDidMount() {
+    const userId = this.props.match.params.userId;
+    console.log({ userId });
+
     try {
-      if (userName) {
-        await productStore.getProductsByUserName(userName);
+      if (userId !== "undefined") {
+        productStore.getMtchingMarketProducts(userId);
+      } else {
+        console.log("blabla");
       }
     } catch (err) {
-      AlertUtils.failureAlert(err);
+      console.log("hereee");
+      // AlertUtils.failureAlert(err);
     }
   }
 
@@ -82,7 +82,8 @@ class MatchesMarket extends Component {
 
   renderAllProducts = () => {
     const disable = this.state.counter > 4 ? true : false;
-    const products = this.loadBulk(productStore.getAllProducts);
+    console.log("res", productStore.getMatchingProducts);
+    const products = this.loadBulk(productStore.getMatchingProducts);
     return products.map((product, index) => (
       <Col span={8} style={{ padding: 30 }}>
         <Product
@@ -99,7 +100,7 @@ class MatchesMarket extends Component {
     ));
   };
   render() {
-    const products = productStore.getAllProducts;
+    const products = productStore.getMatchingProducts;
     const dataSize = products.length;
 
     return (
@@ -107,7 +108,7 @@ class MatchesMarket extends Component {
         <div style={{ textAlign: "center", padding: "20px 0px" }}>
           <h1 style={{ textDecoration: "underline" }}>Matching Market Place</h1>
         </div>
-        <Row>
+        <Row style={{ width: "86%" }}>
           <div className="all-products" style={{ paddingLeft: 120 }}>
             {this.renderAllProducts()}
           </div>

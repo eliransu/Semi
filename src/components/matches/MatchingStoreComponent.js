@@ -4,8 +4,11 @@ import React, { Component } from "react";
 import rootStores from "../../stores";
 import AuthStore from "../../stores/AuthStore";
 import Product from "../Store/Product";
+import ProductStore from "../../stores/ProductStore";
+import AlertUtils from "../utils/AlertUtils";
 
 const authStore = rootStores[AuthStore];
+const productStore = rootStores[ProductStore];
 @observer
 class MatchingStoreComponent extends Component {
   componentDidMount() {
@@ -17,30 +20,38 @@ class MatchingStoreComponent extends Component {
     ) {
       this.setState({ owner: true });
     }
+    productStore
+      .getReplacementProducts(userName)
+      .then(res => {
+        console.log({ res });
+        this.setState({
+          targetToGiveKeys: res.productsToGive,
+          targetToTakeKeys: res.productsToTake
+        });
+      })
+      .catch(err => {
+        AlertUtils.failureAlert(err);
+      });
   }
 
   componentDidUpdate(prevProps, prevState) {
     const userName = this.props.match.params.username;
 
-    if (!prevState.targetToGiveKeys.length) {
-      this.setState({
-        targetToGiveKeys: authStore.getCurrentUser.products_to_give
-      });
-      if (
-        authStore.getCurrentUser &&
-        authStore.getCurrentUser.username === userName
-      ) {
-        this.setState({ owner: true });
-      }
+    if (
+      authStore.getCurrentUser &&
+      authStore.getCurrentUser.username === userName &&
+      !this.state.owner
+    ) {
+      this.setState({ owner: true });
     }
   }
 
   state = {
     owner: false,
-    targetToGiveKeys: authStore.getCurrentUser
-      ? authStore.getCurrentUser.products_to_give
-      : [],
-    selectedToGive: []
+    targetToGiveKeys: [],
+    targetToTakeKeys: [],
+    selectedToGive: [],
+    selectedToTake: []
   };
 
   renderProductToTake = () => {
@@ -117,11 +128,11 @@ class MatchingStoreComponent extends Component {
                 dataSource={allUserProductsAsProvider}
                 titles={["Source", "Target"]}
                 targetKeys={targetToGiveKeys}
-                selectedKeys={selectedToGive}
+                selectedKeys={targetToGiveKeys}
                 onChange={this.onTransferToGive}
                 onSelectChange={this.handleSelectChange}
                 onScroll={this.handleScroll}
-                render={item => item.value}
+                render={item => item.name}
               />
               <div style={{ padding: "420px 0px 0px 44px" }}>
                 <h3 style={{ textDecoration: "underline" }}>

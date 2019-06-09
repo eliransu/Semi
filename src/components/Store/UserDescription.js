@@ -5,9 +5,11 @@ const { Meta } = Card;
 
 export class UserDescription extends Component {
   render() {
-    const { user } = this.props;
+    const { user, isMatch } = this.props;
+    console.log({ " user in desc": user });
+
     return (
-      <div>
+      <div style={{ textAlign: isMatch ? "-webkit-center" : "" }}>
         <div className="user-card">
           <Card
             hoverable
@@ -36,7 +38,9 @@ export class UserDescription extends Component {
                 user ? user.street : ""
               }`}
             />
-            {user && user.products_to_give.length > 0 ? (
+            {user &&
+            user.products_to_give &&
+            user.products_to_give.length > 0 ? (
               <a
                 style={{ textDecoration: "underline" }}
                 href={`/user/matching/${user.username}`}
