@@ -7,6 +7,7 @@ import PaymentStore from "../../stores/PaymentStore";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import { withRouter } from "react-router";
+import { toJS } from "mobx";
 function getMonthData(value) {
   if (value.month() === 8) {
     return 1394;
@@ -38,14 +39,12 @@ class ProductCalendar extends Component {
   componentDidUpdate(prev) {
     let orders = this.props.data;
 
-    console.log({ "orders in update": orders });
     orders.map(order => {
       for (
         let i = moment(order.start_time).dayOfYear();
         i <= moment(order.finish_time).dayOfYear();
         i++
       ) {
-        console.log({ i });
         this.state.orderDaysOfYear.push({
           day: i,
           consumerName: order.consumer.username,
@@ -59,6 +58,7 @@ class ProductCalendar extends Component {
   }
 
   redirectToPaymentPage = day => {
+
     paymentStore.currentProduct = productStore.currentProduct;
     paymentStore.providerName = productStore.currentProduct
       ? productStore.currentProduct.owner.username
@@ -127,7 +127,7 @@ class ProductCalendar extends Component {
             twoToneColor="#87d068"
             type="plus-circle"
             theme="twoTone"
-            onClick={day => this.redirectToPaymentPage(day)}
+            onClick={() => this.redirectToPaymentPage(day)}
           />
         </div>
       );
@@ -147,7 +147,7 @@ class ProductCalendar extends Component {
         }}
       >
         <Calendar
-          dateCellRender={this.dateCellRender}
+          dateCellRender={day => this.dateCellRender(day)}
           monthCellRender={monthCellRender}
         />
         ,
@@ -157,4 +157,3 @@ class ProductCalendar extends Component {
 }
 
 export default withRouter(ProductCalendar);
-

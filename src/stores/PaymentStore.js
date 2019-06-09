@@ -67,6 +67,11 @@ export default class PaymentStore {
   };
 
   @action
+  setStartDate = date => {
+    this.startDate = date;
+  };
+  
+  @action
   setEndDate = date => {
     this.endDate = date;
   };
