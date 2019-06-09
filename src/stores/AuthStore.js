@@ -27,6 +27,7 @@ export default class AuthStore {
       const res = await AuthService.logOut();
       if (res) {
         this.setCurrentUser(null);
+        return true;
       }
     } catch (err) {
       throw err;

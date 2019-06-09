@@ -58,7 +58,6 @@ class ProductCalendar extends Component {
   }
 
   redirectToPaymentPage = day => {
-
     paymentStore.currentProduct = productStore.currentProduct;
     paymentStore.providerName = productStore.currentProduct
       ? productStore.currentProduct.owner.username
