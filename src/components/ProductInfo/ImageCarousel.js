@@ -6,19 +6,15 @@ export class ImageCarousel extends React.Component {
   renderAllImages = imgList => {
     return imgList.map(img => (
       <div>
-        <img alt="product" src={`${img}`} />
+        <img style={{ width: 300 }} alt="product" src={`${img}`} />
       </div>
     ));
   };
 
-        render()
-        {
-                
-        return(
-            <Carousel autoplay>
-                {this.renderAllImages(this.props.imgList)}
-            </Carousel>
-            );
-        }
+  render() {
+    return (
+      <Carousel autoplay>{this.renderAllImages(this.props.imgList)}</Carousel>
+    );
+  }
 }
 export default ImageCarousel;

@@ -88,11 +88,6 @@ class Master extends React.Component {
       this.setState({ matchingModal: true });
     }
   };
-  componentDidUpdate() {
-    if (authStore.getCurrentUser.products_to_give.length > 0) {
-      authStore.setCurrentUser(authStore.getCurrentUser);
-    }
-  }
 
   handleCancel = e => {
     console.log(e);

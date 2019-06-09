@@ -74,6 +74,7 @@ class ProductInfo extends Component {
                 />
               </div>
               <ImageCarousel
+                style={{ width: 300 }}
                 imgList={product && product.images ? product.images : []}
               />
             </Col>
