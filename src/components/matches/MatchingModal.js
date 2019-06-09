@@ -61,7 +61,7 @@ class MatchingModal extends Component {
         if (res) {
           this.setState({ loading: false });
           AlertUtils.successAlert("Start Matching");
-          this.props.history.replace("/matching");
+          this.props.history.replace("/");
           this.props.closeModal();
         }
       } catch (err) {}

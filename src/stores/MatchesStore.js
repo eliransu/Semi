@@ -22,7 +22,10 @@ export default class MatchesStore {
         productsIds
       );
       if (!res) return null;
-      else return res;
+      else {
+        await this.authStore.tryLogin();
+        return res;
+      }
     } catch (err) {
       throw err;
     }

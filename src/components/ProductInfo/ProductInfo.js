@@ -169,12 +169,10 @@ class ProductInfo extends Component {
 
   render() {
     const product = productStore.getCurrentProduct;
-    console.log({ "product in render~!!!@!@": product.avgScore });
     const avgScore = product && product.avgScore ? product.avgScore : 0;
     const plans = product && product.plans ? product.plans : [];
     const orders = product && product.orders ? product.orders : [];
     const reviews = product && product.reviews ? product.reviews : [];
-    console.log({ "orders in productCalnder": orders });
 
     return (
       <React.Fragment>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import get from "lodash/get";
 
 class AuthService {
   login = async (email, password) => {
@@ -48,6 +49,21 @@ class AuthService {
         return null;
       } else {
         return user.data.data;
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  getUserData = async userName => {
+    try {
+      console.log("im here", userName);
+      const userData = await axios.get(`/api/users/userdata/${userName}`);
+      console.log({ userData });
+      if (get(userData, "data.data")) {
+        return userData.data.data;
+      } else {
+        throw new Error("The user is not exist.");
       }
     } catch (err) {
       throw err;

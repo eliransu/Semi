@@ -33,6 +33,21 @@ class ProductService {
       });
   };
 
+  getReplacementProducts = async userName => {
+    try {
+      const replacementArrays = await axios.get(
+        `/api/users/replacement/${userName}`
+      );
+      if (get(replacementArrays, "data.data")) {
+        return replacementArrays.data.data;
+      } else {
+        throw new Error("This Service not working pleace try it later");
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
+
   getProductById = async productId => {
     try {
       const product = await axios.get(`/api/products/query?id=${productId}`);
@@ -57,8 +72,7 @@ class ProductService {
 
         return product.data.data;
       }
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 
   onProductSearch = async searchParams => {
@@ -92,6 +106,35 @@ class ProductService {
       return result.data.data;
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  getMtchingMarketProducts = async userId => {
+    console.log("im here!!");
+    try {
+      const matchingProducts = await axios.get(
+        `/api/users/products-to-replace/${userId}`
+      );
+
+      console.log({ matchingProducts });
+
+      if (matchingProducts === "wrong userId") {
+        console.log("wrong!!!");
+        throw new Error("the user is not exist");
+      }
+
+      if (
+        get(matchingProducts, "data.data") &&
+        matchingProducts.status !== 400
+      ) {
+        console.log("im inside!!!");
+        return matchingProducts.data.data;
+      } else {
+        throw new Error("Do not have Products to match");
+      }
+    } catch (err) {
+      console.log("in service catch");
+      throw err;
     }
   };
 }

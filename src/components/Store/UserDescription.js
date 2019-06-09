@@ -6,6 +6,7 @@ const { Meta } = Card;
 export class UserDescription extends Component {
   render() {
     const { user } = this.props;
+    console.log({ " user in desc": user });
     return (
       <div>
         <div className="user-card">
@@ -36,7 +37,9 @@ export class UserDescription extends Component {
                 user ? user.street : ""
               }`}
             />
-            {user && user.products_to_give.length > 0 ? (
+            {user &&
+            user.products_to_give &&
+            user.products_to_give.length > 0 ? (
               <a
                 style={{ textDecoration: "underline" }}
                 href={`/user/matching/${user.username}`}
