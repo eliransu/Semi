@@ -4,7 +4,7 @@ const rentService = require('../rents/rents.service')
 const Category = require('../../database/models/CategoryModel')
 const jwt = require('jwt-simple')
 const ObjectId = require('mongodb').ObjectID;
-
+const { flatMap } = require('lodash')
 const getProductsByUserName = async (username) => {
   const user = await UserModel.findOne({ username })
   if (!user) {
@@ -173,8 +173,27 @@ const deleteUserById = async (id) => {
 
 const getAllProductsToReplace = async (userId) => {
   const productsToGiveWithoutMine = await UserModel.find({ _id: { $ne: userId } }).select({ products_to_give: 1, _id: 0, username: 1 })
-  console.log(productsToGiveWithoutMine)
-  return productsToGiveWithoutMine.filter(pToGive => pToGive.products_to_give.length > 0).map(obj => ({ providerName: obj.username, products: obj.products_to_give }))
+  const products = productsToGiveWithoutMine.map(v => v.products_to_give.filter(p => p.length > 0))
+  const p = products.filter(product => product.length > 0)
+  const productsObject = await productService.getProductsByProductIds((flatMap(p)))
+  return productsObject
+}
+
+const getReplacementProductsByUsername = async (username) => {
+  const user = await UserModel.findOne({ username })
+  const productsToGive = await productService.getProductsByProductIds(user.products_to_give)
+  const productsToTake = await productService.getProductsByProductIds(user.products_to_take)
+  return ({ productsToGive, productsToTake })
+}
+
+const getRestrictedUserData = async (username) => {
+  const user = await UserModel.findOne({ username })
+    .select({
+      _id: 1, first_name: 1, address: 1, last_name: 1,
+      email: 1, username: 1, profile_image: 1, phone_number: 1
+    })
+  const replacementProducts = await getReplacementProductsByUsername(username)
+  return ({ user, ...replacementProducts })
 }
 
 
@@ -189,5 +208,7 @@ module.exports = {
   getAllUsers,
   manageMatching,
   deleteUserById,
-  getAllProductsToReplace
+  getAllProductsToReplace,
+  getReplacementProductsByUsername,
+  getRestrictedUserData
 }

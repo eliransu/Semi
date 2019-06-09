@@ -1,5 +1,7 @@
 const Graph = require("graph-data-structure");
 const UserModel = require('../../database/models/UserModel')
+const ProductModel = require('../../database/models/ProductModel')
+const userService = require('../../modules/users/users.service')
 const graph = Graph()
 
 const runMatching = async (user) => {
@@ -21,20 +23,23 @@ const runMatching = async (user) => {
   }
 
   const matches = []
+  const products = []
   matchingArray.forEach(node => {
     graph.addNode(node.username)
   })
-
   matchingArray.forEach(source => {
     matchingArray.forEach(destention => {
       if (source.username !== destention.username) {
         if (source.edgeIn === destention.edgeOut) {
           graph.addEdge(destention.username, source.username)
-          matches.push({
-            giver: destention.username,
-            taker: source.username,
-            product: destention.edgeOut
-          })
+          if (!products.includes(destention.edgeOut)) {
+            matches.push({
+              provider: destention.username,
+              consumer: source.username,
+              product: destention.edgeOut
+            })
+            products.push(destention.edgeOut)
+          }
         }
       }
     })
@@ -43,13 +48,24 @@ const runMatching = async (user) => {
   const cycle = result && result.reverse()
   let matchFlag = false
   for (let i = 0; i < cycle.length - 1; i++) {
-    if (!matches.some(match => match.giver === cycle[i] && match.taker === cycle[i + 1])) {
+    if (!matches.some(match => match.provider === cycle[i] && match.consumer === cycle[i + 1])) {
       return
     }
     matchFlag = true
   }
   if (matchFlag) {
-    return matches
+    const promises = await Promise.all(matches.map(match =>
+      ProductModel.findOne({ _id: match.product })))
+    const providers = await Promise.all(matches.map(match => userService.getRestrictedUserData(match.provider)))
+    const consumers = await Promise.all(matches.map(match => userService.getRestrictedUserData(match.consumer)))
+    const newMatches = matches.map((match, idx) => {
+      return ({
+        provider: providers[idx],
+        consumer: consumers[idx],
+        product: promises[idx]
+      })
+    })
+    return newMatches
   }
 }
 
