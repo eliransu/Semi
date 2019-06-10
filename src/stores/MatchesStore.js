@@ -56,6 +56,6 @@ export default class MatchesStore {
 
   @computed
   get getMatch() {
-    return toJS(this.match) || null;
+    return toJS(this.match) || [];
   }
 }

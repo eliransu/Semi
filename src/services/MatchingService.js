@@ -23,6 +23,10 @@ class MatchingService {
     try {
       const match = await axios.get(`/api/users/matching/${userName}`);
       console.log({ match });
+      if (match && match.data.status === 500) {
+        console.log("im in error");
+        throw new Error("Do not have any match.");
+      }
       if (get(match, "data.data.length") > 0) {
         return match.data.data;
       } else {

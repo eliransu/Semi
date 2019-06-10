@@ -13,15 +13,8 @@ class MatchNode extends Component {
     const { match } = this.props;
     console.log({ match });
     return (
-      //   <div
-      //     style={{
-      //       paddingLeft: 20
-      //     }}
-      //   >
-      //     <UserDescription isMatch={true} user={this.props.user} />
-      //   </div>
       <div>
-        <Card>
+        <Card style={{ marginTop: 15 }}>
           <Row>
             <Col span={6}>
               <UserDescription user={match.provider.user} />

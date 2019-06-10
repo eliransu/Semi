@@ -23,6 +23,7 @@ class PicturesWall extends React.Component {
     this.setState({ fileList: res.fileList }, () => {
       if (res.file.response) {
         if (res.file.status === "done") {
+          console.log({ picture: res.file.response });
           this.setState(
             { urlList: [...this.state.urlList, res.file.response] },
             () => {

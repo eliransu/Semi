@@ -25,7 +25,7 @@ class MatchComponent extends Component {
         }
       })
       .catch(err => {
-        AlertUtils.failureAlert(err);
+        AlertUtils.failureAlert("You don`t have any cycle for match");
       })
       .finally(() => {
         viewStore.setappLoadingBoolean(true);
@@ -33,7 +33,7 @@ class MatchComponent extends Component {
   }
 
   renderAllNodes = () => {
-    if (matchesStore.getMatch) {
+    if (matchesStore.getMatch && matchesStore.getMatch.length) {
       return matchesStore.getMatch.map((node, index) => (
         <MatchNode match={node} key={index} history={this.props.history} />
       ));

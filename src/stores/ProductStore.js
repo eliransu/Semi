@@ -107,7 +107,7 @@ export default class ProductStore {
       const products = await productService.getProductsByUserName(userName);
       this.setAllProducts(products);
     } catch (err) {
-      console.error(err);
+      throw err;
     }
   };
 

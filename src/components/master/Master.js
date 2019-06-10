@@ -233,7 +233,7 @@ class Master extends React.Component {
             <Menu.Item
               style={{ fontSize: 16 }}
               key="4"
-              onClick={() => this.handleMenuClicked("add-product-as-renter")}
+              onClick={() => this.handleMenuClicked("/add-product-as-renter")}
             >
               <Icon
                 fontSize={16}
@@ -247,7 +247,7 @@ class Master extends React.Component {
           <Menu.Item
             style={{ fontSize: 16 }}
             key="5"
-            onClick={() => this.handleMenuClicked("about")}
+            onClick={() => this.handleMenuClicked("/about")}
           >
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="team" />
             About Us
@@ -311,7 +311,7 @@ class Master extends React.Component {
                 My Store
               </Menu.Item>
 
-              {user.products_to_give.length && (
+              {user && user.product_to_give && user.products_to_give.length && (
                 <Menu.Item
                   key="14"
                   onClick={() =>
