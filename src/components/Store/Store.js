@@ -17,9 +17,10 @@ const authStore = rootStores[AuthStore];
 
 @observer
 class Store extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     const userName = this.props.match.params.userName;
-    productStore.getProductsByUserName(userName);
+    await productStore.getProductsByUserName(userName);
+    await authStore.getUserDataFromServer(userName);
   }
 
   state = {
@@ -50,13 +51,16 @@ class Store extends Component {
   };
   render() {
     const dataSize = productStore.getAllProducts.length;
+    console.log({ "user in description": authStore.getUserData });
     return (
       <React.Fragment>
         <div>
           <div className="main-store-container" style={{ marginBottom: 30 }}>
             <Row style={{ padding: 30 }}>
               <Col span={4}>
-                <UserDescription user={authStore.currentUser} />
+                {authStore.getUserData && authStore.getUserData.user && (
+                  <UserDescription user={authStore.getUserData.user} />
+                )}
               </Col>
               <Col span={20}>
                 <Row>

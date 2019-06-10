@@ -29,6 +29,7 @@ import AlertUtils from "../utils/AlertUtils";
 import Home from "./Home";
 import MatchingStoreComponent from "../matches/MatchingStoreComponent";
 import MenuItem from "antd/lib/menu/MenuItem";
+import MatchComponent from "../matches/MatchComponent";
 const semiIcon = require("../../assets/semi.ico");
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
@@ -83,16 +84,11 @@ class Master extends React.Component {
     if (!authStore.getCurrentUser) {
       AlertUtils.failureAlert("for matching you must be logged In");
     } else if (authStore.getCurrentUser.products_to_give.length > 0) {
-      this.handleMenuClicked("/matching");
+      this.handleMenuClicked(`/matching/${authStore.getCurrentUser._id}`);
     } else {
       this.setState({ matchingModal: true });
     }
   };
-  componentDidUpdate() {
-    if (authStore.getCurrentUser.products_to_give.length > 0) {
-      authStore.setCurrentUser(authStore.getCurrentUser);
-    }
-  }
 
   handleCancel = e => {
     console.log(e);
@@ -157,7 +153,8 @@ class Master extends React.Component {
           defaultSelectedKeys={["1"]}
           style={{
             lineHeight: "85px",
-            padding: "0px 20px"
+            padding: "0px 20px",
+            textAlign: "center"
           }}
         >
           <Col span={2}>
@@ -175,6 +172,7 @@ class Master extends React.Component {
               />
             </Menu.Item>
           </Col>
+
           <Menu.Item
             style={{ fontSize: 16 }}
             key="1"
@@ -237,7 +235,7 @@ class Master extends React.Component {
             <Menu.Item
               style={{ fontSize: 16 }}
               key="4"
-              onClick={() => this.handleMenuClicked("add-product-as-renter")}
+              onClick={() => this.handleMenuClicked("/add-product-as-renter")}
             >
               <Icon
                 fontSize={16}
@@ -251,7 +249,7 @@ class Master extends React.Component {
           <Menu.Item
             style={{ fontSize: 16 }}
             key="5"
-            onClick={() => this.handleMenuClicked("about")}
+            onClick={() => this.handleMenuClicked("/about")}
           >
             <Icon fontSize={16} style={{ marginLeft: 4 }} type="team" />
             About Us
@@ -315,15 +313,17 @@ class Master extends React.Component {
                 My Store
               </Menu.Item>
 
-              {user.products_to_give.length && (
+              {user && user.products_to_give && user.products_to_give.length && (
                 <Menu.Item
                   key="14"
                   onClick={() =>
-                    this.handleMenuClicked(`/user/matching/${user.username}`)
+                    this.handleMenuClicked(
+                      `/users/matching/match/${user.username}`
+                    )
                   }
                 >
                   <Icon style={{ marginLeft: 4 }} type="team" />
-                  My Matching products
+                  My Matching
                 </Menu.Item>
               )}
               {user.isAdmin && (
@@ -417,7 +417,7 @@ class Master extends React.Component {
               history={this.props.history}
               component={Category}
             />
-            <Route exact path={"/matching"} component={MatchesMarket} />
+            <Route exact path={`/matching/:userId`} component={MatchesMarket} />
             <Route exact path="/paymentPage" component={PaymentPage} />
             <Route exact path="/search" component={SearchComponenet} />
             <Route exact path="/adminPanel" component={AdminPanel} />
@@ -425,6 +425,11 @@ class Master extends React.Component {
               exact
               path="/user/matching/:username"
               component={MatchingStoreComponent}
+            />
+            <Route
+              exact
+              path="/users/matching/match/:userName"
+              component={MatchComponent}
             />
           </Switch>
         </Content>
@@ -437,88 +442,3 @@ class Master extends React.Component {
 }
 
 export default withRouter(Master);
-
-// <Popup
-//   trigger={
-//     <Icon
-//       type="bell"
-//       style={{
-//         color: "#e6f7ff",
-//         bordeRadius: "42px",
-//         border: "1px solid #4995e6ad",
-//         background: "#4995e6ad",
-//         fontSize: "30px",
-//         marginLeft: "10",
-//         borderRadius: "30px"
-//       }}
-//     />
-//   }
-//   position="left bottom"
-//   defaultOpen="true"
-//   contentStyle={{
-//     borderRadius: "20px",
-//     position: "absolute",
-//     zindex: "2",
-//     width: "24px",
-//     background: "rgb(255, 255, 255)",
-//     border: "1px solid rgb(187, 187, 187)",
-//     boxShadow: "rgba(0, 0, 0, 0.2) 0px 1px 3px",
-//     padding: "5px",
-//     top: "10px !important",
-//     left: "-8px !important",
-//     height: "30px"
-//   }}
-// >
-//   <div
-//     onClick={this.openModal}
-//     style={{
-//       position: "absolute",
-//       top: "-29px",
-//       left: "7px",
-//       fontWeight: "bold",
-//       color: "#ff8080"
-//     }}
-//   >
-//     {orderStore.getLengthOrdersNotHandeledAsProvider}
-//   </div>
-// </Popup>
-// <Popup
-//   open={this.state.open}
-//   closeOnDocumentClick
-//   onClose={() => this.closeModal()}
-//   contentStyle={{
-//     borderRadius: "20px",
-//     width: "auto",
-//     position: "absolute",
-//     top: "25px",
-//     left: "67%",
-//     background: "rgb(255, 255, 255)",
-//     border: "1px solid rgb(187, 187, 187)",
-//     boxShadow: "rgba(0, 0, 0, 0.2) 0px 1px 3px"
-//   }}
-// >
-//   <div
-//     className="modal"
-//     style={{ display: "flex", flexDirection: "row" }}
-//   />
-//   <div
-//     style={{
-//       fontWeight: "bold",
-//       fontSize: "16px",
-//       textAlign: "center",
-//       height: "56px"
-//     }}
-//   >
-//     Notification center
-//   </div>
-//   <div
-//     className="separator--horizontal"
-//     style={{
-//       borderBottom: "2px solid #F2F2F2",
-//       width: "60%",
-//       padding: "2px",
-//       margin: "auto"
-//     }}
-//   />
-//   <NotificationCenter closeModal={() => this.closeModal()} />
-// </Popup>

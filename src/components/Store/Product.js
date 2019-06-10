@@ -17,6 +17,7 @@ class Product extends Component {
 
   onProductClicked = () => {
     this.props.history.replace(`/productPage/${this.props.product._id}`);
+    window.scrollTo(0, 0);
   };
   onCheckBoxChanged = e => {
     e.preventDefault();
@@ -55,16 +56,15 @@ class Product extends Component {
       this.props.checkBoxDisable && !this.state.productStyle ? true : false;
 
     return (
-      <div style={{ height: 425 }}>
+      <div style={{ maxHeight: 450 }}>
         {this.state.visible && <div>eliran</div>}
         <Card
           className="hvr-bounce-in"
           style={{
             paddingTop: 30,
             marginLeft: "25%",
-            width: 300,
+            width: 330,
             opacity: this.state.opacity,
-            border: this.state.productStyle ? "3px solid lightgreen" : "none",
             boxShadow: "3px 2px 15px -3px rgba(0,0,0,0.5)"
           }}
           cover={
@@ -99,7 +99,15 @@ class Product extends Component {
           ]}
         >
           <Meta
-            avatar={<Avatar src={require("../../assets/eliran.png")} />}
+            avatar={
+              <Avatar
+                src={
+                  product && product.owner && product.owner.profile_image
+                    ? product.owner.profile_image
+                    : require("../../assets/eliran.png")
+                }
+              />
+            }
             title={product.name}
             description={
               <ShowMoreText

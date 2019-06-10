@@ -5,13 +5,16 @@ const { Meta } = Card;
 
 export class UserDescription extends Component {
   render() {
-    const { user } = this.props;
+    const { user, isMatch } = this.props;
+    console.log({ " user in desc": user });
+    const borderStyle = this.props.border ? "2px solid lightgreen" : "";
+
     return (
-      <div>
-        <div className="user-card">
+      <div style={{ textAlign: isMatch ? "-webkit-center" : "" }}>
+        <div className="user-card" style={{ textAlign: "-webkit-center" }}>
           <Card
             hoverable
-            style={{ width: 240 }}
+            style={{ width: 240, border: borderStyle }}
             cover={
               <img
                 alt="example"
@@ -32,11 +35,11 @@ export class UserDescription extends Component {
                                           }\n
                                           Location:${
                                             user ? user.address.country : ""
-                                          }-${user ? user.address.city : ""}-${
-                user ? user.street : ""
-              }`}
+                                          }-${user ? user.address.city : ""}`}
             />
-            {user && user.products_to_give.length > 0 ? (
+            {user &&
+            user.products_to_give &&
+            user.products_to_give.length > 0 ? (
               <a
                 style={{ textDecoration: "underline" }}
                 href={`/user/matching/${user.username}`}

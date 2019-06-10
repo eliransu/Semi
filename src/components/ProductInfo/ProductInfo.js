@@ -9,20 +9,26 @@ import { PeriodsAndPricingsTable } from "./PeriodsAndPricingsTable";
 import ProductCalendar from "./ProductCalendar";
 import ReviewsList from "./ReviewsList";
 import "./ProductInfo.css";
+import ViewStore from "../../stores/ViewStore";
+import AlertUtils from "../utils/AlertUtils";
 
 const productStore = rootStores[ProductStore];
-
+const viewStore = rootStores[ViewStore];
 @observer
 class ProductInfo extends Component {
   async componentDidMount() {
-    console.log("params", this.props.match.params.id);
-    const res = await productStore.getProductById(this.props.match.params.id);
-    if (!res) {
-      this.setState({ emptyState: true });
+    viewStore.setappLoadingBoolean(false);
+    try {
+      const res = await productStore.getProductById(this.props.match.params.id);
+      if (!res) {
+        this.setState({ emptyState: true });
+      }
+      this.setState({ avgScore: productStore.getAvarageScore });
+    } catch (err) {
+      AlertUtils.failureAlert(err);
+    } finally {
+      viewStore.setappLoadingBoolean(true);
     }
-    this.setState({ avgScore: productStore.getAvarageScore });
-
-    console.log("reviews!!", productStore.getCurrentProduct.reviews);
   }
   // componentDidUpdate() {
   //   this.setState({ avgScore: productStore.getAvarageScore });
@@ -74,6 +80,7 @@ class ProductInfo extends Component {
                 />
               </div>
               <ImageCarousel
+                style={{ width: 300 }}
                 imgList={product && product.images ? product.images : []}
               />
             </Col>
@@ -168,12 +175,10 @@ class ProductInfo extends Component {
 
   render() {
     const product = productStore.getCurrentProduct;
-    console.log({ "product in render~!!!@!@": product.avgScore });
     const avgScore = product && product.avgScore ? product.avgScore : 0;
     const plans = product && product.plans ? product.plans : [];
     const orders = product && product.orders ? product.orders : [];
     const reviews = product && product.reviews ? product.reviews : [];
-    console.log({ "orders in productCalnder": orders });
 
     return (
       <React.Fragment>

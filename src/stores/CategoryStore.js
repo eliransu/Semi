@@ -36,11 +36,15 @@ export default class CategoryStore {
 
   @action
   getCategoryById = async categoryId => {
-    const result = await CategoryService.getCategoryById(categoryId);
-    this.setCurrentCategory(result);
-    if (this.getCurrentCategory[0]) {
-      return true;
-    } else return false;
+    try {
+      const result = await CategoryService.getCategoryById(categoryId);
+      this.setCurrentCategory(result);
+      if (this.getCurrentCategory[0]) {
+        return true;
+      } else return false;
+    } catch (err) {
+      throw err;
+    }
   };
 
   @computed

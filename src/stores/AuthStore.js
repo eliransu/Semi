@@ -1,10 +1,12 @@
 import { observable, action, computed, toJS } from "mobx";
 import authService from "../services/AuthService";
 import AuthService from "../services/AuthService";
+import { SSL_OP_LEGACY_SERVER_CONNECT } from "constants";
 
 export default class AuthStore {
   @observable token;
   @observable currentUser;
+  @observable userData;
 
   @observable viewLoginModal = false;
   @observable viewSignInModal = false;
@@ -34,6 +36,20 @@ export default class AuthStore {
     }
   };
 
+  @action
+  getUserDataFromServer = async userName => {
+    try {
+      const user = await AuthService.getUserData(userName);
+      this.setUserData(user);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  @action
+  setUserData = user => {
+    this.userData = user;
+  };
   @action
   toggleviewLoginModal = () => {
     this.viewLoginModal
@@ -78,5 +94,9 @@ export default class AuthStore {
   @computed
   get getCurrentUser() {
     return toJS(this.currentUser) || null;
+  }
+  @computed
+  get getUserData() {
+    return toJS(this.userData) || null;
   }
 }

@@ -6,6 +6,7 @@ import rootStores from "../../stores";
 import CategoryStore from "../../stores/CategoryStore";
 import { observer } from "mobx-react";
 import ViewStore from "../../stores/ViewStore";
+import AlertUtils from "../utils/AlertUtils";
 
 const categoryStore = rootStores[CategoryStore];
 const viewStore = rootStores[ViewStore];
@@ -17,11 +18,20 @@ class Category extends Component {
   };
 
   componentDidMount() {
-    categoryStore.getCategoryById(this.props.match.params.id).then(res => {
-      if (res) {
-        this.setState({ loading: false });
-      }
-    });
+    viewStore.setappLoadingBoolean(false);
+    categoryStore
+      .getCategoryById(this.props.match.params.id)
+      .then(res => {
+        if (res) {
+          this.setState({ loading: false });
+        }
+      })
+      .catch(err => {
+        AlertUtils.failureAlert(err);
+      })
+      .finally(() => {
+        viewStore.setappLoadingBoolean(true);
+      });
   }
   renderAllProducts = () => {
     const products = this.loadBulk(categoryStore.getCurrentCategory);

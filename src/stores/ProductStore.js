@@ -19,6 +19,9 @@ export default class ProductStore {
   periods = [];
 
   @observable
+  matchingProducts = observable([]);
+
+  @observable
   allProducts = observable([]);
 
   @observable
@@ -31,14 +34,44 @@ export default class ProductStore {
   addPeriod = period => {
     this.periods.push(period);
   };
+
+  @action
+  setMatchingProducts = products => {
+    if (products) {
+      this.matchingProducts.replace(products);
+    }
+  };
+
+  @action
+  getMtchingMarketProducts = async userId => {
+    try {
+      const productToMatch = await productService.getMtchingMarketProducts(
+        userId
+      );
+      console.log("im here!!");
+      console.log({ productToMatch });
+      if (productToMatch) this.setMatchingProducts(productToMatch);
+      return true;
+    } catch (err) {
+      console.log("in catch", err);
+      throw err;
+      return false;
+    }
+  };
   @action
   newProduct = () => {
     const product = new Product();
 
     this.currentProduct = product;
   };
+  @action
   setLatestProducts = latestProducts => {
     this.latestProducts = latestProducts;
+  };
+
+  @action
+  getReplacementProducts = async userName => {
+    return await productService.getReplacementProducts(userName);
   };
 
   @action
@@ -54,12 +87,16 @@ export default class ProductStore {
 
   @action
   getProductById = async productId => {
-    const product = await productService.getProductById(productId);
-    if (product) {
-      this.setCurrentProduct(product);
-      return true;
-    } else {
-      return false;
+    try {
+      const product = await productService.getProductById(productId);
+      if (product) {
+        this.setCurrentProduct(product);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      throw err;
     }
   };
 
@@ -73,8 +110,9 @@ export default class ProductStore {
     try {
       const products = await productService.getProductsByUserName(userName);
       this.setAllProducts(products);
+      return true;
     } catch (err) {
-      console.error(err);
+      throw err;
     }
   };
 
@@ -95,6 +133,11 @@ export default class ProductStore {
   @computed
   get getCurrentProduct() {
     return toJS(this.currentProduct) || {};
+  }
+
+  @computed
+  get getMatchingProducts() {
+    return toJS(this.matchingProducts) || [];
   }
 
   @computed

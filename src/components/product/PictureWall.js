@@ -1,5 +1,5 @@
 import React from "react";
-import { Upload, Icon, Modal } from "antd";
+import { Upload, Icon, Modal, Avatar } from "antd";
 import { Button } from "antd/lib/radio";
 
 class PicturesWall extends React.Component {
@@ -23,6 +23,7 @@ class PicturesWall extends React.Component {
     this.setState({ fileList: res.fileList }, () => {
       if (res.file.response) {
         if (res.file.status === "done") {
+          console.log({ picture: res.file.response });
           this.setState(
             { urlList: [...this.state.urlList, res.file.response] },
             () => {
@@ -41,24 +42,23 @@ class PicturesWall extends React.Component {
         }
       }
     });
-    // this.props.addPicture({ fileList });
   };
-
-  // onRemoveClicked = res => {
-  //   console.log("removed", res);
-  //   this.setState({ fileList: res.fileList }, () => {
-  //     console.log(res.file.response);
-  //   });
-  // };
 
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
+    const { regisrtation } = this.props;
+    console.log({ regisrtation });
     const uploadButton = (
       <div>
-        <Icon type="plus" />
         <div className="ant-upload-text">Upload</div>
       </div>
     );
+    const uploadAvatarButton = (
+      <div>
+        <Avatar size={64} icon="user" />
+      </div>
+    );
+
     return (
       <div className="clearfix">
         <Upload
