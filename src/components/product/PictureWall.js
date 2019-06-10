@@ -23,7 +23,6 @@ class PicturesWall extends React.Component {
     this.setState({ fileList: res.fileList }, () => {
       if (res.file.response) {
         if (res.file.status === "done") {
-          console.log({ picture: res.file.response });
           this.setState(
             { urlList: [...this.state.urlList, res.file.response] },
             () => {
@@ -47,7 +46,6 @@ class PicturesWall extends React.Component {
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
     const { regisrtation } = this.props;
-    console.log({ regisrtation });
     const uploadButton = (
       <div>
         <div className="ant-upload-text">Upload</div>

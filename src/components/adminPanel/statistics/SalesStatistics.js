@@ -31,20 +31,6 @@ class SalesStatistics extends Component {
           {
             label: "Monthly rentals",
             data: results.reverse()
-            // backgroundColor: [
-            //   "rgba(255, 99, 132)",
-            //   "rgba(54, 162, 23)",
-            //   "rgba(55, 26, 86)",
-            //   "rgba(75, 192, 192)",
-            //   "rgba(153, 102, 255)",
-            //   "rgba(255, 159, 64)",
-            //   "rgba(255, 199, 132)",
-            //   "rgba(132, 162, 23)",
-            //   "rgba(55, 26, 86)",
-            //   "rgba(75, 192, 192)",
-            //   "rgba(153, 102, 1)",
-            //   "rgba(189, 59, 64)"
-            // ]
           }
         ]
       }
@@ -66,17 +52,17 @@ class SalesStatistics extends Component {
 
 export default SalesStatistics;
 
-// [
-//   "January",
-//   "February",
-//   "March",
-//   "April",
-//   "May",
-//   "June",
-//   "July",
-//   "August",
-//   "September",
-//   "October",
-//   "November",
-//   "December"
+// backgroundColor: [
+//   "rgba(255, 99, 132)",
+//   "rgba(54, 162, 23)",
+//   "rgba(55, 26, 86)",
+//   "rgba(75, 192, 192)",
+//   "rgba(153, 102, 255)",
+//   "rgba(255, 159, 64)",
+//   "rgba(255, 199, 132)",
+//   "rgba(132, 162, 23)",
+//   "rgba(55, 26, 86)",
+//   "rgba(75, 192, 192)",
+//   "rgba(153, 102, 1)",
+//   "rgba(189, 59, 64)"
 // ]

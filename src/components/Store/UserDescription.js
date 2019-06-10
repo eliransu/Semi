@@ -6,7 +6,6 @@ const { Meta } = Card;
 export class UserDescription extends Component {
   render() {
     const { user, isMatch } = this.props;
-    console.log({ " user in desc": user });
     const borderStyle = this.props.border ? "2px solid lightgreen" : "";
 
     return (

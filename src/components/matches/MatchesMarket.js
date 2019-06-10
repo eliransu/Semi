@@ -13,17 +13,14 @@ const matchesStore = rootStores[MatchesStore];
 class MatchesMarket extends Component {
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    console.log({ userId });
 
     try {
       if (userId !== "undefined") {
         productStore.getMtchingMarketProducts(userId);
-      } else {
-        console.log("blabla");
       }
     } catch (err) {
-      console.log("hereee");
-      // AlertUtils.failureAlert(err);
+      // console.log(err);
+      AlertUtils.failureAlert(err);
     }
   }
 
@@ -60,13 +57,9 @@ class MatchesMarket extends Component {
       this.state.productsToTake.push(productId);
     } else {
       const filtered = this.state.productsToTake.filter(product => {
-        console.log(product, productId);
         return product != productId;
       });
-      console.log({ filtered });
-      this.setState({ productsToTake: filtered }, () => {
-        console.log(this.state.productsToTake);
-      });
+      this.setState({ productsToTake: filtered });
     }
   };
 
@@ -87,6 +80,7 @@ class MatchesMarket extends Component {
     return products.map((product, index) => (
       <Col span={8} style={{ marginBottom: 25 }}>
         <Product
+          starts={productStore.getAvargeScoreByProduct(product)}
           history={this.props.history}
           product={product}
           key={index}

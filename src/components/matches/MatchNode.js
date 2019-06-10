@@ -38,7 +38,6 @@ class MatchNode extends Component {
   render() {
     const { count } = this.props;
     const { match } = this.props;
-    console.log({ match });
     return (
       <div>
         <Card style={{ marginTop: 15 }}>
@@ -58,7 +57,7 @@ class MatchNode extends Component {
             <Col span={6} style={{ paddingRight: 100 }}>
               <Product product={match.product} history={this.props.history} />
             </Col>
-            <Col span={3}>
+            <Col span={3} style={{ paddingLeft: 50 }}>
               <img
                 style={{ width: 100, paddingTop: 100 }}
                 src={require("../../assets/arrow-right-solid.svg")}

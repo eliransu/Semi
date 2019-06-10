@@ -136,7 +136,6 @@ class ProductCalendar extends Component {
   };
 
   render() {
-    console.log("this.props.data:", this.props.data);
     return (
       <div
         style={{

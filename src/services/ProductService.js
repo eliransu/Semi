@@ -3,7 +3,6 @@ import { toJS } from "mobx";
 import get from "lodash/get";
 class ProductService {
   addProductToUser = (username, product, periods) => {
-    console.log(`add new product to the user ${username}`, product);
     const url = `/api/add-product-as-renter/${username}`;
     const body = {
       username,
@@ -54,8 +53,6 @@ class ProductService {
       if (!product || !product.data || !product.data.data) {
         return false;
       } else {
-        console.log({ product });
-        console.log("product in service", product.data.data);
         let sum = 0;
         if (get(product, "data.data.reviews.length", 0) > 0) {
           let sum = 0;
@@ -112,16 +109,12 @@ class ProductService {
   };
 
   getMtchingMarketProducts = async userId => {
-    console.log("im here!!");
     try {
       const matchingProducts = await axios.get(
         `/api/users/products-to-replace/${userId}`
       );
 
-      console.log({ matchingProducts });
-
       if (matchingProducts === "wrong userId") {
-        console.log("wrong!!!");
         throw new Error("the user is not exist");
       }
 

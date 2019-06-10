@@ -4,6 +4,7 @@ import AdminPanelStore from "../../stores/AdminPanelStore";
 import { observer } from "mobx-react";
 import { Table, Divider, Tag } from "antd";
 import ViewStore from "../../stores/ViewStore";
+import { NavLink } from "react-router-dom";
 
 const adminPanelStore = rootStores[AdminPanelStore];
 const viewStore = rootStores[ViewStore];
@@ -28,7 +29,14 @@ class AdminPanelOrders extends React.Component {
         title: "Product",
         dataIndex: "product.name",
         key: "product.name",
-        render: text => <a href="javascript:;">{text}</a>
+        render: (text, record) => (
+          <NavLink
+            style={{ textDecoration: "underline" }}
+            to={`/productPage/${record.product._id}`}
+          >
+            {text}
+          </NavLink>
+        )
       },
       {
         title: "Consumer",

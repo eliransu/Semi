@@ -49,11 +49,10 @@ function onChangeRemarks(e) {
   paymentStore.remarks = pass;
 }
 
-
 @observer
 class PaymentPage extends React.Component {
-  state={endDate : paymentStore.getStartDate}
-  
+  state = { endDate: paymentStore.getStartDate };
+
   constructor(props) {
     super(props);
   }
@@ -77,25 +76,29 @@ class PaymentPage extends React.Component {
   onShippingCheckBoxChange = e => {
     if (e.target.checked) {
       paymentStore.addDeliveryCommission();
-      console.log("paymentStore.price:after", paymentStore.price);
     } else {
       paymentStore.removeDeliveryCommission();
     }
   };
-  
-  isPossiblePeriod = (startDate, endDate ) =>{
-    const currentProduct = toJS(paymentStore.getCurrentProduct);
-    const oldOrders = currentProduct && currentProduct.orders ? currentProduct.orders : [];
-    const result = oldOrders.every(oldOrder => {
 
-      if(( moment(startDate).isBetween(oldOrder.start_time, oldOrder.finish_time))
-        ||(moment(endDate).isBetween(oldOrder.start_time,oldOrder.finish_time))){
-          return false;
-        }
-        return true
-    })
+  isPossiblePeriod = (startDate, endDate) => {
+    const currentProduct = toJS(paymentStore.getCurrentProduct);
+    const oldOrders =
+      currentProduct && currentProduct.orders ? currentProduct.orders : [];
+    const result = oldOrders.every(oldOrder => {
+      if (
+        moment(startDate).isBetween(
+          oldOrder.start_time,
+          oldOrder.finish_time
+        ) ||
+        moment(endDate).isBetween(oldOrder.start_time, oldOrder.finish_time)
+      ) {
+        return false;
+      }
+      return true;
+    });
     return result;
-  }
+  };
 
   handleChange = value => {
     const curentProduct = paymentStore.currentProduct;
@@ -105,20 +108,14 @@ class PaymentPage extends React.Component {
       planPicked.period,
       "days"
     );
-      if(this.isPossiblePeriod(moment(paymentStore.startDate), newEndDate)){
-        paymentStore.endDate = newEndDate;
-        this.setState({endDate:newEndDate});        
-        paymentStore.price = parseFloat(planPicked.price);
-        AlertUtils.successAlert(
-          "Product Available!"
-        );
-      }
-      else{
-        AlertUtils.failureAlert(
-          "Sorry, Product already ordered in this date!"
-        );
-      }
-
+    if (this.isPossiblePeriod(moment(paymentStore.startDate), newEndDate)) {
+      paymentStore.endDate = newEndDate;
+      this.setState({ endDate: newEndDate });
+      paymentStore.price = parseFloat(planPicked.price);
+      AlertUtils.successAlert("Product Available!");
+    } else {
+      AlertUtils.failureAlert("Sorry, Product already ordered in this date!");
+    }
   };
   changeData = () => {
     paymentStore.toggleViewStartDate();
@@ -151,7 +148,8 @@ class PaymentPage extends React.Component {
   render() {
     const { getFieldsError } = this.props.form;
     const currentProduct = toJS(paymentStore.getCurrentProduct);
-    const orders = currentProduct && currentProduct.orders ? currentProduct.orders : [];
+    const orders =
+      currentProduct && currentProduct.orders ? currentProduct.orders : [];
     if (currentProduct) {
       return (
         <div className="payment-page-main-container">
@@ -222,9 +220,7 @@ class PaymentPage extends React.Component {
                     <Form.Item>
                       <DatePicker
                         defaultValue={moment(
-                          moment(paymentStore.startDate).format(
-                            "DD/MM/YYYY"
-                          ),
+                          moment(paymentStore.startDate).format("DD/MM/YYYY"),
                           "DD/MM/YYYY"
                         )}
                         format={"DD/MM/YYYY"}
@@ -276,9 +272,7 @@ class PaymentPage extends React.Component {
                   <Form.Item
                     style={{ display: "flex", justifyContent: "center" }}
                   >
-                    <Checkbox
-                      onChange={e => this.onShippingCheckBoxChange(e)}
-                    >
+                    <Checkbox onChange={e => this.onShippingCheckBoxChange(e)}>
                       Shipping
                     </Checkbox>
                   </Form.Item>
@@ -308,10 +302,7 @@ class PaymentPage extends React.Component {
                         defaultValue={`${paymentStore.getPrice}`}
                         value={`${paymentStore.getPrice}`}
                         formatter={value =>
-                          `$ ${value}`.replace(
-                            /\B(?=(\d{3})+(?!\d))/g,
-                            ","
-                          )
+                          `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                         }
                         parser={value => value.replace(/\$\s?|(,*)/g, "")}
                         disabled={true}
@@ -364,10 +355,7 @@ class PaymentPage extends React.Component {
               xl={15}
               style={{ paddingTop: "20px" }}
             >
-              <ProductCalendar
-                width={"900"}
-                data={orders}
-              />
+              <ProductCalendar width={"900"} data={orders} />
             </Col>
             <PaymentModalPage history={this.props.history} />
           </Row>

@@ -1,0 +1,14 @@
+.add-review-container {
+  display: flex;
+}
+.review-product-name {
+  width: 210px;
+}
+.add-review-modal {
+  width: 830px !important;
+  height: 510px;
+  border-radius: 50px;
+}
+.add-review-text-area {
+  width: 400px;
+}

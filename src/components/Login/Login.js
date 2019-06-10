@@ -34,7 +34,6 @@ class HorizontalLoginForm extends Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     authStore.toggleviewLoginModal();
   };
 

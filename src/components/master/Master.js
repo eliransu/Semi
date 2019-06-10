@@ -29,6 +29,7 @@ import AlertUtils from "../utils/AlertUtils";
 import Home from "./Home";
 import MatchingStoreComponent from "../matches/MatchingStoreComponent";
 import MenuItem from "antd/lib/menu/MenuItem";
+import OrdersReview from "../ordersReview/OrdersReview";
 import MatchComponent from "../matches/MatchComponent";
 const semiIcon = require("../../assets/semi.ico");
 const { Header, Content, Footer } = Layout;
@@ -56,7 +57,7 @@ class Master extends React.Component {
         if (!loggedIn) {
           this.handleMenuClicked("/");
         } else {
-          orderStore.loadAllOrders();
+          // orderStore.loadAllOrders();
         }
       });
     } catch (err) {
@@ -69,7 +70,6 @@ class Master extends React.Component {
   };
   handleOk = e => {
     //need to send data to the server
-    console.log(e);
     this.setState({ visble: false });
   };
 
@@ -91,7 +91,6 @@ class Master extends React.Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visble: false
     });
@@ -258,7 +257,7 @@ class Master extends React.Component {
             <Menu.Item
               style={{ fontSize: 16 }}
               key="9"
-              onClick={() => console.log("blabla")}
+              onClick={() => this.handleMenuClicked("/myOrders")}
             >
               <Icon fontSize={16} style={{ marginLeft: 4 }} type="book" />
               My Orders
@@ -426,6 +425,7 @@ class Master extends React.Component {
               path="/user/matching/:username"
               component={MatchingStoreComponent}
             />
+            <Route exact path="/myOrders" component={OrdersReview} />
             <Route
               exact
               path="/users/matching/match/:userName"

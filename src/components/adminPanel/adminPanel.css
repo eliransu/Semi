@@ -34,3 +34,8 @@
 .hide {
   display: none;
 }
+
+.ant-pagination.ant-table-pagination {
+  width: 100%;
+  text-align: center;
+}

@@ -23,7 +23,6 @@ class MatchingStoreComponent extends Component {
     productStore
       .getReplacementProducts(userName)
       .then(res => {
-        console.log({ res });
         this.setState({
           targetToGiveKeys: res.productsToGive,
           targetToTakeKeys: res.productsToTake
@@ -58,7 +57,7 @@ class MatchingStoreComponent extends Component {
     const user = authStore.getCurrentUser;
     if (user && user.products_to_give && user.products_to_give.length) {
       return user.products_to_give.map((product, index) => (
-        <Col span={8}>
+        <Col span={8} style={{ paddingBottom: 20 }}>
           <Product history={this.props.history} product={product} key={index} />
         </Col>
       ));
@@ -82,33 +81,22 @@ class MatchingStoreComponent extends Component {
 
   onTransferToGive = (nextTargetKeys, direction, moveKeys) => {
     this.setState({ targetToGiveKeys: nextTargetKeys });
-    console.log("targetKeys: ", nextTargetKeys);
-    console.log("direction: ", direction);
-    console.log("moveKeys: ", moveKeys);
   };
 
   onProductToGiveSelected = (sourceSelectedKeys, targetSelectedKeys) => {
     this.setState({
       selectedToGive: [...sourceSelectedKeys, ...targetSelectedKeys]
     });
-    console.log({ sourceSelectedKeys });
-    console.log({ targetSelectedKeys });
   };
-  handleScroll = (direction, e) => {
-    console.log("direction:", direction);
-    console.log("target:", e.target);
-  };
+  handleScroll = (direction, e) => {};
 
   render() {
     const user = authStore.getCurrentUser;
-    console.log({ user });
     const allUserProductsAsProvider = user ? user.products_for_rent : [];
     const { owner, targetToGiveKeys, selectedToGive } = this.state;
-    console.log({ targetToGiveKeys });
     const transferStyle = {
       paddingLeft: 30
     };
-    console.log({ owner });
     return (
       <div>
         <Row>

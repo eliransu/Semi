@@ -1,10 +1,29 @@
 import axios from "axios";
+import { toJS } from "mobx";
 class OrderService {
   getAllOrdersByUserNameAndType = async (userName, type) => {
-    const url = `/api/users/orders?username=${userName}&type=${type}`;
-    const orders = await axios.get(url);
-    if (orders || orders.data || orders.data.data) return orders.data.data;
-    else return [];
+    const url = await `/api/users/orders?username=${userName}&type=${type}`;
+    try {
+      const orders = await axios.get(url);
+      if (!orders || !orders.data || !orders.data.data) {
+        return [];
+      } else {
+        return orders.data.data;
+      }
+    } catch (err) {
+      console.log("cath", err);
+    }
+  };
+
+  addReview = async data => {
+    try {
+      const res = await axios.post("api/products/review", data);
+      if (res.data.status === 204) {
+        return true;
+      }
+    } catch (err) {
+      throw err;
+    }
   };
 
   changeOrderStatus = async (providerName, orderId, accepted) => {
@@ -15,8 +34,6 @@ class OrderService {
     };
     try {
       const result = await axios.put("/api/orders/accept", body);
-      console.log({ accept: result });
-      console.log("result changeOrderStatus: ", result);
       if (result.data.status === 204) {
         return true;
       } else {
@@ -43,7 +60,6 @@ class OrderService {
       Payment,
       startDate
     };
-    console.log("body", body);
     try {
       const result = await axios.post("/api/orders", body);
       if (result) {

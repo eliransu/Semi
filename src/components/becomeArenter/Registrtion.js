@@ -16,10 +16,13 @@ import axios from "axios";
 import rootStores from "../../stores";
 import AuthStore from "../../stores/AuthStore";
 import PicturesWall from "../product/PictureWall";
+import AlertUtils from "../utils/AlertUtils";
+import ViewStore from "../../stores/ViewStore";
 
 const authStore = rootStores[AuthStore];
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
+const viewStore = rootStores[ViewStore];
 
 const residences = [
   {
@@ -126,8 +129,6 @@ class RegistrationForm extends React.Component {
   };
 
   addProductClicked = () => {
-    console.log("1");
-
     if (this.state.password === this.state.confirmedPassword) {
       const user = {
         email: this.state.email,
@@ -183,7 +184,7 @@ class RegistrationForm extends React.Component {
   };
 
   registerMember = async () => {
-    this.setState({ loading: true });
+    viewStore.setappLoadingBoolean(false);
     const {
       firstName,
       lastName,
@@ -200,21 +201,23 @@ class RegistrationForm extends React.Component {
 
     if (password === confirmedPassword && confirmDirty) {
       const user = {
-        firstName,
-        lastName,
-        userName,
+        firstname: firstName,
+        lastname: lastName,
+        username: userName,
         email,
         password,
         phoneNumber,
-        storeName,
-        location,
-        profile_image: fileList
+        profileImage: fileList ? fileList[0] : ""
       };
-      console.log({ user });
-      const res = authStore.register(user);
-      if (res) {
-        this.setState({ loading: false });
-        this.props.onRegistrationSuccess(authStore.getCurrentUser);
+      try {
+        const res = await authStore.register(user);
+        if (res) {
+          this.props.onRegistrationSuccess(authStore.getCurrentUser);
+        }
+      } catch (err) {
+        AlertUtils.failureAlert(err);
+      } finally {
+        viewStore.setappLoadingBoolean(true);
       }
     }
   };

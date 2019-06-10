@@ -6,10 +6,13 @@ import rootStores from "../../stores";
 import CategoryStore from "../../stores/CategoryStore";
 import { observer } from "mobx-react";
 import ViewStore from "../../stores/ViewStore";
+import { toJS } from "mobx";
+import ProductStore from "../../stores/ProductStore";
 import AlertUtils from "../utils/AlertUtils";
 
 const categoryStore = rootStores[CategoryStore];
 const viewStore = rootStores[ViewStore];
+const productStore = rootStores[ProductStore];
 @observer
 class Category extends Component {
   state = {
@@ -37,7 +40,12 @@ class Category extends Component {
     const products = this.loadBulk(categoryStore.getCurrentCategory);
     return products.map((product, index) => (
       <Col span={8} style={{ padding: 30 }}>
-        <Product history={this.props.history} product={product} key={index} />
+        <Product
+          starts={productStore.getAvargeScoreByProduct(product)}
+          history={this.props.history}
+          product={product}
+          key={index}
+        />
       </Col>
     ));
   };

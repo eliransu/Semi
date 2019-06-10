@@ -77,13 +77,17 @@ export default class AuthStore {
 
   @action
   register = async user => {
-    const res = await authService.register(user);
+    try {
+      const res = await authService.register(user);
 
-    if (res) {
-      this.setCurrentUser(res.data.data);
-      return true;
-    } else {
-      return false;
+      if (res) {
+        this.setCurrentUser(res.data.data);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      throw err;
     }
   };
 

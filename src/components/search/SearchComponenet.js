@@ -7,6 +7,7 @@ import { observer } from "mobx-react";
 import { Pagination, Col } from "antd";
 import Product from "../Store/Product";
 import { SSL_OP_LEGACY_SERVER_CONNECT } from "constants";
+import { toJS } from "mobx";
 
 const productStore = rootStores[ProductStore];
 @observer
@@ -27,9 +28,15 @@ class SearchComponenet extends Component {
 
   renderAllProducts = () => {
     const products = this.loadBulk(productStore.getSearchResult);
+
     return products.map((product, index) => (
       <Col span={8} style={{ padding: 30 }}>
-        <Product history={this.props.history} product={product} key={index} />
+        <Product
+          starts={productStore.getAvargeScoreByProduct(product)}
+          history={this.props.history}
+          product={product}
+          key={index}
+        />
       </Col>
     ));
   };

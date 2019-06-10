@@ -121,7 +121,6 @@ export default class AdminPanelStore {
     try {
       const monthStats = await adminPanelService.statsByMonth();
       this.statsByMonthObject = monthStats.data;
-      console.log(this.statsByMonthObject);
     } catch (err) {
       console.log(err);
     }

@@ -41,7 +41,12 @@ class Store extends Component {
     const products = this.loadBulk(productStore.getAllProducts);
     return products.map((product, index) => (
       <Col span={8} style={{ paddingBottom: 20 }}>
-        <Product history={this.props.history} product={product} key={index} />
+        <Product
+          starts={productStore.getAvargeScoreByProduct(product)}
+          history={this.props.history}
+          product={product}
+          key={index}
+        />
       </Col>
     ));
   };
@@ -51,7 +56,6 @@ class Store extends Component {
   };
   render() {
     const dataSize = productStore.getAllProducts.length;
-    console.log({ "user in description": authStore.getUserData });
     return (
       <React.Fragment>
         <div>

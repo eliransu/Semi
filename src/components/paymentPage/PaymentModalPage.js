@@ -14,13 +14,8 @@ function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 const Option = Select.Option;
-function onChange(value) {
-  console.log(`selected ${value}`);
-}
 
-function onSearch(val) {
-  console.log("search:", val);
-}
+function onSearch(value) {}
 function handleMonthChange(value) {
   paymentStore.cardValidityMonth = value;
 }
@@ -93,7 +88,6 @@ class PaymentModalPage extends Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     paymentStore.toggleViewModal();
   };
 

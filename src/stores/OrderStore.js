@@ -24,9 +24,46 @@ export default class OrderStore {
   @observable
   allOrdersNotHendeledAsProvider = observable([]);
 
+  @observable allOrdersAsConsumer = observable([]);
+
+  @observable showReview;
+
+  @observable data;
+
+  @observable reviewData = {};
+
   constructor(authStore) {
     this.authStore = authStore;
   }
+  @action
+  loadOrdersAsConsumer = async () => {
+    const currentUser = this.authStore.getCurrentUser;
+    if (currentUser) {
+      await OrderService.getAllOrdersByUserNameAndType(
+        currentUser.username,
+        orderType.Consumer
+      )
+        .then(allOrdersAsConsumer => {
+          if (this.allOrdersAsConsumer) {
+            this.allOrdersAsConsumer.replace(toJS(allOrdersAsConsumer));
+          } else this.allOrdersAsConsumer = [];
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      this.allOrdersAsConsumer = [];
+    }
+  };
+
+  @action
+  toggleAddReview = () => {
+    if (this.showReview) {
+      this.showReview = false;
+    } else {
+      this.showReview = true;
+    }
+  };
 
   @action
   loadAllOrders() {
@@ -64,6 +101,11 @@ export default class OrderStore {
       order._id,
       accept
     );
+  };
+
+  @action
+  addReviewAPI = async () => {
+    return await OrderService.addReview(this.reviewData);
   };
 
   @action
@@ -122,9 +164,16 @@ export default class OrderStore {
         notifications.push(notif);
       });
     }
-
-    return toJS(notifications);
+    return notifications;
   }
+
+  @computed
+  get getAllOrdersAsConsumer() {
+    if (this.allOrdersAsConsumer) {
+      return toJS(this.allOrdersAsConsumer);
+    }
+  }
+
   @computed
   get getLengthOrdersNotHandeledAsProvider() {
     return this.getallOrdersNotHendeledAsProvider.length || 0;

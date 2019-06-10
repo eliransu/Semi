@@ -1,3 +1,4 @@
 @import "~antd/dist/antd.css";
 @import "./components/adminPanel/adminPanel.css";
 @import "./components/AppLoading/AppLoading.css";
+@import "./components/ordersReview/OrderReview.css";

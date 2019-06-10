@@ -4,6 +4,7 @@ import AdminPanelStore from "../../stores/AdminPanelStore";
 import rootStores from "../../stores";
 import { Table, Divider, Tag } from "antd";
 import ViewStore from "../../stores/ViewStore";
+import { NavLink } from "react-router-dom";
 
 const adminPanelStore = rootStores[AdminPanelStore];
 const viewStore = rootStores[ViewStore];
@@ -29,7 +30,14 @@ class AdminPanelProducts extends React.Component {
         title: "Product Name",
         dataIndex: "name",
         key: "name",
-        render: text => <a href="javascript:;">{text}</a>
+        render: (text, record) => (
+          <NavLink
+            style={{ textDecoration: "underline" }}
+            to={`/productPage/${record._id}`}
+          >
+            {text}
+          </NavLink>
+        )
       },
       {
         title: "Product Category",

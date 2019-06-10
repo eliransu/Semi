@@ -29,10 +29,8 @@ class ProductInfo extends Component {
     } finally {
       viewStore.setappLoadingBoolean(true);
     }
+    productStore.getAvarageScore();
   }
-  // componentDidUpdate() {
-  //   this.setState({ avgScore: productStore.getAvarageScore });
-  // }
 
   state = {
     emptyState: false,
@@ -40,7 +38,6 @@ class ProductInfo extends Component {
   };
 
   renderProduct = product => {
-    const avgStarsRate = productStore.getAvarageScore;
     const plans = product && product.plans ? product.plans : [];
     const orders = product && product.orders ? product.orders : [];
     const reviews = product && product.reviews ? product.reviews : [];
@@ -71,14 +68,7 @@ class ProductInfo extends Component {
                     : ""}
                 </a>
               </div>
-              <div style={{ textAlign: "center" }}>
-                <Rate
-                  allowHalf
-                  disabled
-                  defaultValue={this.state.avgScore}
-                  style={{ textAlign: "center", fontSize: "30px" }}
-                />
-              </div>
+
               <ImageCarousel
                 style={{ width: 300 }}
                 imgList={product && product.images ? product.images : []}
@@ -179,6 +169,7 @@ class ProductInfo extends Component {
     const plans = product && product.plans ? product.plans : [];
     const orders = product && product.orders ? product.orders : [];
     const reviews = product && product.reviews ? product.reviews : [];
+    const reviewRate = productStore.getavgScore;
 
     return (
       <React.Fragment>
@@ -215,11 +206,14 @@ class ProductInfo extends Component {
                     </a>
                   </div>
                   <div style={{ textAlign: "center" }}>
-                    <Rate
-                      disabled
-                      defaultValue={avgScore}
-                      style={{ textAlign: "center", fontSize: "30px" }}
-                    />
+                    {reviewRate && (
+                      <Rate
+                        allowHalf
+                        disabled
+                        defaultValue={reviewRate}
+                        style={{ textAlign: "center", fontSize: "30px" }}
+                      />
+                    )}
                   </div>
                   <ImageCarousel
                     imgList={product && product.images ? product.images : []}

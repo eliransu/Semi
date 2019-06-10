@@ -7,7 +7,6 @@ var Chart = require("chart.js");
 const { Option } = Select;
 
 function handleChange(value) {
-  console.log(`selected ${value}`);
   adminPanelStore.viewStatisticsByCategory = true;
 }
 

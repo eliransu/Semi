@@ -105,8 +105,6 @@ class AdminPanelService {
           month: mapNumberToMonth[data.month],
           numOfOrders: data.numOfOrders
         }));
-        console.log(stats);
-
         return stats;
       }
       throw new Error("Error in response from statsByMonth");

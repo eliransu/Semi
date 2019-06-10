@@ -9,7 +9,6 @@ class MatchingService {
     };
     try {
       const result = await axios.post("/api/users/match", body);
-      console.log({ result });
       if (!result.status === 201) {
         throw new Error("The Matching service not working, try it later");
       } else return result.status;
@@ -19,7 +18,6 @@ class MatchingService {
   };
 
   checkMatching = async userName => {
-    console.log("hereeeeeeeee");
     try {
       const match = await axios.get(`/api/users/matching/${userName}`);
       console.log({ match });

@@ -13,15 +13,12 @@ const viewStore = rootStores[ViewStore];
 class MatchComponent extends Component {
   componentDidMount() {
     const userName = this.props.match.params.userName;
-    console.log({ userName });
     viewStore.setappLoadingBoolean(false);
     matchesStore
       .checkMatching(userName)
       .then(match => {
         if (!match) {
           AlertUtils.infoAlert("You dosen`t have any match");
-        } else {
-          console.log("match in comp", matchesStore.getMatch);
         }
       })
       .catch(err => {

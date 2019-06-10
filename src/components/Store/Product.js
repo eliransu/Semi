@@ -15,6 +15,10 @@ class Product extends Component {
     productStyle: false
   };
 
+  componentDidMount() {
+    productStore.getAvarageScore();
+  }
+
   onProductClicked = () => {
     this.props.history.replace(`/productPage/${this.props.product._id}`);
     window.scrollTo(0, 0);
@@ -31,7 +35,6 @@ class Product extends Component {
       e.target.checked
         ? this.setState({ opacity: 1 })
         : this.setState({ opacity: 0.5 });
-      console.log(this.state.productStyle);
     } else if (!e.target.checked) {
       this.props.onCounterChanged(e.target.checked, this.props.product._id);
       e.target.checked
@@ -49,9 +52,8 @@ class Product extends Component {
 
   render() {
     const product = this.props.product;
-    const avgScore = product && product.avgScore ? product.avgScore : 0;
+    const avgScore = this.props.starts;
     const opcity = this.props.marketPlace;
-    console.log(this.state.opacity);
     const disabled =
       this.props.checkBoxDisable && !this.state.productStyle ? true : false;
 
@@ -63,7 +65,7 @@ class Product extends Component {
           style={{
             paddingTop: 30,
             marginLeft: "25%",
-            width: 330,
+            width: 310,
             opacity: this.state.opacity,
             boxShadow: "3px 2px 15px -3px rgba(0,0,0,0.5)"
           }}

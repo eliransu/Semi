@@ -30,6 +30,8 @@ export default class ProductStore {
   @observable
   searchResult = observable([]);
 
+  @observable avgScore;
+
   @action
   addPeriod = period => {
     this.periods.push(period);
@@ -48,14 +50,10 @@ export default class ProductStore {
       const productToMatch = await productService.getMtchingMarketProducts(
         userId
       );
-      console.log("im here!!");
-      console.log({ productToMatch });
       if (productToMatch) this.setMatchingProducts(productToMatch);
       return true;
     } catch (err) {
-      console.log("in catch", err);
       throw err;
-      return false;
     }
   };
   @action
@@ -154,33 +152,42 @@ export default class ProductStore {
     return toJS(this.periods) || [];
   }
 
-  @computed
-  get getAvarageScore() {
+  @action
+  getAvargeScoreByProduct = product => {
+    var sum = 0;
+    if (product.reviews.length > 0) {
+      for (let i = 0; i < product.reviews.length; i++) {
+        sum += product.reviews[i].stars;
+      }
+      return sum / product.reviews.length;
+    } else return 0;
+  };
+
+  @action
+  getAvarageScore() {
     let sum = 0;
-    console.log(
-      "iii",
-      this.currentProduct ? this.getCurrentProduct.reviews : null
-    );
     if (
       !this.getCurrentProduct ||
       (!this.getCurrentProduct.reviews ||
         !this.getCurrentProduct.reviews.length > 0)
-      // get(this.getCurrentProduct, 'reviews.length') > 0
     ) {
-      console.log("not reviews");
       return sum;
     }
 
-    console.log("we have some reviews");
     this.getCurrentProduct.reviews.forEach(review => {
       sum += review.stars;
     });
 
-    return sum / this.currentProduct.reviews.length;
+    this.avgScore = sum / this.currentProduct.reviews.length;
   }
 
   @computed
   get getAllProducts() {
     return toJS(this.allProducts) || [];
+  }
+
+  @computed
+  get getavgScore() {
+    return this.avgScore;
   }
 }

@@ -32,20 +32,21 @@ class AuthService {
   };
 
   register = async user => {
-    const result = await axios.post("/api/auth/register", user);
-    if (result) {
+    try {
+      const result = await axios.post("/api/auth/register", user);
+      if (result && result.status === 500) {
+        throw new Error(result.data);
+      }
       return result;
+    } catch (err) {
+      throw err;
     }
   };
 
   tryLogin = async () => {
     try {
-      console.log("im in tryLogin");
-
       const user = await axios.get("/api/users/active-user");
-      console.log("user", user);
       if (!user || !user.data || !user.data.data) {
-        console.log("not login");
         return null;
       } else {
         return user.data.data;
@@ -57,9 +58,7 @@ class AuthService {
 
   getUserData = async userName => {
     try {
-      console.log("im here", userName);
       const userData = await axios.get(`/api/users/userdata/${userName}`);
-      console.log({ userData });
       if (get(userData, "data.data")) {
         return userData.data.data;
       } else {

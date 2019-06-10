@@ -51,9 +51,7 @@ class MatchingModal extends Component {
   onSendClicked = async () => {
     this.setState({ loading: true });
     if (this.state.selectedProducts.length > 0) {
-      console.log("im in send");
       try {
-        console.log(this.state.selectedProducts);
         const res = await matchesStore.enterProductsForMatch(
           this.state.selectedProducts,
           MatchingAction.Give
