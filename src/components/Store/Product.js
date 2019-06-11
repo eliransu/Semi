@@ -65,7 +65,7 @@ class Product extends Component {
           style={{
             paddingTop: 30,
             marginLeft: "25%",
-            width: 310,
+            width: 320,
             opacity: this.state.opacity,
             boxShadow: "3px 2px 15px -3px rgba(0,0,0,0.5)"
           }}

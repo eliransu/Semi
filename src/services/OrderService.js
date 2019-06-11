@@ -5,11 +5,10 @@ class OrderService {
     const url = await `/api/users/orders?username=${userName}&type=${type}`;
     try {
       const orders = await axios.get(url);
-      if (!orders || !orders.data || !orders.data.data) {
-        return [];
-      } else {
-        return orders.data.data;
-      }
+      // if (!orders || !orders.data || !orders.data.data) {
+      //   return [];
+      // } else {
+      return orders.data.data;
     } catch (err) {
       console.log("cath", err);
     }

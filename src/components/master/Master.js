@@ -57,7 +57,7 @@ class Master extends React.Component {
         if (!loggedIn) {
           this.handleMenuClicked("/");
         } else {
-          // orderStore.loadAllOrders();
+          orderStore.loadAllOrders();
         }
       });
     } catch (err) {
