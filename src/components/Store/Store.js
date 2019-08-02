@@ -4,7 +4,6 @@ import { Layout, Row, Col, Pagination } from "antd";
 import Avatar from "./Avatar";
 import { UserDescription } from "./UserDescription";
 import Product from "./Product";
-import { Products } from "./Products";
 import { Reviews } from "./Reviews";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";

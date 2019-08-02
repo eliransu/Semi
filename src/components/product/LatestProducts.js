@@ -3,7 +3,7 @@ import rootStores from "../../stores";
 import { observable } from "mobx";
 import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
-import { Col } from "antd";
+import { Col, Row } from "antd";
 import Product from "../Store/Product";
 
 const productStore = rootStores[ProductStore];
@@ -15,7 +15,7 @@ class LatestProducts extends Component {
   renderAllProducts = () => {
     const latestProducts = productStore.getLatestProducts;
     return latestProducts.map((product, index) => (
-      <Col span={8} style={{ marginBottom: 20 }}>
+      <Col span={8} style={{ padding: 30 }} key={index}>
         <Product
           starts={productStore.getAvargeScoreByProduct(product)}
           history={this.props.history}
@@ -27,7 +27,11 @@ class LatestProducts extends Component {
   };
   render() {
     return (
-      <div style={{ background: "black" }}>{this.renderAllProducts()}</div>
+      <Row>
+        <div className="all-products" style={{ background: "black" }}>
+          {this.renderAllProducts()}
+        </div>
+      </Row>
     );
   }
 }

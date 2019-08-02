@@ -4,9 +4,8 @@ import queryString from "query-string";
 import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
-import { Pagination, Col } from "antd";
+import { Pagination, Col, Row } from "antd";
 import Product from "../Store/Product";
-import { SSL_OP_LEGACY_SERVER_CONNECT } from "constants";
 import { toJS } from "mobx";
 
 const productStore = rootStores[ProductStore];
@@ -20,8 +19,12 @@ class SearchComponenet extends Component {
       productStore.onProductSearch(this.props.location.search);
     }
   }
-  componentDidUpdate() {
-    if (this.props.location.search.length > 0) {
+  componentDidUpdate(prevProps, prevState) {
+    console.log("in didUpdate");
+    if (
+      this.props.location.search.length > 0 &&
+      prevProps.location != this.props.location
+    ) {
       productStore.onProductSearch(this.props.location.search);
     }
   }
@@ -67,10 +70,10 @@ class SearchComponenet extends Component {
             onSearchClicked={this.onSearchClicked}
           />
         </div>
-        <div className="search-result-header" style={{ textAlign: "center" }}>
-          <h1 style={{ textDecoration: "underline" }}>Search Result</h1>
-        </div>
-        <div className="all-products">{this.renderAllProducts()}</div>
+
+        <Row>
+          <div className="all-products">{this.renderAllProducts()}</div>
+        </Row>
         <div
           style={{
             textAlign: "center",
