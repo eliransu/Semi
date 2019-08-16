@@ -10,6 +10,7 @@ export default class AuthStore {
 
   @observable viewLoginModal = false;
   @observable viewSignInModal = false;
+  @observable viewRegistraionModal = false;
 
   @action
   login = async (email, password) => {
@@ -97,7 +98,9 @@ export default class AuthStore {
   };
   @computed
   get getCurrentUser() {
-    return toJS(this.currentUser) || null;
+    if (this.currentUser) {
+      return toJS(this.currentUser);
+    } else return null;
   }
   @computed
   get getUserData() {

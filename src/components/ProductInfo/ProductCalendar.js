@@ -8,6 +8,9 @@ import rootStores from "../../stores";
 import ProductStore from "../../stores/ProductStore";
 import { withRouter } from "react-router";
 import { toJS } from "mobx";
+import AuthStore from "../../stores/AuthStore";
+import AlertUtils from "../utils/AlertUtils";
+
 function getMonthData(value) {
   if (value.month() === 8) {
     return 1394;
@@ -26,7 +29,7 @@ function monthCellRender(value) {
 
 const paymentStore = rootStores[PaymentStore];
 const productStore = rootStores[ProductStore];
-
+const authStore = rootStores[AuthStore];
 class ProductCalendar extends Component {
   state = {
     orderDaysOfYear: []
@@ -63,7 +66,11 @@ class ProductCalendar extends Component {
       ? productStore.currentProduct.owner.username
       : "";
     paymentStore.startDate = day;
-    this.props.history.push("/paymentPage");
+    if (paymentStore.providerName != authStore.getCurrentUser.username) {
+      this.props.history.push("/paymentPage");
+    } else {
+      AlertUtils.failureAlert("You cant order your own product");
+    }
   };
 
   convertBorrowDateToListData = value => {

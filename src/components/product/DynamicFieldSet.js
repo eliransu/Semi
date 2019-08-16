@@ -11,7 +11,7 @@ const productStore = rootStores["productStore"];
 class DynamicFieldSet extends React.Component {
   constructor(props) {
     super(props);
-    this.index = 0;
+    this.index = 1;
   }
   remove = k => {
     const { form } = this.props;
@@ -38,7 +38,9 @@ class DynamicFieldSet extends React.Component {
     form.setFieldsValue({
       keys: nextKeys
     });
+  };
 
+  onAddIconClick = () => {
     this.props.addedClicked(this.index);
     this.index = this.index + 1;
   };
@@ -135,6 +137,14 @@ class DynamicFieldSet extends React.Component {
                 onClick={() => this.remove(k)}
               />
             ) : null}
+            <Icon
+              className=""
+              style={{ marginLeft: "10px" }}
+              type="check-circle"
+              theme="twoTone"
+              twoToneColor="#52c41a"
+              onClick={() => this.onAddIconClick()}
+            />
           </div>
         </Form.Item>
       </div>

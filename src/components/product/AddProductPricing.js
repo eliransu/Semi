@@ -22,6 +22,7 @@ import ProductStore from "../../stores/ProductStore";
 import { observer } from "mobx-react";
 import AuthStore from "../../stores/AuthStore";
 import CustomSteps from "../customComponents/CustomSteps";
+import AlertUtils from "../utils/AlertUtils";
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -64,6 +65,7 @@ class AddProductPricing extends Component {
     };
     this.setState({ periods: [...this.state.periods, period] });
     productStore.addPeriod(period);
+    AlertUtils.successAlert("Price has been set");
   };
 
   addedClicked = index => {
