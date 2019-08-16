@@ -115,6 +115,7 @@ class notificationCenter extends Component {
                           this.closeModal();
                           this.props.closeModal();
                         }}
+                        history={this.props.history}
                         order={orderStore.getOrderById(item.OrderId)}
                       />
                     </div>
