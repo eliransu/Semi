@@ -39,6 +39,7 @@ class AddProduct extends React.Component {
 
   onAddOneMoreProductClicked = () => {
     this.setState({ visible: false }, () => {
+      window.location.reload();
       this.props.history.replace("/add-product-as-renter");
     });
   };
@@ -46,6 +47,7 @@ class AddProduct extends React.Component {
   onHomePageClicked = () => {
     this.setState({ visible: false }, () => {
       this.props.history.replace("");
+      window.location.reload();
     });
   };
 

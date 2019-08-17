@@ -202,10 +202,21 @@ class Master extends React.Component {
               user={user}
             />
           </Modal>
-          <Menu.Item style={{ fontSize: 16 }} key="3" onClick={this.showModal}>
-            <Icon fontSize={16} style={{ marginLeft: 4 }} type="notification" />
-            Become A Renter!
-          </Menu.Item>
+
+          {authStore.getCurrentUser == null && (
+            <Menu.Item
+              style={{ fontSize: 16 }}
+              key="3"
+              onClick={this.showModal}
+            >
+              <Icon
+                fontSize={16}
+                style={{ marginLeft: 4 }}
+                type="notification"
+              />
+              Become A Renter!
+            </Menu.Item>
+          )}
           <Modal
             onCancel={this.onCancel}
             title="Become A Renter"

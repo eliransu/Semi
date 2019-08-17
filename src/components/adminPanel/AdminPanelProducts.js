@@ -59,7 +59,7 @@ class AdminPanelProducts extends React.Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Edit </a>
+            <a href="javascript:;"> </a>
             <Divider type="vertical" />
             <a onClick={() => this.removeProduct(record._id)}>Delete</a>
           </span>

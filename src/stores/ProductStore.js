@@ -126,7 +126,13 @@ export default class ProductStore {
 
   @action
   createProduct = (product, userName) => {
-    return ProductService.addProductToUser(userName, product, this.getPeriods);
+    let res = ProductService.addProductToUser(
+      userName,
+      product,
+      this.getPeriods
+    );
+    this.clearPeriods();
+    return res;
   };
   @computed
   get getCurrentProduct() {
@@ -151,6 +157,11 @@ export default class ProductStore {
   get getPeriods() {
     return toJS(this.periods) || [];
   }
+
+  @action
+  clearPeriods = () => {
+    this.periods = [];
+  };
 
   @action
   getAvargeScoreByProduct = product => {

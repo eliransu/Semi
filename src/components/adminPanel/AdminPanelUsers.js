@@ -74,7 +74,7 @@ class AdminPanelUsers extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Edit {record.name}</a>
+            <a href="javascript:;">{record.name}</a>
             <Divider type="vertical" />
             <a onClick={() => this.removeUser(record._id)}>Delete</a>
           </span>

@@ -213,6 +213,7 @@ class RegistrationForm extends React.Component {
         const res = await authStore.register(user);
         if (res) {
           this.props.onRegistrationSuccess(authStore.getCurrentUser);
+          //AlertUtils.successAlert("Registrition has been complited");
         }
       } catch (err) {
         AlertUtils.failureAlert(err);
