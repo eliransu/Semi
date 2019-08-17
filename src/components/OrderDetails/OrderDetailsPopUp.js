@@ -102,7 +102,7 @@ class OrderDetailsPopUp extends Component {
               content={
                 <>
                   <Avatar src={order.consumer.profile_image} />
-                  <a>
+                  <a href={`/user/${order.consumer.username}`}>
                     {order.consumer.first_name}
                     {order.consumer.last_name}
                   </a>
@@ -175,7 +175,11 @@ class OrderDetailsPopUp extends Component {
         <Row>
           <Col
             span={11}
-            style={{ display: "flex", flexWrap: "nowrap", overflow: "auto" }}
+            style={{
+              display: "flex",
+              flexWrap: "nowrap",
+              overflow: "auto"
+            }}
           >
             <DescriptionItem
               title="Product"
