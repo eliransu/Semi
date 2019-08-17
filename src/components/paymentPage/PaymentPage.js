@@ -148,9 +148,9 @@ class PaymentPage extends React.Component {
   render() {
     const { getFieldsError } = this.props.form;
     const currentProduct = toJS(paymentStore.getCurrentProduct);
-    const orders =
-      currentProduct && currentProduct.orders ? currentProduct.orders : [];
+    
     if (currentProduct) {
+      const orders = currentProduct.orders
       return (
         <div className="payment-page-main-container">
           <Row>
@@ -355,7 +355,6 @@ class PaymentPage extends React.Component {
               xl={15}
               style={{ paddingTop: "20px" }}
             >
-              <ProductCalendar width={"900"} data={orders} />
             </Col>
             <PaymentModalPage history={this.props.history} />
           </Row>
