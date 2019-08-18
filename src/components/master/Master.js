@@ -398,7 +398,7 @@ class Master extends React.Component {
                 margin: "auto"
               }}
             />
-            <NotificationCenter closeModal={() => this.closeModal()} />
+            <NotificationCenter history={this.props.history} closeModal={() => this.closeModal()} />
           </Popup>
         </Menu>
         <Login onLoginSuccess={this.onLoginSuccess} />
