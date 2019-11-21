@@ -7,7 +7,7 @@ export default class AuthStore {
   @observable token;
   @observable currentUser;
   @observable userData;
-
+  @observable location;
   @observable viewLoginModal = false;
   @observable viewSignInModal = false;
   @observable viewRegistraionModal = false;
@@ -23,6 +23,12 @@ export default class AuthStore {
       throw err;
     }
   };
+
+  @action
+  addUserLocation = async (lang,lat,userAgent)=>{
+    const location = await authService.addUserLocation(lang,lat,userAgent);
+    return location;
+  }
 
   @action
   logOut = async () => {

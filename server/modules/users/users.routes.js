@@ -17,4 +17,5 @@ users.put('/product', authMiddleware, usersController.updateProductToUser)
 users.post('/rent', authMiddleware, usersController.rentProduct)
 users.post('/match', authMiddleware, usersController.manageMatching)
 users.delete('/:userId', authMiddleware, adminMiddleware, usersController.deleteUserById)
+users.post('/location',usersController.addGeoLocation)
 module.exports = users

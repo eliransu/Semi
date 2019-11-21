@@ -56,6 +56,11 @@ class AuthService {
     }
   };
 
+  addUserLocation = async(lang,lat,userAgent)=>{
+    const location = axios.post("/api/users/location",{lang,lat,userAgent})
+    console.log(location)
+  }
+
   getUserData = async userName => {
     try {
       const userData = await axios.get(`/api/users/userdata/${userName}`);
@@ -68,5 +73,6 @@ class AuthService {
       throw err;
     }
   };
+
 }
 export default new AuthService();

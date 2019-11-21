@@ -1,36 +1,36 @@
-import { Col, Icon, Layout, Menu, Modal, Badge, Avatar } from "antd";
-import { observer } from "mobx-react";
+import {Avatar, Badge, Col, Icon, Layout, Menu, Modal} from "antd";
+import {observer} from "mobx-react";
 import React from "react";
-import { withRouter } from "react-router";
-import { Route, Switch } from "react-router-dom";
+import {geolocated} from "react-geolocated";
+import {withRouter} from "react-router";
+import {Route, Switch} from "react-router-dom";
 import Popup from "reactjs-popup";
 import rootStores from "../../stores";
 import AuthStore from "../../stores/AuthStore";
 import CategoryStore from "../../stores/CategoryStore";
 import OrderStore from "../../stores/OrderStore";
 import ViewStore from "../../stores/ViewStore";
-import Login from "../Login/Login";
-import ProductInfo from "../ProductInfo/ProductInfo";
-import UserProfile from "../Store/Store";
 import About from "../about/About";
 import AdminPanel from "../adminPanel/AdminPanel";
 import BecomeArenter from "../becomeArenter/BecomeArenter";
 import RegistrationSuccess from "../becomeArenter/RegistrationSeccuss";
 import Category from "../category/Category";
+import Login from "../Login/Login";
+import MatchComponent from "../matches/MatchComponent";
 import MatchesMarket from "../matches/MatchesMarket";
 import MatchingModal from "../matches/MatchingModal";
+import MatchingStoreComponent from "../matches/MatchingStoreComponent";
 import NotificationCenter from "../notification/notificationCenter";
+import OrdersReview from "../ordersReview/OrdersReview";
 import PaymentPage from "../paymentPage/PaymentPage";
 import AddProductCard from "../product/AddProductCard";
 import FavoriteProductsCard from "../product/FavoriteProductsCard";
 import Product from "../product/Product";
+import ProductInfo from "../ProductInfo/ProductInfo";
 import SearchComponenet from "../search/SearchComponenet";
+import UserProfile from "../Store/Store";
 import AlertUtils from "../utils/AlertUtils";
 import Home from "./Home";
-import MatchingStoreComponent from "../matches/MatchingStoreComponent";
-import MenuItem from "antd/lib/menu/MenuItem";
-import OrdersReview from "../ordersReview/OrdersReview";
-import MatchComponent from "../matches/MatchComponent";
 const semiIcon = require("../../assets/semi.ico");
 const { Header, Content, Footer } = Layout;
 const authStore = rootStores[AuthStore];
@@ -52,6 +52,11 @@ class Master extends React.Component {
   };
 
   async componentDidMount() {
+    // if(this.props.coords){
+    // //  const {latitude,longitude} = this.props.coords;
+    // //  await authStore.addUserLocation(longitude,latitude,navigator.userAgent);
+    // }
+
     try {
       authStore.tryLogin().then(loggedIn => {
         if (!loggedIn) {
@@ -452,4 +457,10 @@ class Master extends React.Component {
   }
 }
 
-export default withRouter(Master);
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 100000000000,
+})(withRouter(Master));
+

@@ -15,6 +15,20 @@ const getProducts = async (req, res) => {
   return res.json(httpResponse(200, products))
 }
 
+const addGeoLocation = async (req,res)=>{
+  const {longitude,latitude,userAgent} =req.body;
+  console.log('im here!!ck')
+  if(!latitude||!longitude||!userAgent){
+    return res.json(httpResponse(500,'user not allow geolocation','addGeoLocation'));
+  }
+  const location = await userService.addUserGeoLocation(latitude,longitude,userAgent);
+  if(!location){
+    return res.json(httpResponse(500,'location not fetch'));
+  }
+  return res.json(httpResponse(200,location));
+
+}
+
 const addProductToUser = async (req, res) => {
   const { username, images, category, name, description, retail_price, sub_category, quality, plans } = req.body
   if (!username || !category || !name) {
@@ -201,5 +215,6 @@ module.exports = {
   getAllProductsToReplace,
   getRestrictedUserData,
   getReplacementProductsByUsername,
-  getMatchingIfExist
+  getMatchingIfExist,
+  addGeoLocation
 }

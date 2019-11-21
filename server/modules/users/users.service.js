@@ -2,6 +2,7 @@ const UserModel = require('../../database/models/UserModel')
 const productService = require('../products/products.service')
 const rentService = require('../rents/rents.service')
 const Category = require('../../database/models/CategoryModel')
+const Location = require('../../database/models/LocationModel')
 const jwt = require('jwt-simple')
 const ObjectId = require('mongodb').ObjectID;
 const { flatMap } = require('lodash')
@@ -12,6 +13,13 @@ const getProductsByUserName = async (username) => {
   }
   const products = productService.getProductsByUserName(user)
   return products
+}
+
+const addUserGeoLocation = async (lat,lang,userAgent)=>{
+let location = new Location({lang,lat,userAgent})
+const saved = await location.save();
+if(!saved) return false
+return saved;
 }
 
 const addProduct = async (username, product) => {
@@ -210,5 +218,6 @@ module.exports = {
   deleteUserById,
   getAllProductsToReplace,
   getReplacementProductsByUsername,
-  getRestrictedUserData
+  getRestrictedUserData,
+  addUserGeoLocation
 }
