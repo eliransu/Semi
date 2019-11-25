@@ -17,7 +17,6 @@ const getProducts = async (req, res) => {
 
 const addGeoLocation = async (req,res)=>{
   const {longitude,latitude,userAgent} =req.body;
-  console.log('im here!!ck')
   if(!latitude||!longitude||!userAgent){
     return res.json(httpResponse(500,'user not allow geolocation','addGeoLocation'));
   }

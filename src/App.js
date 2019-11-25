@@ -11,22 +11,6 @@ import rootStores from "./stores";
 import AppLoading from "./components/AppLoading/AppLoading";
 const { Header, Content, Footer } = Layout;
 
-// class App extends React.Component {
-//   handleMenuClicked = path => this.props.history.push(path);
-
-//   render() {
-//     return (
-//       <React.Fragment>
-//         <AppLoading />
-//         <Provider {...rootStores}>
-//           <BrowserRouter>
-//             <Master />
-//           </BrowserRouter>
-//         </Provider>
-//       </React.Fragment>
-//     );
-//   }
-// }
 
 const App = (props)=>{
 
