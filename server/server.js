@@ -44,8 +44,8 @@ app.get('/*', (req, res) => {
   // }
 })
 
-const httpServer = http.createServer(this.app)
-const httpsServer = https.createServer(httpsOptions, this.app)
+const httpServer = http.createServer(app)
+const httpsServer = https.createServer(httpsOptions, app)
 httpsServer.listen(443, () => {
   console.log('listen to 443')
 })
