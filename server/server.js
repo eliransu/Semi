@@ -7,6 +7,20 @@ const routes = require('./routes')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const { runMatching } = require('./modules/algorithms/matchingAlgorithm')
+const http = require('http')
+const https = require('https')
+const fs = require('fs')
+
+const cert = fs.readFileSync('./ssl/y.crt')
+const ca = fs.readFileSync('./ssl/y.ca-bundle')
+const pkey = fs.readFileSync('./ssl/y.key')
+// const key = fs.readFileSync('./ssl/webo.p7b')
+
+const httpsOptions = {
+  cert,
+  ca,
+  key: pkey
+}
 
 require('dotenv').config()
 console.log(process.env.SEMI_DB_URI)
@@ -30,10 +44,13 @@ app.get('/*', (req, res) => {
   // }
 })
 
-app.listen(PORT, async () => {
-  console.log(`Semi server running on port: ${PORT}`)
-  console.log('PID: ', process.pid)
-  // console.log(await runMatching('tom'))
+const httpServer = http.createServer(this.app)
+const httpsServer = https.createServer(httpsOptions, this.app)
+httpsServer.listen(443, () => {
+  console.log('listen to 443')
+})
+httpServer.listen(80, () => {
+  console.log('listen to port 80')
 })
 
 function connectToSemiDB() {
